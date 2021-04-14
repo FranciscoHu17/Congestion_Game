@@ -96,6 +96,14 @@ export default class Timer implements Updateable {
         }
     }
 
+    getTimeLeft(): number{
+        return this.timeLeft
+    }
+
+    getTotalTime(): number{
+        return this.totalTime
+    }
+
     toString(): string{
         return "Timer: " + this.state + " - Time Left: " + this.timeLeft + "ms of " + this.totalTime + "ms";
     }
