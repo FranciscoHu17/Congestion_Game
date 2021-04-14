@@ -21,20 +21,20 @@ export default class SplashScreen extends Scene{
         this.initLayers()
         this.fadeTimer = new Timer(2000)
 
-        // Set background img
+        // Background image
         let bg = this.add.sprite("splash_screen", "bg");
         bg.position.set(bg.size.x/2,bg.size.y/2);
 
-        // Set logo
+        // Logo
         let logo = this.add.sprite("logo","splashScreen")
         logo.position.set(bg.size.x/2, bg.size.y/3)
 
-        // Set start label
+        // Start label
         this.startLabel = <Label>this.add.uiElement(UIElementType.LABEL,"splashScreen", {position: new Vec2(bg.size.x/2, 2* bg.size.y/3 + 25), text: "Click anywhere to start"})
         this.startLabel.textColor = Color.WHITE
-        this.startLabel.font = "consola" 
+        this.startLabel.font = "Consola" 
         
-        // Set click anywhere
+        // Click anywhere
         const clickanywhere = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {position: new Vec2(bg.size.x/2, bg.size.y/2), text:""})
         clickanywhere.size.set(bg.size.x, bg.size.y);
         clickanywhere.borderColor = Color.WHITE
