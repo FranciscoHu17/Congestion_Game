@@ -6,7 +6,11 @@ import Scene from "../Wolfie2D/Scene/Scene";
 import Color from "../Wolfie2D/Utils/Color";
 
 export default class LayerHelper{
-    // Adds uiElements to the controls layer in the main Scene where exit is the event that will lead back to the main Scene
+    /**
+     * Adds uiElements to the controls layer in the main Scene
+     * @param mainScene The scene that contains the controls layer
+     * @param exit The event that is triggered in order to exit the help layer
+     */
     static controlsLayer(mainScene: Scene, exit: string){ 
         let size = new Vec2(mainScene.getViewport().getHalfSize().x*2, mainScene.getViewport().getHalfSize().y*2)
         const controlsHeader = <Label>mainScene.add.uiElement(UIElementType.LABEL, "controls", {position: new Vec2(size.x/2,size.y/8), text: "Controls"});
@@ -15,7 +19,11 @@ export default class LayerHelper{
         controlsHeader.fontSize = 125
     }
 
-    // Adds uiElements to the help layer in the main Scene where exit is the event that will lead back to the main Scene
+    /**
+     * Adds uiElements to the help layer in the main Scene
+     * @param mainScene The scene that contains the help layer
+     * @param exit The event that is triggered in order to exit the help layer
+     */
     static helpLayer(mainScene: Scene, exit: string){ 
         let size = new Vec2(mainScene.getViewport().getHalfSize().x*2, mainScene.getViewport().getHalfSize().y*2)
         const helpHeader = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help", {position: new Vec2(size.x/2,size.y/8), text: "Help"});
