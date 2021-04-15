@@ -2,7 +2,6 @@ import Vec2 from "../Wolfie2D/DataTypes/Vec2";
 import Button from "../Wolfie2D/Nodes/UIElements/Button";
 import Label from "../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../Wolfie2D/Nodes/UIElements/UIElementTypes";
-import Layer from "../Wolfie2D/Scene/Layer";
 import Scene from "../Wolfie2D/Scene/Scene";
 import Color from "../Wolfie2D/Utils/Color";
 
@@ -14,11 +13,14 @@ export default class LayerHelper{
      */
     static controlsLayer(mainScene: Scene, exit: string){ 
         let size = new Vec2(mainScene.getViewport().getHalfSize().x*2, mainScene.getViewport().getHalfSize().y*2)
+        let headerPos = new Vec2(size.x/2,size.y/8)
+        let line_size = new Vec2(400,40)
 
         // Colors
         let purple = Color.fromStringHex("cb16ec")
         let darkblue = Color.fromStringHex("2d0d94")
-        let cyan = Color.fromStringHex("0afcf5")  
+        let cyan = Color.fromStringHex("0afcf5")
+        let green = Color.fromStringHex("0afc42")  
 
         // Shadow label
         let shadowLabel = <Label>mainScene.add.uiElement(UIElementType.LABEL,"controlsShadow", {position: new Vec2(size.x/2-8,size.y/8+9), text: "Controls"})
@@ -26,11 +28,47 @@ export default class LayerHelper{
         shadowLabel.font = "PositiveSystem" 
         shadowLabel.fontSize = 125
 
-        // Controls Header
-        let controlsHeader = <Label>mainScene.add.uiElement(UIElementType.LABEL, "controls", {position: new Vec2(size.x/2,size.y/8), text: "Controls"});
-        controlsHeader.textColor = purple
-        controlsHeader.font = "PositiveSystem" 
-        controlsHeader.fontSize = 125
+        // Header
+        this.addHeader(mainScene, headerPos, purple, "controls", "Controls")
+
+        this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 48), line_size, green, "controls", "W/Space - Jump")
+        this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 88), line_size, green, "controls", "D - Move Right")
+        this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 128), line_size, green, "controls", "A - Move Left")
+        this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 168), line_size, green, "controls", "S - Duck")
+
+        this.addLabel(mainScene, new Vec2(3*size.x/4-75,size.y/4 + 48), line_size, green, "controls", "Q - Ability 1")
+        this.addLabel(mainScene, new Vec2(3*size.x/4-75,size.y/4 + 88), line_size, green, "controls", "E - Ability 2")
+        this.addLabel(mainScene, new Vec2(3*size.x/4-75,size.y/4 + 128), line_size, green, "controls", "Left Click - Attack")
+        this.addLabel(mainScene, new Vec2(3*size.x/4-75,size.y/4 + 168), line_size, green, "controls", "ESC - Pause")
+
+        this.addLabel(mainScene, new Vec2(size.x/2,size.y/2+90), line_size, green, "controls", "1 - Switch to Tahoe")
+        this.addLabel(mainScene, new Vec2(size.x/2,size.y/2+130), line_size, green, "controls", "2 - Switch to Reno")
+        this.addLabel(mainScene, new Vec2(size.x/2,size.y/2+170), line_size, green, "controls", "3 - Switch to Flow")
+
+        // Outline around controls
+        let bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "controls", {position: new Vec2(size.x/4+75,size.y/2-70), text: ""});
+        bodyOutline.size = new Vec2(400,162)
+        bodyOutline.borderRadius = 0
+        bodyOutline.borderWidth = 5
+        bodyOutline.borderColor = cyan
+
+        // Outline around controls
+        bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "controls", {position: new Vec2(3*size.x/4-75,size.y/2-70), text: ""});
+        bodyOutline.size = new Vec2(400,162)
+        bodyOutline.borderRadius = 0
+        bodyOutline.borderWidth = 5
+        bodyOutline.borderColor = cyan
+
+        // Outline around controls
+        bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "controls", {position: new Vec2(size.x/2,size.y/2+130), text: ""});
+        bodyOutline.size = new Vec2(400,122)
+        bodyOutline.borderRadius = 0
+        bodyOutline.borderWidth = 5
+        bodyOutline.borderColor = cyan
+
+
+        // Exit Button
+        this.addExitButton(mainScene, purple, cyan, "controls", exit)
     }
 
     /**
@@ -253,6 +291,16 @@ export default class LayerHelper{
         
     }
 
+    static addLabel(mainScene: Scene, position: Vec2, line_size: Vec2, color: Color, layer: string, text: string): void {
+        let label = <Label>mainScene.add.uiElement(UIElementType.LABEL, layer, {position: position, text: text});        
+        label.backgroundColor = Color.BLACK
+        label.textColor = color
+        label.font = "Consola"
+        label.fontSize = 30
+        label.size = line_size
+        label.borderRadius = 0
+    }
+
     static addParagraphLabel(mainScene: Scene, position: Vec2, layer: string, paragraph: string): void{    
         let currPos = position
         let lines = paragraph.split("\n")
@@ -288,6 +336,7 @@ export default class LayerHelper{
     }
 
     static addButtons(mainScene: Scene, size: Vec2, bordColor: Color, textColor: Color, layer: string,  prev: string, next: string, exit: string): void{
+        // Prev Help
         let prevHelpBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, layer, {position: new Vec2(1*size.x/20, size.y/2 + 60), text: "<"});
         prevHelpBtn.padding = new Vec2(10,40)
         prevHelpBtn.borderWidth = 4
@@ -306,14 +355,19 @@ export default class LayerHelper{
         nextHelpBtn.onClickEventId = next
 
         // Exit Button
+        this.addExitButton(mainScene, bordColor, textColor, layer, exit)
+    }
+
+    static addExitButton(mainScene: Scene, bordColor: Color, textColor: Color, layer: string, exit: string): void{
+        // Exit Button
         let exitBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, layer, {position: new Vec2(60,50), text: "Exit"});
         exitBtn.padding = new Vec2(10,10)
         exitBtn.borderWidth = 4
         exitBtn.borderColor = bordColor
         exitBtn.backgroundColor = Color.BLACK
         exitBtn.textColor = textColor
+        exitBtn.font = "Consola"
         exitBtn.onClickEventId = exit
-
     }
 
     static addCheatButton(mainScene: Scene, position: Vec2, bordColor: Color, textColor: Color, layer: string, text: string, event: string): void {
