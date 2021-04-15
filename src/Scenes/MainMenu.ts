@@ -8,10 +8,15 @@ import Color from "../Wolfie2D/Utils/Color";
 import LayerHelper from "./LayerHelper";
 
 export default class SplashScreen extends Scene{
-    protected shadowLayer: Layer
+    protected titleShadow: Layer
+    protected controlsShadow: Layer
+    protected helpShadow: Layer
     protected mainMenu: Layer
     protected controls: Layer
-    protected help: Layer
+    protected help1: Layer
+    protected help2: Layer
+    protected help3: Layer
+    protected help4: Layer
 
     loadScene(): void {
         this.load.image("main_menu","assets/sprites/main_menu.png") 
@@ -25,11 +30,12 @@ export default class SplashScreen extends Scene{
         let darkblue = Color.fromStringHex("2d0d94")
         let cyan = Color.fromStringHex("00cbd4") 
 
+        // Background Image
         let bg = this.add.sprite("main_menu", "bg");
         bg.position.set(bg.size.x/2,bg.size.y/2);
 
         // Shadow label
-        let shadowLabel = <Label>this.add.uiElement(UIElementType.LABEL,"shadow", {position: new Vec2(bg.size.x/2-8, bg.size.y/4+9), text: "Congestion"})
+        let shadowLabel = <Label>this.add.uiElement(UIElementType.LABEL,"titleShadow", {position: new Vec2(bg.size.x/2-8, bg.size.y/4+9), text: "Congestion"})
         shadowLabel.textColor = darkblue
         shadowLabel.font = "PositiveSystem" 
         shadowLabel.fontSize = 125
@@ -71,17 +77,21 @@ export default class SplashScreen extends Scene{
         helpBtn.size = new Vec2(250,80)
         helpBtn.font = "Consola"
         helpBtn.fontSize = 50
-        helpBtn.onClickEventId = "help"
+        helpBtn.onClickEventId = "help1"
 
         // Set viewport size
         let size = this.viewport.getHalfSize();
         this.viewport.setFocus(size);
         this.viewport.setZoomLevel(1);
 
+        // Subscribe to events
         this.receiver.subscribe("menu")
         this.receiver.subscribe("start")
         this.receiver.subscribe("controls")
-        this.receiver.subscribe("help")
+        this.receiver.subscribe("help1")
+        this.receiver.subscribe("help2")
+        this.receiver.subscribe("help3")
+        this.receiver.subscribe("help4")
 
     }
 
@@ -94,39 +104,48 @@ export default class SplashScreen extends Scene{
             if(event.type === "start"){
                 //this.sceneManager.changeScene();
             }
-
-            if(event.type === "controls"){
-                this.shadowLayer.setHidden(true)
-                this.mainMenu.setHidden(true);
-                this.controls.setHidden(false);
-                this.help.setHidden(true)
-            }
-
-            if(event.type === "help"){
-                this.shadowLayer.setHidden(true)
-                this.mainMenu.setHidden(true);
-                this.controls.setHidden(true)
-                this.help.setHidden(false); 
-            }
-
-            if(event.type === "menu"){
-                this.shadowLayer.setHidden(false)
-                this.mainMenu.setHidden(false);
-                this.controls.setHidden(true)
-                this.help.setHidden(true);
+            else{
+                this.setLayerVisibility(event.type)
             }
         }
     }
 
+    setLayerVisibility(layer: string): void {
+        // Checks which layer should be invisible
+        let mm = (layer != "menu") ? true : false
+        let ctrls = (layer != "controls") ? true : false
+        let hlp1 = (layer != "help1") ? true : false
+        let hlp2 = (layer != "help2") ? true : false
+        let hlp3 = (layer != "help3") ? true : false
+        let hlp4 = (layer != "help4") ? true : false
+
+        // Layers visibility set
+        this.mainMenu.setHidden(mm);
+        this.controls.setHidden(ctrls)
+        this.help1.setHidden(hlp1);
+        this.help2.setHidden(hlp2);
+        this.help3.setHidden(hlp3);
+
+        // Shadow layers visibility set
+        this.titleShadow.setHidden(mm)
+        this.controlsShadow.setHidden(ctrls)
+        this.helpShadow.setHidden(hlp1 && hlp2 && hlp3 && hlp4)
+        
+    }
+
     initLayers(): void {
         this.addLayer("bg", 0);
-        this.shadowLayer = this.addLayer("shadow", 100)
+        this.titleShadow = this.addLayer("titleShadow", 100)
+        this.controlsShadow = this.addLayer("controlsShadow", 100)
+        this.helpShadow = this.addLayer("helpShadow", 100)
         this.mainMenu = this.addLayer("mainMenu", 200)
         this.controls = this.addLayer("controls", 200)
-        this.help = this.addLayer("help", 200)
+        this.help1 = this.addLayer("help1", 200)
+        this.help2 = this.addLayer("help2", 200)
+        this.help3 = this.addLayer("help3", 200)
+        this.help4 = this.addLayer("help4", 200)
 
-        this.controls.setHidden(true)
-        this.help.setHidden(true)
+        this.setLayerVisibility("menu")
         
         LayerHelper.controlsLayer(this, "menu")
         LayerHelper.helpLayer(this, "menu")
