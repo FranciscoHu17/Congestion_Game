@@ -14,6 +14,7 @@ export default class LayerHelper{
     static controlsLayer(mainScene: Scene, exit: string){ 
         let size = new Vec2(mainScene.getViewport().getHalfSize().x*2, mainScene.getViewport().getHalfSize().y*2)
         let headerPos = new Vec2(size.x/2,size.y/8)
+        let shadowPos = new Vec2(size.x/2-8,size.y/8+9)
         let line_size = new Vec2(400,40)
 
         // Colors
@@ -22,13 +23,8 @@ export default class LayerHelper{
         let cyan = Color.fromStringHex("0afcf5")
         let green = Color.fromStringHex("0afc42")  
 
-        // Shadow label
-        let shadowLabel = <Label>mainScene.add.uiElement(UIElementType.LABEL,"controlsShadow", {position: new Vec2(size.x/2-8,size.y/8+9), text: "Controls"})
-        shadowLabel.textColor = darkblue
-        shadowLabel.font = "PositiveSystem" 
-        shadowLabel.fontSize = 125
-
         // Header
+        this.addHeader(mainScene, shadowPos, darkblue, "controlsShadow", "Controls")
         this.addHeader(mainScene, headerPos, purple, "controls", "Controls")
 
         this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 48), line_size, green, "controls", "W/Space - Jump")
@@ -66,9 +62,8 @@ export default class LayerHelper{
         bodyOutline.borderWidth = 5
         bodyOutline.borderColor = cyan
 
-
         // Exit Button
-        this.addExitButton(mainScene, purple, cyan, "controls", exit)
+        this.addExitButton(mainScene, purple, cyan, "controls", exit, "Exit")
     }
 
     /**
@@ -79,7 +74,9 @@ export default class LayerHelper{
     static helpLayer(mainScene: Scene, exit: string){ 
         let size = new Vec2(mainScene.getViewport().getHalfSize().x*2, mainScene.getViewport().getHalfSize().y*2)
         let headerPos = new Vec2(size.x/2,size.y/8)
+        let shadowPos = new Vec2(size.x/2-8,size.y/8+9)
         let subHeaderPos = new Vec2(size.x/2,size.y/8 +115)
+        
         
         // Colors
         let purple = Color.fromStringHex("cb16ec")
@@ -88,10 +85,7 @@ export default class LayerHelper{
         let green = Color.fromStringHex("0afc42")
 
         // Shadow label
-        let shadowLabel = <Label>mainScene.add.uiElement(UIElementType.LABEL,"helpShadow", {position: new Vec2(size.x/2-8,size.y/8+9), text: "Help"})
-        shadowLabel.textColor = darkblue
-        shadowLabel.font = "PositiveSystem" 
-        shadowLabel.fontSize = 125
+        this.addHeader(mainScene, shadowPos, darkblue, "helpShadow", "Help")
 
         /*
         ##############################################################################################################################################
@@ -126,7 +120,7 @@ export default class LayerHelper{
         bodyOutline.borderColor = purple
 
         // Prev, Next, Exit Buttons
-        this.addButtons(mainScene, size, purple, cyan, "help1", "help4", "help2", exit)
+        this.addButtons(mainScene, size, purple, cyan, "help1", "help4", "help2", exit, "Exit")
 
         /*
         ##############################################################################################################################################
@@ -206,7 +200,7 @@ export default class LayerHelper{
         bodyOutline.borderColor = purple
 
         // Prev, Next, Exit Buttons
-        this.addButtons(mainScene, size, purple, cyan, "help2", "help1", "help3", exit)
+        this.addButtons(mainScene, size, purple, cyan, "help2", "help1", "help3", exit, "Exit")
 
         /*
         ##############################################################################################################################################
@@ -269,7 +263,7 @@ export default class LayerHelper{
         bodyOutline.borderColor = purple
 
         // Prev, Next, Exit Buttons
-        this.addButtons(mainScene, size, purple, cyan, "help3", "help2", "help4", exit)
+        this.addButtons(mainScene, size, purple, cyan, "help3", "help2", "help4", exit, "Exit")
 
         /*
         ##############################################################################################################################################
@@ -287,7 +281,7 @@ export default class LayerHelper{
         this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2+20), purple, green, "help4", "Go to Level 2", "level2")
 
         // Prev, Next, Exit Buttons
-        this.addButtons(mainScene, size, purple, cyan, "help4", "help3", "help1", exit)
+        this.addButtons(mainScene, size, purple, cyan, "help4", "help3", "help1", exit, "Exit")
         
     }
 
@@ -321,6 +315,7 @@ export default class LayerHelper{
         }
     }
 
+    
     static addHeader(mainScene: Scene, position: Vec2, color: Color, layer: string, text: string): void{
         let header = <Label>mainScene.add.uiElement(UIElementType.LABEL, layer, {position: position, text: text});
         header.textColor = color
@@ -335,7 +330,7 @@ export default class LayerHelper{
         subHeader.fontSize = 40
     }
 
-    static addButtons(mainScene: Scene, size: Vec2, bordColor: Color, textColor: Color, layer: string,  prev: string, next: string, exit: string): void{
+    static addButtons(mainScene: Scene, size: Vec2, bordColor: Color, textColor: Color, layer: string,  prev: string, next: string, exit: string, exitText: string): void{
         // Prev Help
         let prevHelpBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, layer, {position: new Vec2(1*size.x/20, size.y/2 + 60), text: "<"});
         prevHelpBtn.padding = new Vec2(10,40)
@@ -355,12 +350,12 @@ export default class LayerHelper{
         nextHelpBtn.onClickEventId = next
 
         // Exit Button
-        this.addExitButton(mainScene, bordColor, textColor, layer, exit)
+        this.addExitButton(mainScene, bordColor, textColor, layer, exit, exitText)
     }
 
-    static addExitButton(mainScene: Scene, bordColor: Color, textColor: Color, layer: string, exit: string): void{
+    static addExitButton(mainScene: Scene, bordColor: Color, textColor: Color, layer: string, exit: string, text: string): void{
         // Exit Button
-        let exitBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, layer, {position: new Vec2(60,50), text: "Exit"});
+        let exitBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, layer, {position: new Vec2(60,50), text: text});
         exitBtn.padding = new Vec2(10,10)
         exitBtn.borderWidth = 4
         exitBtn.borderColor = bordColor

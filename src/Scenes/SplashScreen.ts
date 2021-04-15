@@ -6,8 +6,6 @@ import Color from "../Wolfie2D/Utils/Color";
 import MainMenu from "../Scenes/MainMenu";
 import Timer from "../Wolfie2D/Timing/Timer";
 
-
-
 export default class SplashScreen extends Scene{
     protected fadeTimer: Timer;
     protected startLabel: Label;

@@ -25,6 +25,7 @@ import RenderingManager from "../Rendering/RenderingManager";
 import Debug from "../Debug/Debug";
 import TimerManager from "../Timing/TimerManager";
 import TweenManager from "../Rendering/Animations/TweenManager";
+import LevelManager from "../LevelManager/LevelManager";
 
 /**
  * Scenes are the main container in the game engine.
@@ -90,6 +91,9 @@ export default class Scene implements Updateable {
     /** The configuration options for this scene */
     public sceneOptions: SceneOptions;
 
+    /** Level Manager */
+    protected levelManager: LevelManager;
+
     /**
      * Creates a new Scene. To add a new Scene in your game, use changeToScene() in @reference[SceneManager]
      * @param viewport The viewport of the game
@@ -125,6 +129,8 @@ export default class Scene implements Updateable {
 
         this.load = ResourceManager.getInstance()
         this.resourceManager = this.load;
+
+        this.levelManager = LevelManager.getInstance()
 
         // Get the timer manager and clear any existing timers
         TimerManager.getInstance().clearTimers();

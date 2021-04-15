@@ -19,6 +19,7 @@ import Vec2 from "../DataTypes/Vec2";
 import RegistryManager from "../Registry/RegistryManager";
 import WebGLRenderer from "../Rendering/WebGLRenderer";
 import Scene from "../Scene/Scene";
+import LevelManager from "../LevelManager/LevelManager";
 
 /**
  * The main loop of the game engine.
@@ -50,6 +51,7 @@ export default class Game {
     private sceneManager: SceneManager;
     private audioManager: AudioManager;
     private renderingManager: RenderingManager;
+    private levelManager: LevelManager;
 
     /**
      * Creates a new Game
@@ -107,6 +109,8 @@ export default class Game {
         this.resourceManager = ResourceManager.getInstance();
         this.sceneManager = new SceneManager(this.viewport, this.renderingManager);
         this.audioManager = AudioManager.getInstance();
+        this.levelManager = LevelManager.getInstance();
+        this.levelManager.initLevels(this.gameOptions.levels)
     }
 
     /**

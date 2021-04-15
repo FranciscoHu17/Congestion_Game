@@ -1,5 +1,7 @@
 // @ignorePage
 
+import Scene from "../Scene/Scene";
+
 /** The options for initializing the @reference[GameLoop] */
 export default class GameOptions {
     /** The size of the viewport */
@@ -23,6 +25,8 @@ export default class GameOptions {
     /* Whether or not to use webGL */
     useWebGL: boolean;
 
+    levels: Array<{name: string, level: Scene, finished: boolean}>
+
     /**
      * Parses the data in the raw options object
      * @param options The game options as a Record
@@ -38,6 +42,7 @@ export default class GameOptions {
         gOpt.showDebug = !!options.showDebug;
         gOpt.showStats = !!options.showStats;
         gOpt.useWebGL = !!options.useWebGL;
+        gOpt.levels = options.levels ? options.levels : [];
 
         return gOpt;
     }

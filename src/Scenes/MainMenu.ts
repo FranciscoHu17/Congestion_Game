@@ -6,6 +6,7 @@ import Layer from "../Wolfie2D/Scene/Layer";
 import Scene from "../Wolfie2D/Scene/Scene";
 import Color from "../Wolfie2D/Utils/Color";
 import LayerHelper from "./LayerHelper";
+import LevelSelect from "./LevelSelect";
 
 export default class SplashScreen extends Scene{
     protected titleShadow: Layer
@@ -92,7 +93,6 @@ export default class SplashScreen extends Scene{
         this.receiver.subscribe("help2")
         this.receiver.subscribe("help3")
         this.receiver.subscribe("help4")
-
     }
 
     updateScene(){
@@ -102,7 +102,7 @@ export default class SplashScreen extends Scene{
             console.log(event);
 
             if(event.type === "start"){
-                //this.sceneManager.changeScene();
+                this.sceneManager.changeToScene(LevelSelect);
             }
             else{
                 this.setLayerVisibility(event.type)
