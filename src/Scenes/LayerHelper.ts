@@ -190,7 +190,7 @@ export default class LayerHelper{
         this.addParagraphLabel(mainScene, new Vec2(size.x/2,size.y/2+123), "help2", abilityText)
 
         // Passive Ability
-        passive = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/2+185), text: " Passive: Enemies hit move 20% slower"});
+        passive = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/2+185), text: " Passive: 2x damage when behind enemy"});
         passive.textColor = purple
         passive.backgroundColor = Color.BLACK
         passive.font = "Consola"
