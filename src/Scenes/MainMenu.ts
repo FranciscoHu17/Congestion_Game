@@ -125,6 +125,7 @@ export default class SplashScreen extends Scene{
         this.help1.setHidden(hlp1);
         this.help2.setHidden(hlp2);
         this.help3.setHidden(hlp3);
+        this.help4.setHidden(hlp4)
 
         // Shadow layers visibility set
         this.titleShadow.setHidden(mm)

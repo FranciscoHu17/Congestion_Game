@@ -40,6 +40,8 @@ export default class LayerHelper{
      */
     static helpLayer(mainScene: Scene, exit: string){ 
         let size = new Vec2(mainScene.getViewport().getHalfSize().x*2, mainScene.getViewport().getHalfSize().y*2)
+        let headerPos = new Vec2(size.x/2,size.y/8)
+        let subHeaderPos = new Vec2(size.x/2,size.y/8 +115)
         
         // Colors
         let purple = Color.fromStringHex("cb16ec")
@@ -60,16 +62,10 @@ export default class LayerHelper{
         */
 
         // Header
-        let helpHeader = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help1", {position: new Vec2(size.x/2,size.y/8), text: "Help"});
-        helpHeader.textColor = purple
-        helpHeader.font = "PositiveSystem" 
-        helpHeader.fontSize = 125
+        this.addHeader(mainScene, headerPos, purple, "help1", "Help")
 
-        // Subtitle
-        let subHeader = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help1", {position: new Vec2(size.x/2,size.y/8 +115), text: "Backstory"});
-        subHeader.textColor = cyan
-        subHeader.font = "Consola"
-        subHeader.fontSize = 40
+        // Subheader
+        this.addSubHeader(mainScene, subHeaderPos, cyan, "help1", "Backstory")
 
         // Back Story
         let backstoryText = " \t\t\tIn the year 2099, a new transportation layer protocol \n" + 
@@ -91,23 +87,8 @@ export default class LayerHelper{
         bodyOutline.borderWidth = 5
         bodyOutline.borderColor = purple
 
-        // Next Help
-        let nextHelpBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, "help1", {position: new Vec2(19*size.x/20, size.y/2 + 60), text: ">"});
-        nextHelpBtn.padding = new Vec2(10,40)
-        nextHelpBtn.borderWidth = 4
-        nextHelpBtn.borderColor = purple
-        nextHelpBtn.backgroundColor = Color.BLACK
-        nextHelpBtn.textColor = cyan
-        nextHelpBtn.onClickEventId = "help2"
-
-        // Exit Button
-        let exitBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, "help1", {position: new Vec2(60,50), text: "Exit"});
-        exitBtn.padding = new Vec2(10,10)
-        exitBtn.borderWidth = 4
-        exitBtn.borderColor = purple
-        exitBtn.backgroundColor = Color.BLACK
-        exitBtn.textColor = cyan
-        exitBtn.onClickEventId = "menu"
+        // Prev, Next, Exit Buttons
+        this.addButtons(mainScene, size, purple, cyan, "help1", "help4", "help2", exit)
 
         /*
         ##############################################################################################################################################
@@ -116,16 +97,10 @@ export default class LayerHelper{
         */
 
         // Header
-        helpHeader = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/8), text: "Help"});
-        helpHeader.textColor = purple
-        helpHeader.font = "PositiveSystem" 
-        helpHeader.fontSize = 125
+        this.addHeader(mainScene, headerPos, purple, "help2", "Help")
 
-        // Subtitle
-        subHeader = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/8 +115), text: "Character Info"});
-        subHeader.textColor = cyan
-        subHeader.font = "Consola"
-        subHeader.fontSize = 40
+        // Subheader
+        this.addSubHeader(mainScene, subHeaderPos, cyan, "help2", "Character Info")
 
         //#####################################################        TAHOE        ##################################################################
 
@@ -139,8 +114,8 @@ export default class LayerHelper{
         characterName.setHAlign("left")
 
         // Abilities
-        let abilityText = " Ability 1: push enemies away\n" +
-                          " Ability 2: bring enemies closer"
+        let abilityText = " Ability 1: Push enemies away\n" +
+                          " Ability 2: Bring enemies closer"
         this.addParagraphLabel(mainScene, new Vec2(size.x/2,size.y/2-37), "help2", abilityText)
 
         // Passive Ability
@@ -172,8 +147,8 @@ export default class LayerHelper{
         characterName.setHAlign("left")
 
         // Abilities
-        abilityText = " Ability 1: throw SYN packets at various angles\n" +
-                      " Ability 2: get behind enemy"
+        abilityText = " Ability 1: Throw SYN packets at various angles\n" +
+                      " Ability 2: Get behind enemy"
         this.addParagraphLabel(mainScene, new Vec2(size.x/2,size.y/2+123), "help2", abilityText)
 
         // Passive Ability
@@ -192,32 +167,8 @@ export default class LayerHelper{
         bodyOutline.borderWidth = 5
         bodyOutline.borderColor = purple
 
-        // Previous Help
-        let prevHelpBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, "help2", {position: new Vec2(1*size.x/20, size.y/2 + 60), text: "<"});
-        prevHelpBtn.padding = new Vec2(10,40)
-        prevHelpBtn.borderWidth = 4
-        prevHelpBtn.borderColor = purple
-        prevHelpBtn.backgroundColor = Color.BLACK
-        prevHelpBtn.textColor = cyan
-        prevHelpBtn.onClickEventId = "help1"
-
-        // Next Help
-        nextHelpBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, "help2", {position: new Vec2(19*size.x/20, size.y/2 + 60), text: ">"});
-        nextHelpBtn.padding = new Vec2(10,40)
-        nextHelpBtn.borderWidth = 4
-        nextHelpBtn.borderColor = purple
-        nextHelpBtn.backgroundColor = Color.BLACK
-        nextHelpBtn.textColor = cyan
-        nextHelpBtn.onClickEventId = "help3"
-
-        // Exit Button
-        exitBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, "help2", {position: new Vec2(60,50), text: "Exit"});
-        exitBtn.padding = new Vec2(10,10)
-        exitBtn.borderWidth = 4
-        exitBtn.borderColor = purple
-        exitBtn.backgroundColor = Color.BLACK
-        exitBtn.textColor = cyan
-        exitBtn.onClickEventId = "menu"
+        // Prev, Next, Exit Buttons
+        this.addButtons(mainScene, size, purple, cyan, "help2", "help1", "help3", exit)
 
         /*
         ##############################################################################################################################################
@@ -225,29 +176,84 @@ export default class LayerHelper{
         ##############################################################################################################################################
         */
 
+        // Header
+        this.addHeader(mainScene, headerPos, purple, "help3", "Help")
 
+        // Subheader
+        this.addSubHeader(mainScene, subHeaderPos, cyan, "help3", "Character Info (Continued)")
 
+        //#####################################################        FLOW       ##################################################################
 
+        // Character Name
+        characterName = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help3", {position: new Vec2(size.x/2-5,size.y/2-70), text: " Flow - Mobility"});
+        characterName.textColor = green
+        characterName.borderRadius = 0
+        characterName.backgroundColor = Color.BLACK
+        characterName.font = "Consola"
+        characterName.fontSize = 35
+        characterName.size = new Vec2(1020,40)
+        characterName.setHAlign("left")
 
+        // Abilities
+        abilityText = " Ability 1: Teleport in the direction that Flow is facing \n" +
+                      " Ability 2: Arrow jump when near an object called a Generator \n" 
+        this.addParagraphLabel(mainScene, new Vec2(size.x/2,size.y/2-37), "help3", abilityText)
 
+        // Passive Ability
+        passive = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help3", {position: new Vec2(size.x/2,size.y/2+25), text: " Passive: 20% faster movement speed"});
+        passive.textColor = purple
+        passive.backgroundColor = Color.BLACK
+        passive.font = "Consola"
+        passive.fontSize = 30
+        passive.size = new Vec2(1020,35)
+        passive.setHAlign("left")
 
+        // Outline around character info
+        bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help3", {position: new Vec2(size.x/2,size.y/2 - 25), text: ""});
+        bodyOutline.size = new Vec2(1020,135)
+        bodyOutline.borderRadius = 0
+        bodyOutline.borderWidth = 5
+        bodyOutline.borderColor = purple
 
+        // Ability 2 Explanation
+        abilityText = " The direction and velocity of Ability 2 will be shown by an \n"+
+                      " arrow near Flow. The arrow will follow the mouse cursor \n"+
+                      " on the screen to show the trajectory of Flow’s jump when the \n"+
+                      " key for the ability is held. When this key is let go, then \n"+
+                      " Flow will be launched with a high velocity in that direction."
+        this.addParagraphLabel(mainScene, new Vec2(size.x/2,size.y/2 + 90), "help3", abilityText)
 
+        // Outline around character info
+        bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help3", {position: new Vec2(size.x/2,size.y/2 + 150), text: ""});
+        bodyOutline.size = new Vec2(1020,158)
+        bodyOutline.borderRadius = 0
+        bodyOutline.borderWidth = 5
+        bodyOutline.borderColor = purple
 
-
-
-
-
+        // Prev, Next, Exit Buttons
+        this.addButtons(mainScene, size, purple, cyan, "help3", "help2", "help4", exit)
 
         /*
         ##############################################################################################################################################
                                                                     HELP4 SCREEN
         ##############################################################################################################################################
         */
+
+        // Header
+        this.addHeader(mainScene, headerPos, purple, "help4", "Help")
+
+        // Subheader
+        this.addSubHeader(mainScene, subHeaderPos, cyan, "help4", "Cheats")
+
+        this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2-70), purple, green, "help4", "Go to Level 1", "level1")
+        this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2+20), purple, green, "help4", "Go to Level 2", "level2")
+
+        // Prev, Next, Exit Buttons
+        this.addButtons(mainScene, size, purple, cyan, "help4", "help3", "help1", exit)
         
     }
 
-    static addParagraphLabel(mainScene: Scene, position: Vec2, layer: string, paragraph: string): object{    
+    static addParagraphLabel(mainScene: Scene, position: Vec2, layer: string, paragraph: string): void{    
         let currPos = position
         let lines = paragraph.split("\n")
         let cyan = Color.fromStringHex("0afcf5")
@@ -265,8 +271,60 @@ export default class LayerHelper{
             
             currPos = currPos.clone().add(new Vec2(0,30))
         }
-        return lines
     }
 
+    static addHeader(mainScene: Scene, position: Vec2, color: Color, layer: string, text: string): void{
+        let header = <Label>mainScene.add.uiElement(UIElementType.LABEL, layer, {position: position, text: text});
+        header.textColor = color
+        header.font = "PositiveSystem" 
+        header.fontSize = 125
+    }
+
+    static addSubHeader(mainScene: Scene, position: Vec2, color: Color, layer: string, text: string) : void{
+        let subHeader = <Label>mainScene.add.uiElement(UIElementType.LABEL, layer, {position: position, text: text});
+        subHeader.textColor = color
+        subHeader.font = "Consola"
+        subHeader.fontSize = 40
+    }
+
+    static addButtons(mainScene: Scene, size: Vec2, bordColor: Color, textColor: Color, layer: string,  prev: string, next: string, exit: string): void{
+        let prevHelpBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, layer, {position: new Vec2(1*size.x/20, size.y/2 + 60), text: "<"});
+        prevHelpBtn.padding = new Vec2(10,40)
+        prevHelpBtn.borderWidth = 4
+        prevHelpBtn.borderColor = bordColor
+        prevHelpBtn.backgroundColor = Color.BLACK
+        prevHelpBtn.textColor = textColor
+        prevHelpBtn.onClickEventId = prev
+
+        // Next Help
+        let nextHelpBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, layer, {position: new Vec2(19*size.x/20, size.y/2 + 60), text: ">"});
+        nextHelpBtn.padding = new Vec2(10,40)
+        nextHelpBtn.borderWidth = 4
+        nextHelpBtn.borderColor = bordColor
+        nextHelpBtn.backgroundColor = Color.BLACK
+        nextHelpBtn.textColor = textColor
+        nextHelpBtn.onClickEventId = next
+
+        // Exit Button
+        let exitBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, layer, {position: new Vec2(60,50), text: "Exit"});
+        exitBtn.padding = new Vec2(10,10)
+        exitBtn.borderWidth = 4
+        exitBtn.borderColor = bordColor
+        exitBtn.backgroundColor = Color.BLACK
+        exitBtn.textColor = textColor
+        exitBtn.onClickEventId = exit
+
+    }
+
+    static addCheatButton(mainScene: Scene, position: Vec2, bordColor: Color, textColor: Color, layer: string, text: string, event: string): void {
+        let cheatBtn = <Button>mainScene.add.uiElement(UIElementType.BUTTON, layer, {position: position, text: text});
+        cheatBtn.padding = new Vec2(20,10)
+        cheatBtn.borderWidth = 4
+        cheatBtn.borderColor = bordColor
+        cheatBtn.backgroundColor = Color.BLACK
+        cheatBtn.textColor = textColor
+        cheatBtn.font = "Consola"
+        cheatBtn.onClickEventId = event
+    }
     
 }
