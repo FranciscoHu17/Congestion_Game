@@ -28,6 +28,56 @@ export default class LevelSelect extends Scene{
         this.levelSelectLayers = []
         this.initLayers()
 
+        // UI
+        this.addUI()
+
+        this.receiver.subscribe("menu")
+
+    }
+
+    updateScene(){
+        while(this.receiver.hasNextEvent()){
+            let event = this.receiver.getNextEvent();
+
+            if(event.type === "menu"){
+                this.sceneManager.changeToScene(MainMenu)
+            }
+            else if(event.type.includes("Select")){
+                this.setLayerVisibility(event.type)
+            }
+            else{
+                let level= this.levelManager.findLevel(event.type)
+                this.sceneManager.changeToScene(level)
+            }
+        }
+    }
+
+    setLayerVisibility(layer:string): void{
+        for(let i = 0; i < this.levelSelectLayers.length; i++){
+            if(this.levelSelectLayers[i].getName() === layer){
+                this.levelSelectLayers[i].setHidden(false)
+            }
+            else{
+                this.levelSelectLayers[i].setHidden(true)
+            }
+        }
+    }
+
+    initLayers(): void {
+        this.addLayer("bg", 0);
+        this.addLayer("titleShadow", 100)
+
+        for(let i = 0; i < this.levels.length; i += this.LEVELS_PER_LAYER){
+            let name  = "levelSelect" + (i/this.LEVELS_PER_LAYER + 1)
+            let layer = this.addLayer(name, 200)
+            this.levelSelectLayers.push(layer)
+            
+            if(i != 0)
+                layer.setHidden(true)
+        }
+    }
+
+    addUI(): void{
         // Colors
         let purple = Color.fromStringHex("cb16ec")
         let darkblue = Color.fromStringHex("2d0d94")
@@ -119,52 +169,6 @@ export default class LevelSelect extends Scene{
             }
 
             this.receiver.subscribe(this.levels[i].name)
-        }
-
-
-        this.receiver.subscribe("menu")
-
-    }
-
-    updateScene(){
-        while(this.receiver.hasNextEvent()){
-            let event = this.receiver.getNextEvent();
-
-            if(event.type === "menu"){
-                this.sceneManager.changeToScene(MainMenu)
-            }
-            else if(event.type.includes("Select")){
-                this.setLayerVisibility(event.type)
-            }
-            else{
-                let level= this.levelManager.findLevel(event.type)
-                this.sceneManager.changeToScene(level)
-            }
-        }
-    }
-
-    setLayerVisibility(layer:string): void{
-        for(let i = 0; i < this.levelSelectLayers.length; i++){
-            if(this.levelSelectLayers[i].getName() === layer){
-                this.levelSelectLayers[i].setHidden(false)
-            }
-            else{
-                this.levelSelectLayers[i].setHidden(true)
-            }
-        }
-    }
-
-    initLayers(): void {
-        this.addLayer("bg", 0);
-        this.addLayer("titleShadow", 100)
-
-        for(let i = 0; i < this.levels.length; i += this.LEVELS_PER_LAYER){
-            let name  = "levelSelect" + (i/this.LEVELS_PER_LAYER + 1)
-            let layer = this.addLayer(name, 200)
-            this.levelSelectLayers.push(layer)
-            
-            if(i != 0)
-                layer.setHidden(true)
         }
     }
 

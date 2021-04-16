@@ -1,5 +1,8 @@
-import Scene from "../../Wolfie2D/Scene/Scene";
+import GameLevel from "./GameLevel";
 
-export default class Level1 extends Scene{
-    
+export default class Level1 extends GameLevel{
+    startScene():void {
+        // Generic GameLevel Scene setup
+        super.startScene() 
+    }
 }

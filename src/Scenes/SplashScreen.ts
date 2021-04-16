@@ -19,25 +19,8 @@ export default class SplashScreen extends Scene{
         this.initLayers()
         this.fadeTimer = new Timer(2000)
 
-        // Background image
-        let bg = this.add.sprite("splash_screen", "bg");
-        bg.position.set(bg.size.x/2,bg.size.y/2);
-
-        // Logo
-        let logo = this.add.sprite("logo","splashScreen")
-        logo.position.set(bg.size.x/2, bg.size.y/3)
-
-        // Start label
-        this.startLabel = <Label>this.add.uiElement(UIElementType.LABEL,"splashScreen", {position: new Vec2(bg.size.x/2, 2* bg.size.y/3 + 25), text: "Click anywhere to start"})
-        this.startLabel.textColor = Color.WHITE
-        this.startLabel.font = "Consola" 
-        
-        // Click anywhere
-        const clickanywhere = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {position: new Vec2(bg.size.x/2, bg.size.y/2), text:""})
-        clickanywhere.size.set(bg.size.x, bg.size.y);
-        clickanywhere.borderColor = Color.WHITE
-        clickanywhere.backgroundColor = Color.TRANSPARENT
-        clickanywhere.onClickEventId = "start"
+        // UI
+        this.addUI()
         
         // Viewport sizing
         let size = this.viewport.getHalfSize();
@@ -73,5 +56,27 @@ export default class SplashScreen extends Scene{
     initLayers(): void {
         this.addLayer("bg", 0);
         this.addLayer("splashScreen", 100)
+    }
+
+    addUI(): void {
+        // Background image
+        let bg = this.add.sprite("splash_screen", "bg");
+        bg.position.set(bg.size.x/2,bg.size.y/2);
+
+        // Logo
+        let logo = this.add.sprite("logo","splashScreen")
+        logo.position.set(bg.size.x/2, bg.size.y/3)
+
+        // Start label
+        this.startLabel = <Label>this.add.uiElement(UIElementType.LABEL,"splashScreen", {position: new Vec2(bg.size.x/2, 2* bg.size.y/3 + 25), text: "Click anywhere to start"})
+        this.startLabel.textColor = Color.WHITE
+        this.startLabel.font = "Consola" 
+        
+        // Click anywhere
+        const clickanywhere = this.add.uiElement(UIElementType.BUTTON, "splashScreen", {position: new Vec2(bg.size.x/2, bg.size.y/2), text:""})
+        clickanywhere.size.set(bg.size.x, bg.size.y);
+        clickanywhere.borderColor = Color.WHITE
+        clickanywhere.backgroundColor = Color.TRANSPARENT
+        clickanywhere.onClickEventId = "start"
     }
 }
