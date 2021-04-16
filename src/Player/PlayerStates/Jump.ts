@@ -24,10 +24,17 @@ export default class Jump extends InAir {
 			this.parent.velocity.y = 0;
 		}
 
-		// If we're falling, go to the fall state
-		if(this.parent.velocity.y >= 0){
-			this.finished(PlayerStates.FALL);
-		}
+// <<<<<<< HEAD
+// // 		// If we're falling, go to the fall state
+// // 		// if(this.parent.velocity.y >= 0){
+// // 		// 	this.finished(PlayerStates.FALL);
+// // 		// }
+// // =======
+// // 		// // If we're falling, go to the fall state
+// // 		// if(this.parent.velocity.y >= 0){
+// // 		// 	this.finished(PlayerStates.FALL);
+// // 		// }
+// >>>>>>> qiting_branch
 	}
 
 	onExit(): Record<string, any> {
