@@ -19,7 +19,19 @@ import Level1 from "./Scenes/Levels/Level1";
             {name: "level4", level: Level1, finished: false},
             {name: "level5", level: Level1, finished: false},
             {name: "level6", level: Level1, finished: false}    
-        ]  
+        ],
+        inputs: [
+            {name: "jump", keys: ["w","space"]},
+            {name: "left", keys: ["a"]},
+            {name: "duck", keys: ["s"]},
+            {name: "right", keys: ["d"]},
+            {name: "ability1", keys: ["q"]},
+            {name: "ability2", keys: ["e"]},
+            {name: "switch1", keys: ["1"]},
+            {name: "switch2", keys: ["2"]},
+            {name: "switch3", keys: ["3"]},
+            {name: "pause", keys: ["esc"]},
+        ]
     }
 
     // Create a game with the options specified
