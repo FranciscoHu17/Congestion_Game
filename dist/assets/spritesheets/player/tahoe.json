@@ -1,0 +1,263 @@
+{
+    "name": "tahoe",
+    "spriteSheetImage": "tahoe.png",
+    "spriteWidth": 128,
+    "spriteHeight": 128,
+    "leftBuffer": 0,
+    "rightBuffer": 0,
+    "topBuffer": 0,
+    "bottomBuffer": 0,
+    "columns": 10,
+    "rows": 10,
+    "animations": [
+      {
+        "name": "Idle",
+        "repeat": true,
+        "frames": [
+          { "index": 0, "duration": 8 },
+          { "index": 1, "duration": 8 },
+          { "index": 2, "duration": 8 },
+          { "index": 3, "duration": 8 },
+          { "index": 4, "duration": 8 }
+        ]
+      },
+      {
+        "name": "Walk",
+        "repeat": true,
+        "frames": [
+          { "index": 0, "duration": 6 },
+          { "index": 5, "duration": 6 },
+          { "index": 6, "duration": 6 },
+          { "index": 7, "duration": 6 },
+          { "index": 8, "duration": 6 },
+          { "index": 9, "duration": 6 },
+          { "index": 10, "duration": 6 }
+        ]
+      },
+      {
+        "name": "Jump",
+        "repeat": false,
+        "frames": [
+          { "index": 11, "duration": 3 },
+          { "index": 12, "duration": 3 },
+          { "index": 13, "duration": 3 },
+          { "index": 14, "duration": 3 },
+          { "index": 15, "duration": 4 },
+          { "index": 16, "duration": 4 },
+          { "index": 17, "duration": 4 },
+          { "index": 18, "duration": 5 },
+          { "index": 19, "duration": 7 },
+          { "index": 18, "duration": 7 },
+          { "index": 19, "duration": 7 },
+          { "index": 20, "duration": 10 }
+        ]
+      },
+      {
+        "name": "Damaged",
+        "repeat": false,
+        "frames": [
+          { "index": 21, "duration": 5 },
+          { "index": 22, "duration": 5 },
+          { "index": 23, "duration": 5 },
+          { "index": 24, "duration": 5 },
+          { "index": 25, "duration": 10 },
+          { "index": 24, "duration": 10 },
+          { "index": 25, "duration": 10 },
+          { "index": 24, "duration": 10 }
+        ]
+      },
+      {
+        "name": "Basic Attack",
+        "repeat": true,
+        "frames": [
+          { "index": 26, "duration": 4 },
+          { "index": 27, "duration": 4 },
+          { "index": 28, "duration": 4 },
+          { "index": 29, "duration": 4 },
+          { "index": 30, "duration": 4 },
+          { "index": 31, "duration": 7 },
+          { "index": 32, "duration": 15 },
+          { "index": 33, "duration": 15 },
+          { "index": 32, "duration": 3 },
+          { "index": 31, "duration": 3 },
+          { "index": 30, "duration": 3 },
+          { "index": 29, "duration": 3 },
+          { "index": 28, "duration": 3 },
+          { "index": 27, "duration": 3 },
+          { "index": 26, "duration": 3 }
+        ]
+      },
+      {
+        "name": "Ability 1",
+        "repeat": true,
+        "frames": [
+          { "index": 26, "duration": 3 },
+          { "index": 27, "duration": 3 },
+          { "index": 28, "duration": 3 },
+          { "index": 29, "duration": 3 },
+          { "index": 34, "duration": 3 },
+          { "index": 35, "duration": 3 },
+          { "index": 36, "duration": 4 },
+          { "index": 37, "duration": 4 },
+          { "index": 38, "duration": 2 },
+          { "index": 39, "duration": 2 },
+          { "index": 38, "duration": 2 },
+          { "index": 39, "duration": 2 },
+          { "index": 38, "duration": 2 },
+          { "index": 39, "duration": 2 },
+          { "index": 38, "duration": 2 },
+          { "index": 39, "duration": 2 },
+          { "index": 38, "duration": 2 },
+          { "index": 39, "duration": 2 },
+          { "index": 38, "duration": 2 },
+          { "index": 39, "duration": 2 },
+          { "index": 38, "duration": 2 },
+          { "index": 39, "duration": 2 },
+          { "index": 38, "duration": 2 },
+          { "index": 39, "duration": 2 },
+          { "index": 38, "duration": 2 },
+          { "index": 39, "duration": 2 },
+          { "index": 38, "duration": 2 },
+          { "index": 39, "duration": 2 },
+          { "index": 37, "duration": 2 },
+          { "index": 36, "duration": 2 },
+          { "index": 35, "duration": 2 },
+          { "index": 34, "duration": 2 },
+          { "index": 29, "duration": 2 },
+          { "index": 28, "duration": 2 },
+          { "index": 27, "duration": 2 },
+          { "index": 26, "duration": 2 }
+        ]
+      },
+      {
+        "name": "Ability 2",
+        "repeat": true,
+        "frames": [
+          { "index": 26, "duration": 4 },
+          { "index": 27, "duration": 4 },
+          { "index": 28, "duration": 4 },
+          { "index": 29, "duration": 4 },
+          { "index": 40, "duration": 4 },
+          { "index": 41, "duration": 4 },
+          { "index": 42, "duration": 2 },
+          { "index": 43, "duration": 2 },
+          { "index": 44, "duration": 2 },
+          { "index": 45, "duration": 2 },
+          { "index": 44, "duration": 2 },
+          { "index": 45, "duration": 2 },
+          { "index": 44, "duration": 2 },
+          { "index": 45, "duration": 2 },
+          { "index": 44, "duration": 2 },
+          { "index": 45, "duration": 2 },
+          { "index": 44, "duration": 2 },
+          { "index": 45, "duration": 2 },
+          { "index": 44, "duration": 2 },
+          { "index": 45, "duration": 2 },
+          { "index": 44, "duration": 2 },
+          { "index": 45, "duration": 2 },
+          { "index": 44, "duration": 2 },
+          { "index": 45, "duration": 2 },
+          { "index": 44, "duration": 2 },
+          { "index": 45, "duration": 2 },
+          { "index": 44, "duration": 2 },
+          { "index": 45, "duration": 2 },
+          { "index": 44, "duration": 2 },
+          { "index": 45, "duration": 2 },
+          { "index": 44, "duration": 2 },
+          { "index": 45, "duration": 2 },
+          { "index": 43, "duration": 2 },
+          { "index": 42, "duration": 2 },
+          { "index": 41, "duration": 2 },
+          { "index": 40, "duration": 2 },
+          { "index": 29, "duration": 2 },
+          { "index": 28, "duration": 2 },
+          { "index": 27, "duration": 2 },
+          { "index": 26, "duration": 2 }
+        ]
+      },
+      {
+        "name": "Duck In",
+        "repeat": false,
+        "frames": [
+          { "index": 46, "duration": 5 },
+          { "index": 47, "duration": 5 },
+          { "index": 48, "duration": 5 },
+          { "index": 49, "duration": 6 },
+          { "index": 50, "duration": 10 },
+          { "index": 51, "duration": 10 }
+        ]
+      },
+      {
+        "name": "Duck Out",
+        "repeat": false,
+        "frames": [
+          { "index": 51, "duration": 5 },
+          { "index": 50, "duration": 5 },
+          { "index": 49, "duration": 5 },
+          { "index": 48, "duration": 5 },
+          { "index": 47, "duration": 8 },
+          { "index": 46, "duration": 10 },
+          { "index": 0, "duration": 10 }
+        ]
+      },
+      {
+        "name": "Level Start",
+        "repeat": false,
+        "frames": [
+          { "index": 52, "duration": 8 },
+          { "index": 53, "duration": 8 },
+          { "index": 54, "duration": 8 },
+          { "index": 55, "duration": 8 },
+          { "index": 56, "duration": 10 },
+          { "index": 57, "duration": 10 },
+          { "index": 58, "duration": 10 },
+          { "index": 59, "duration": 10 },
+          { "index": 60, "duration": 20 },
+          { "index": 0, "duration": 20 }
+        ]
+      },
+      {
+        "name": "Switch Out",
+        "repeat": false,
+        "frames": [
+          { "index": 61, "duration": 4 },
+          { "index": 62, "duration": 4 },
+          { "index": 63, "duration": 4 },
+          { "index": 64, "duration": 4 },
+          { "index": 65, "duration": 4 },
+          { "index": 66, "duration": 4 },
+          { "index": 67, "duration": 4 },
+          { "index": 68, "duration": 4 }
+        ]
+      },
+      {
+        "name": "Switch In",
+        "repeat": false,
+        "frames": [
+          { "index": 68, "duration": 4 },
+          { "index": 67, "duration": 4 },
+          { "index": 66, "duration": 4 },
+          { "index": 65, "duration": 4 },
+          { "index": 64, "duration": 4 },
+          { "index": 63, "duration": 4 },
+          { "index": 62, "duration": 4 },
+          { "index": 61, "duration": 4 }
+        ]
+      },
+      {
+        "name": "Death",
+        "repeat": false,
+        "frames": [
+          { "index": 69, "duration": 6 },
+          { "index": 70, "duration": 6 },
+          { "index": 71, "duration": 6 },
+          { "index": 72, "duration": 6 },
+          { "index": 73, "duration": 6 },
+          { "index": 74, "duration": 6 },
+          { "index": 75, "duration": 6 },
+          { "index": 76, "duration": 6 }
+        ]
+      }
+    ]
+  }
+  

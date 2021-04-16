@@ -1,0 +1,149 @@
+{
+	"name": "reno",
+	"spriteSheetImage": "reno.png",
+	"spriteWidth": 128,
+	"spriteHeight": 128,
+	"leftBuffer": 0,
+	"rightBuffer": 0,
+	"topBuffer": 0,
+	"bottomBuffer": 0,
+	"columns": 7,
+	"rows": 10,
+	"animations": [
+		{
+			"name": "Idle",
+			"repeat": true,
+			"frames": [
+				{ "index": 0, "duration": 15 },
+                { "index": 1, "duration": 15 },
+                { "index": 2, "duration": 15 },
+                { "index": 3, "duration": 15 },
+                { "index": 4, "duration": 15 },
+                { "index": 0, "duration": 40 }
+			]
+		},
+		{
+			"name": "Walk",
+			"repeat": true,
+			"frames": [
+				{ "index": 7, "duration": 5 },
+				{ "index": 8, "duration": 5 },
+				{ "index": 9, "duration": 5 }
+               
+			]
+		},
+		{
+			"name": "Duck In",
+			"repeat": false,
+			"frames": [
+				{ "index": 14, "duration": 8 },
+				{ "index": 15, "duration": 8 },
+				{ "index": 16, "duration": 8 }
+
+			]
+		},
+		{
+			"name": "Duck Out",
+			"repeat": false,
+			"frames": [
+				{ "index": 16, "duration": 8 },
+				{ "index": 15, "duration": 8 },
+				{ "index": 14, "duration": 8 }
+			]
+		},
+		
+		{
+			"name": "Jump",
+			"repeat": false,
+			"frames": [
+				{ "index": 21, "duration": 4 },
+                { "index": 22, "duration": 4 },
+				{ "index": 23, "duration": 4 },
+                { "index": 21, "duration": 4 },
+                { "index": 22, "duration": 4 },
+				{ "index": 23, "duration": 4 },
+                { "index": 21, "duration": 4 },
+                { "index": 22, "duration": 4 },
+				{ "index": 23, "duration": 4 }
+			]
+		},
+		{
+			"name": "Damaged",
+			"repeat": false,
+			"frames": [
+				{ "index": 28, "duration": 5 },
+                { "index": 29, "duration": 5 }
+			]
+		},
+        {
+			"name": "Death",
+			"repeat": false,
+			"frames": [
+                { "index": 35, "duration": 6},
+				{ "index": 36, "duration": 6},
+				{ "index": 37, "duration": 6},
+				{ "index": 38, "duration": 6},
+				{ "index": 39, "duration": 6},
+				{ "index": 40, "duration": 6}
+
+			]
+		},
+		{
+			"name": "Switch Out",
+			"repeat": false,
+			"frames": [
+                { "index": 42, "duration": 4},
+				{ "index": 43, "duration": 4},
+				{ "index": 44, "duration": 4},
+				{ "index": 45, "duration": 4},
+				{ "index": 46, "duration": 4},
+				{ "index": 47, "duration": 4}
+
+			]
+		},
+		{
+			"name": "Switch In",
+			"repeat": false,
+			"frames": [
+				{ "index": 47, "duration": 4},
+				{ "index": 46, "duration": 4},
+				{ "index": 45, "duration": 4},
+				{ "index": 44, "duration": 4},
+				{ "index": 43, "duration": 4},
+				{ "index": 42, "duration": 4}
+			]
+		},
+		{
+			"name": "Basic Attack",
+			"repeat": true,
+			"frames": [
+				{ "index": 49, "duration": 6},
+				{ "index": 50, "duration": 6},
+				{ "index": 51, "duration": 6},
+				{ "index": 52, "duration": 6},
+				{ "index": 53, "duration": 10}
+			]
+		},
+		{
+			"name": "Ability 1",
+			"repeat": false,
+			"frames": [
+				{ "index": 56, "duration": 6},
+				{ "index": 57, "duration": 6},
+				{ "index": 58, "duration": 6},
+				{ "index": 59, "duration": 6},
+				{ "index": 60, "duration": 12}
+			]
+		},
+		{
+			"name": "Ability 2",
+			"repeat": false,
+			"frames": [
+				{ "index": 63, "duration": 4},
+				{ "index": 64, "duration": 4},
+				{ "index": 65, "duration": 4},
+				{ "index": 66, "duration": 4}
+			]
+		}
+	]
+}

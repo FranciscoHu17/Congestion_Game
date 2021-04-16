@@ -1,0 +1,196 @@
+{
+	"name": "flow",
+	"spriteSheetImage": "flow.png",
+	"spriteWidth": 128,
+	"spriteHeight": 128,
+	"leftBuffer": 0,
+	"rightBuffer": 0,
+	"topBuffer": 0,
+	"bottomBuffer": 0,
+	"columns": 8,
+	"rows": 8,
+	"animations": [
+		{
+			"name": "Idle",
+			"repeat": true,
+			"frames": [
+				{ "index": 0, "duration": 8 },
+                { "index": 1, "duration": 8 },
+                { "index": 2, "duration": 8 },
+                { "index": 3, "duration": 8 },
+                { "index": 1, "duration": 8 },
+                { "index": 0, "duration": 8 },
+                { "index": 4, "duration": 8 }
+
+			]
+		},
+		{
+			"name": "Walk",
+			"repeat": true,
+			"frames": [
+				{ "index": 8, "duration": 5 },
+				{ "index": 9, "duration": 5 },
+				{ "index": 10, "duration": 5 },
+				{ "index": 11, "duration": 5 }
+               
+			]
+		},
+		{
+			"name": "Duck In",
+			"repeat": false,
+			"frames": [
+				{ "index": 16, "duration": 8 },
+				{ "index": 17, "duration": 8 },
+				{ "index": 18, "duration": 8 }
+
+			]
+		},
+		{
+			"name": "Duck Out",
+			"repeat": false,
+			"frames": [
+				{ "index": 18, "duration": 8 },
+				{ "index": 17, "duration": 8 },
+				{ "index": 16, "duration": 8 }
+			]
+		},
+		
+		{
+			"name": "Jump",
+			"repeat": false,
+			"frames": [
+				{ "index": 24, "duration": 4 },
+                { "index": 25, "duration": 4 },
+				{ "index": 26, "duration": 8 },
+				{ "index": 27, "duration": 4 },
+				{ "index": 28, "duration": 28 }
+
+			]
+		},
+		{
+			"name": "Damaged",
+			"repeat": false,
+			"frames": [
+				{ "index": 32, "duration": 5 },
+                { "index": 33, "duration": 5 },
+				{ "index": 34, "duration": 5 },
+				{ "index": 33, "duration": 5 },
+				{ "index": 35, "duration": 5 },
+				{ "index": 36, "duration": 5 },
+				{ "index": 35, "duration": 5 },
+				{ "index": 33, "duration": 5 },
+				{ "index": 34, "duration": 5 },
+				{ "index": 33, "duration": 5 },
+				{ "index": 35, "duration": 5 },
+				{ "index": 36, "duration": 5 },
+				{ "index": 35, "duration": 5 }
+			]
+		},
+        {
+			"name": "Death",
+			"repeat": false,
+			"frames": [
+                { "index": 40, "duration": 6},
+				{ "index": 41, "duration": 6},
+				{ "index": 42, "duration": 6},
+				{ "index": 43, "duration": 6},
+				{ "index": 44, "duration": 6},
+				{ "index": 45, "duration": 6},
+				{ "index": 46, "duration": 6},
+				{ "index": 47, "duration": 6}
+
+			]
+		},
+		{
+			"name": "Switch Out",
+			"repeat": false,
+			"frames": [
+                { "index": 48, "duration": 4},
+				{ "index": 49, "duration": 4},
+				{ "index": 50, "duration": 4},
+				{ "index": 51, "duration": 4},
+				{ "index": 52, "duration": 4},
+				{ "index": 53, "duration": 4},
+				{ "index": 54, "duration": 4},
+				{ "index": 55, "duration": 4}
+
+			]
+		},
+		{
+			"name": "Switch In",
+			"repeat": false,
+			"frames": [
+				{ "index": 55, "duration": 4},
+				{ "index": 54, "duration": 4},
+				{ "index": 53, "duration": 4},
+				{ "index": 52, "duration": 4},
+				{ "index": 51, "duration": 4},
+				{ "index": 50, "duration": 4},
+				{ "index": 49, "duration": 4},
+				{ "index": 48, "duration": 4}
+			]
+		},
+		{
+			"name": "Basic Attack",
+			"repeat": true,
+			"frames": [
+				{ "index": 56, "duration": 6},
+				{ "index": 57, "duration": 6},
+				{ "index": 58, "duration": 6},
+				{ "index": 59, "duration": 6},
+				{ "index": 60, "duration": 6},
+				{ "index": 61, "duration": 6},
+				{ "index": 62, "duration": 36}
+			]
+		},
+		{
+			"name": "Ability 1",
+			"repeat": false,
+			"frames": [
+				{ "index": 64, "duration": 4},
+				{ "index": 65, "duration": 4},
+				{ "index": 66, "duration": 4},
+				{ "index": 67, "duration": 4},
+				{ "index": 68, "duration": 4},
+
+				{ "index": 69, "duration":36},
+
+				{ "index": 68, "duration": 4},
+				{ "index": 67, "duration": 4},
+				{ "index": 66, "duration": 4},
+				{ "index": 65, "duration": 4},
+				{ "index": 64, "duration": 4}
+
+			]
+		},
+		{
+			"name": "Ability 2 In",
+			"repeat": false,
+			"frames": [
+				{ "index": 72, "duration": 4},
+				{ "index": 73, "duration": 4},
+				{ "index": 74, "duration": 4},
+				{ "index": 75, "duration": 4},
+				{ "index": 76, "duration": 4},
+				{ "index": 77, "duration": 4},
+				{ "index": 78, "duration": 4},
+				{ "index": 79, "duration": 4}
+			]
+		},
+		{
+			"name": "Ability 2 Out",
+			"repeat": false,
+			"frames": [
+				{ "index": 79, "duration": 4},
+				{ "index": 78, "duration": 4},
+				{ "index": 77, "duration": 4},
+				{ "index": 76, "duration": 4},
+				{ "index": 75, "duration": 4},
+				{ "index": 74, "duration": 4},
+				{ "index": 73, "duration": 4},
+				{ "index": 72, "duration": 4}
+				
+			]
+		}
+	]
+}
