@@ -10,7 +10,7 @@ import Level1 from "./Scenes/Levels/Level1";
 
     // Set up options for our game
     let options = {
-        canvasSize: {x: 1280, y: 720},          // The size of the game
+        canvasSize: {x: 16384, y: 4096},          // The size of the game. 128 by 32 tiles. miiiiiight be too big but we shall see
         clearColor: {r: 0, g: 0, b: 0},   // The color the game clears to
         levels: [
             {name: "level1", level: Level1, finished: false},     // Levels
