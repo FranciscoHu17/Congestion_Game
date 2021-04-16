@@ -1,5 +1,5 @@
-import GameEvent from "../../Wolfie2D/Events/GameEvent";
-import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import GameEvent from "../../../Wolfie2D/Events/GameEvent";
+import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import InAir from "./InAir";
 
 export default class Fall extends InAir {

@@ -1,4 +1,4 @@
-import GameEvent from "../../Wolfie2D/Events/GameEvent";
+import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import { PlayerStates } from "../PlayerController";
 import PlayerState from "./PlayerState";
 

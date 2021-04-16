@@ -1,8 +1,8 @@
-import State from "../../Wolfie2D/DataTypes/State/State";
-import StateMachine from "../../Wolfie2D/DataTypes/State/StateMachine";
-import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import Input from "../../Wolfie2D/Input/Input";
-import GameNode from "../../Wolfie2D/Nodes/GameNode";
+import State from "../../../Wolfie2D/DataTypes/State/State";
+import StateMachine from "../../../Wolfie2D/DataTypes/State/StateMachine";
+import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import Input from "../../../Wolfie2D/Input/Input";
+import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import PlayerController from "../PlayerController";
 
 
