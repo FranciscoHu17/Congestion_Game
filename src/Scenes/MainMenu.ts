@@ -99,8 +99,6 @@ export default class SplashScreen extends Scene{
         while(this.receiver.hasNextEvent()){
             let event = this.receiver.getNextEvent();
 
-            console.log(event);
-
             if(event.type === "start"){
                 this.sceneManager.changeToScene(LevelSelect);
             }

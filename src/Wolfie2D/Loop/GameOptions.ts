@@ -25,7 +25,7 @@ export default class GameOptions {
     /* Whether or not to use webGL */
     useWebGL: boolean;
 
-    levels: Array<{name: string, level: Scene, finished: boolean}>
+    levels: Array<{name: string, level:typeof Scene, finished: boolean}>
 
     /**
      * Parses the data in the raw options object
