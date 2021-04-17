@@ -13,8 +13,8 @@ import Color from "../../Wolfie2D/Utils/Color";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
-    protected static players: Array<AnimatedSprite>;
-    protected static currPlayer: AnimatedSprite;
+    protected players: Array<AnimatedSprite>;
+    protected currPlayer: AnimatedSprite;
     protected playerSpawn: Vec2;               
     protected respawnTimer: Timer;
 
@@ -118,7 +118,7 @@ export default class GameLevel extends Scene{
      * MIGHT NEED TO CHANGE SOME VALUES
      */
     protected initPlayers(): void {
-        GameLevel.players = []
+        this.players = []
 
         if(!this.playerSpawn){
             console.warn("Player spawn was never set - setting spawn to (0, 0)");
@@ -126,11 +126,9 @@ export default class GameLevel extends Scene{
         }
         
         for(let i = 1; i < GameLevel.NUM_OF_CHARACTERS+1; i++){
-            let player = this.add.animatedSprite("player"+i, "primary");
-            
+            let player = this.add.animatedSprite("player"+i, "primary");     
             player.position.copy(this.playerSpawn);
             player.addPhysics(new AABB(Vec2.ZERO, new Vec2(64, 64)));
-            player.addAI(PlayerController, {playerType: "platformer", tilemap: "maplevel1"});     
 
             // Add triggers on colliding with coins or coinBlocks
             player.setGroup("player");
@@ -159,14 +157,17 @@ export default class GameLevel extends Scene{
             }
             
 
-            GameLevel.players.push(player)
+            this.players.push(player)
         }
         
         // Set current player to first player added
-        GameLevel.currPlayer = GameLevel.players[0]
+        this.currPlayer = this.players[0]
+
+        
+        this.currPlayer.addAI(PlayerController, {playerType: "platformer", tilemap: "maplevel1", players: this.players, viewport: this.viewport}); 
 
         // Follow only the current player
-        this.viewport.follow(GameLevel.currPlayer);
+        this.viewport.follow(this.currPlayer);
         
     }
 
@@ -224,31 +225,7 @@ export default class GameLevel extends Scene{
      * Returns the player to spawn
      */
     protected respawnPlayer(): void {
-        GameLevel.currPlayer.position.copy(this.playerSpawn);
-    }
-
-    static changePlayer(newPlayer: string){
-        //let switchPos = GameLevel.currPlayer.position.sub(GameLevel.currPlayer.collisionShape.halfSize).sub(GameLevel.currPlayer.colliderOffset)
-        //console.log(GameLevel.currPlayer.collisionShape.halfSize)
-        console.log(GameLevel.currPlayer.collisionShape.bottom)
-
-        for(let i = 0; i<GameLevel.NUM_OF_CHARACTERS; i++){
-            if(GameLevel.players[i].imageId === newPlayer){
-                GameLevel.currPlayer = GameLevel.players[i]
-                //GameLevel.currPlayer.position = switchPos
-                GameLevel.currPlayer.enablePhysics()
-                GameLevel.currPlayer.visible = true
-                GameLevel.gameLevelViewport.follow(this.currPlayer)
-            }
-            else{
-                GameLevel.players[i].disablePhysics()
-                GameLevel.players[i].visible = false
-            }
-        }
-    }
-
-    static getCurrPlayer(): string{
-        return GameLevel.currPlayer.imageId
+        this.currPlayer.position.copy(this.playerSpawn);
     }
     
 }

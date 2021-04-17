@@ -1,5 +1,7 @@
+import GameLevel from "../../../Scenes/Levels/GameLevel";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
+import Input from "../../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { EaseFunctionType } from "../../../Wolfie2D/Utils/EaseFunctions";
 //import { HW4_Events } from "../../hw4_enums";
@@ -8,6 +10,7 @@ import InAir from "./InAir";
 
 export default class Jump extends InAir {
 	owner: AnimatedSprite;
+	retObj: Record<string,any>;
 
 	onEnter(options: Record<string, any>): void {
 		this.owner.animation.play("Jump", false); //TODO: change the animation name
@@ -22,6 +25,19 @@ export default class Jump extends InAir {
 
 		if(this.owner.onCeiling){
 			this.parent.velocity.y = 0;
+		}
+
+		if(Input.isPressed("tahoe") && this.owner.imageId !== "tahoe"){
+			this.retObj = {player: "tahoe"}
+			this.finished(PlayerStates.SWITCHING)
+		}
+		else if(Input.isPressed("reno") && this.owner.imageId !== "reno"){
+			this.retObj = {player: "reno"}
+			this.finished(PlayerStates.SWITCHING)
+		}
+		else if(Input.isPressed("flow") && this.owner.imageId !== "flow"){
+			this.retObj = {player: "flow"}
+			this.finished(PlayerStates.SWITCHING)
 		}
 
 // <<<<<<< HEAD
@@ -39,6 +55,6 @@ export default class Jump extends InAir {
 
 	onExit(): Record<string, any> {
 		this.owner.animation.stop();
-		return {};
+		return this.retObj;
 	}
 }
