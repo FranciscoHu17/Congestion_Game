@@ -45,8 +45,8 @@ export default class PlayerController extends StateMachineAI {
     //playerID: number = 3; //1=Tahoe, 2=Reno, 3=Flow. Starts with flow by default(?)
     velocity: Vec2 = Vec2.ZERO;
 	speed: number = 200;
-	MIN_SPEED: number = 200;
-    MAX_SPEED: number = 300;
+	MIN_SPEED: number = 128*4;
+    MAX_SPEED: number = 10000; // francisco-CHANGED THIS TEMPORARILY
     tilemap: OrthogonalTilemap;
 
     initializeAI(owner: GameNode, options: Record<string, any>){
@@ -84,7 +84,7 @@ export default class PlayerController extends StateMachineAI {
     // }
 
     initializePlatformer(): void {
-        this.speed = 400;
+        this.speed = 5000;
 
         let idle = new Idle(this, this.owner);
 		this.addState(PlayerStates.IDLE, idle);
