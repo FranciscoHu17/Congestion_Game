@@ -10,8 +10,13 @@ import { EaseFunctionType } from "../../../Wolfie2D/Utils/EaseFunctions";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { PlayerStates } from "../PlayerController";
 import OnGround from "./OnGround";
+import Input from "../../../Wolfie2D/Input/Input";
+import GameLevel from "../../../Scenes/Levels/GameLevel";
 
 export default class BasicAttack extends OnGround {
+
+    // Attacking
+    private lookDirection: Vec2;
 
     /** The key for this sprite image */
     spriteKey: string;
@@ -27,20 +32,23 @@ export default class BasicAttack extends OnGround {
 
     /** How loud it is to use this weapon */
     useVolume: number;
-    
-    color: Color;
+
+    /** How long the projectile animation will play */
+    attackDuration: number;
+    startDelay: number;
 
     owner: AnimatedSprite;
 
     onEnter(options: Record<string, any>): void {
 		this.parent.speed = this.parent.MIN_SPEED;
 		this.owner.animation.play("Basic Attack", false);
+        this.lookDirection = this.owner.position.dirTo(Input.getGlobalMousePosition());
+        this.doAnimation(this.owner, this.lookDirection, this.createRequiredAssets(this.owner.getScene()));
 	}
 
     initialize(options: Record<string, any>): void {
         this.damage = options.damage;
         this.cooldown = options.cooldown;
-        this.color = Color.fromStringHex(options.color);
         this.displayName = options.displayName;
         this.spriteKey = options.spriteKey;
         this.useVolume = options.useVolume;
@@ -57,8 +65,8 @@ export default class BasicAttack extends OnGround {
         let minY = Math.min(start.y, end.y);
         let maxY = Math.max(start.y, end.y);
 
-        // Get the wall tilemap
-        let walls = <OrthogonalTilemap>shooter.getScene().getLayer("Walls").getItems()[0];
+        // Get the bottom layer tilemap
+        let walls = <OrthogonalTilemap>shooter.getScene().getLayer("bottom").getItems()[0];
 
         let minIndex = walls.getColRowAt(new Vec2(minX, minY));
 		let maxIndex = walls.getColRowAt(new Vec2(maxX, maxY));
@@ -86,17 +94,28 @@ export default class BasicAttack extends OnGround {
 
         line.start = start;
         line.end = end;
-
         line.tweens.play("fade");
     }
 
-    createRequiredAssets(scene: Scene): [Line] {
+    createRequiredAssets(scene: Scene): Line {
         let line = <Line>scene.add.graphic(GraphicType.LINE, "primary", {start: new Vec2(-1, 1), end: new Vec2(-1, -1)});
-        line.color = this.color;
+        line.color = Color.GREEN;
 
+        if(GameLevel.getCurrPlayer() == "tahoe"){
+            this.attackDuration = 1800;
+            this.startDelay = 1000;
+        }
+        else if(GameLevel.getCurrPlayer() == "reno"){
+            this.attackDuration = 1800;
+            this.startDelay = 300;
+        }
+        else if(GameLevel.getCurrPlayer() == "flow"){
+            this.attackDuration = 2200;
+            this.startDelay = 400;
+        }
         line.tweens.add("fade", {
-            startDelay: 0,
-            duration: 300,
+            startDelay: this.startDelay,
+            duration: this.attackDuration,
             effects: [
                 {
                     property: TweenableProperties.alpha,
@@ -107,7 +126,7 @@ export default class BasicAttack extends OnGround {
             ]
         });
 
-        return [line];
+        return line;
     }
 
     hits(node: GameNode, line: Line): boolean {
