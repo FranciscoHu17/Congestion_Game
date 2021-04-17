@@ -24,7 +24,12 @@ export default class GameLevel extends Scene{
     protected playerHealthBar: Rect;
     protected bossHealth: number = 150;
     protected bossHealthBar: Rect;
-    protected playerIcons: Sprite; //Changes based on currPlayer
+    protected tahoeIcons: Sprite;
+    protected renoIcons: Sprite;
+    protected flowIcons: Sprite;
+
+    //GameLevel viewport
+    protected static gameLevelViewport: Viewport
 
     //Layers
     protected primaryLayer: Layer
@@ -82,6 +87,7 @@ export default class GameLevel extends Scene{
      * Initializes the viewport
      */
     protected initViewport(): void {
+        GameLevel.gameLevelViewport = this.viewport
         this.viewport.setZoomLevel(1);
     }
 
@@ -95,8 +101,14 @@ export default class GameLevel extends Scene{
         let healthBar = this.add.sprite("player_info", "UI");
         healthBar.position.set(healthBar.size.x/2, healthBar.size.y/2);
 
-        this.playerIcons = this.add.sprite("tahoe_info", "UI");
-        this.playerIcons.position.set(this.playerIcons.size.x/2, this.playerIcons.size.y/2);
+        this.tahoeIcons = this.add.sprite("tahoe_info", "UI");
+        this.tahoeIcons.position.set(this.tahoeIcons.size.x/2, this.tahoeIcons.size.y/2);
+        this.renoIcons = this.add.sprite("reno_info", "UI");
+        this.renoIcons.position.set(this.renoIcons.size.x/2, this.renoIcons.size.y/2);
+        this.renoIcons.visible = false;
+        this.flowIcons = this.add.sprite("flow_info", "UI");
+        this.flowIcons.position.set(this.flowIcons.size.x/2, this.flowIcons.size.y/2);
+        this.flowIcons.visible = false;
 
         this.playerHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(256,42), size: new Vec2(this.playerHealth,18)});
         this.playerHealthBar.color = Color.GREEN;
@@ -107,16 +119,18 @@ export default class GameLevel extends Scene{
     }
 
     protected updatePlayerInfo(){
+        this.tahoeIcons.visible = false;
+        this.renoIcons.visible = false;
+        this.flowIcons.visible = false;
         if(this.currPlayer.imageId === "tahoe")  {
-            this.playerIcons = this.add.sprite("tahoe_info", "UI");
+            this.tahoeIcons.visible = true;
         }
         else if(this.currPlayer.imageId === "reno"){
-            this.playerIcons = this.add.sprite("reno_info", "UI");
+            this.renoIcons.visible = true;
         }        
         else if(this.currPlayer.imageId == "flow"){
-            this.playerIcons = this.add.sprite("flow_info", "UI");
+            this.flowIcons.visible = true;
         }
-        this.playerIcons.position.set(this.playerIcons.size.x/2, this.playerIcons.size.y/2);
     }
 
     /**
