@@ -7,6 +7,8 @@ export enum Game_Events {
     LEVEL_START = "LevelStart",
     LEVEL_END = "LevelEnd",
     PLAYER_DEATH = "PlayerDeath",
+    SWITCHING = "Switching",
+    SWITCHING_END = "SwitcingEnd",
     SWITCH_TO_TAHOE = "SwitchToTahoe",
     SWITCH_TO_RENO = "SwitchToReno",
     SWITCH_TO_FLOW = "SwitchToFlow",

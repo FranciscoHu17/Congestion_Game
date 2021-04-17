@@ -3,6 +3,7 @@ import StateMachine from "../../../Wolfie2D/DataTypes/State/StateMachine";
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import Input from "../../../Wolfie2D/Input/Input";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
+import Timer from "../../../Wolfie2D/Timing/Timer";
 import PlayerController from "../PlayerController";
 
 
@@ -13,7 +14,7 @@ export default abstract class PlayerState extends State {
 
 	constructor(parent: StateMachine, owner: GameNode){
 		super(parent);
-		this.owner = owner;
+		this.owner = owner;	
 	}
 
 	getInputDirection(): Vec2 { //TODO: might have to change the inputs later.

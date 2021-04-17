@@ -26,9 +26,6 @@ export default class GameLevel extends Scene{
     protected bossHealthBar: Rect;
     protected playerIcons: Sprite; //Changes based on currPlayer
 
-    //GameLevel viewport
-    protected static gameLevelViewport: Viewport
-
     //Layers
     protected primaryLayer: Layer
     protected primaryUI: Layer;
@@ -85,7 +82,6 @@ export default class GameLevel extends Scene{
      * Initializes the viewport
      */
     protected initViewport(): void {
-        GameLevel.gameLevelViewport = this.viewport
         this.viewport.setZoomLevel(1);
     }
 

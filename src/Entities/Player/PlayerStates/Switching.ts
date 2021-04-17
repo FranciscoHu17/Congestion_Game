@@ -1,3 +1,4 @@
+import { Game_Events } from "../../../Enums/GameEvents";
 import GameLevel from "../../../Scenes/Levels/GameLevel";
 import StateMachine from "../../../Wolfie2D/DataTypes/State/StateMachine";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
@@ -11,36 +12,45 @@ import OnGround from "./OnGround";
 import PlayerState from "./PlayerState";
 
 export default class Switching extends PlayerState{
+	protected newPlayer: string
 	owner: AnimatedSprite;
-	switchingTimer: Timer;
+	switching: boolean
 
 	constructor(parent: StateMachine, owner: GameNode){
 		super(parent, owner)
 
-		this.switchingTimer = new Timer(1000)
+		this.switching = true
 	}
 
 	onEnter(options: Record<string, any>): void {
-		//this.owner.animation.play("Switch Out", false);
-		//GameLevel.changePlayer(options.player)
-		this.parent.switchOwner(options.player)
+		this.newPlayer = options.player
 
-		
-		this.owner.animation.play("Switch In", false)
-		
-		
-		this.switchingTimer.start()
-		
-
+		if (this.newPlayer !=null){
+			this.owner.animation.play("Switch Out", false, Game_Events.SWITCHING)
+			this.parent.switchTimer.start()
+		}
+		else{
+			this.switching = false
+		}
 	}
 
 	handleInput(event: GameEvent): void {
-		
+		if(event.type == Game_Events.SWITCHING){
+			this.owner.animation.stop()
+			this.parent.switchOwner(this.newPlayer)
+			this.owner.animation.play("Switch In", false, Game_Events.SWITCHING_END)
+
+		}
+		else if(event.type == Game_Events.SWITCHING_END){
+			this.switching = false
+			this.owner.animation.stop();
+		}
 	}
 
 	update(deltaT: number): void {
 		super.update(deltaT);
-		if(this.switchingTimer.isStopped()){
+		if(!this.switching){
+			this.switching = true
 			this.finished(PlayerStates.IDLE)
 			return;
 		}
@@ -48,7 +58,6 @@ export default class Switching extends PlayerState{
 	}
 
 	onExit(): Record<string, any> {
-		this.owner.animation.stop();
 		return {};
 	}
 }
