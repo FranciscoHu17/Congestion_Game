@@ -11,6 +11,7 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import Color from "../../Wolfie2D/Utils/Color";
+import { Game_Events } from "../../Enums/GameEvents";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
@@ -63,6 +64,30 @@ export default class GameLevel extends Scene{
         while(this.receiver.hasNextEvent()){
             let event= this.receiver.getNextEvent()
             console.log(event)
+
+            switch(event.type){
+                case Game_Events.SWITCH_TO_FLOW:
+                    {
+                        this.renoIcons.visible = false;
+                        this.tahoeIcons.visible = false;
+                        this.flowIcons.visible = true;
+                    }
+                    break;
+                case Game_Events.SWITCH_TO_RENO:
+                    {
+                        this.renoIcons.visible = true;
+                        this.tahoeIcons.visible = false;
+                        this.flowIcons.visible = false;
+                    }
+                    break;
+                case Game_Events.SWITCH_TO_TAHOE:
+                    {
+                        this.renoIcons.visible = false;
+                        this.tahoeIcons.visible = true;
+                        this.flowIcons.visible = false;
+                    }
+                    break;
+            }
         }
     }
 
@@ -118,21 +143,6 @@ export default class GameLevel extends Scene{
         
     }
 
-    protected updatePlayerInfo(){
-        this.tahoeIcons.visible = false;
-        this.renoIcons.visible = false;
-        this.flowIcons.visible = false;
-        if(this.currPlayer.imageId === "tahoe")  {
-            this.tahoeIcons.visible = true;
-        }
-        else if(this.currPlayer.imageId === "reno"){
-            this.renoIcons.visible = true;
-        }        
-        else if(this.currPlayer.imageId == "flow"){
-            this.flowIcons.visible = true;
-        }
-    }
-
     /**
      * TODO
      * 
@@ -140,7 +150,9 @@ export default class GameLevel extends Scene{
      */
      protected subscribeToEvents(){
         this.receiver.subscribe([
-            
+            Game_Events.SWITCH_TO_FLOW,
+            Game_Events.SWITCH_TO_RENO,
+            Game_Events.SWITCH_TO_TAHOE
         ]);
     }
 

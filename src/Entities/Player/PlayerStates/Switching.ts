@@ -24,9 +24,17 @@ export default class Switching extends PlayerState{
 
 	onEnter(options: Record<string, any>): void {
 		this.newPlayer = options.player
-
 		if (this.newPlayer !=null){
 			this.owner.animation.play("Switch Out", false, Game_Events.SWITCHING)
+			if(this.newPlayer == "tahoe"){
+				this.emitter.fireEvent(Game_Events.SWITCH_TO_TAHOE);
+			}
+			else if(this.newPlayer == "reno"){
+				this.emitter.fireEvent(Game_Events.SWITCH_TO_RENO);
+			}
+			else if(this.newPlayer == "flow"){
+				this.emitter.fireEvent(Game_Events.SWITCH_TO_FLOW);
+			}
 			this.parent.switchTimer.start()
 		}
 		else{
