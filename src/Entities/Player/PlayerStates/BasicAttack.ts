@@ -12,8 +12,10 @@ import { PlayerStates } from "../PlayerController";
 import OnGround from "./OnGround";
 import Input from "../../../Wolfie2D/Input/Input";
 import GameLevel from "../../../Scenes/Levels/GameLevel";
+import PlayerState from "./PlayerState";
+import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 
-export default class BasicAttack extends OnGround {
+export default class BasicAttack extends PlayerState {
 
     // Attacking
     private lookDirection: Vec2;
@@ -45,6 +47,8 @@ export default class BasicAttack extends OnGround {
         this.lookDirection = this.owner.position.dirTo(Input.getGlobalMousePosition());
         this.doAnimation(this.owner, this.lookDirection, this.createRequiredAssets(this.owner.getScene()));
 	}
+
+    handleInput(event: GameEvent): void {}
 
     initialize(options: Record<string, any>): void {
         this.damage = options.damage;
@@ -102,16 +106,16 @@ export default class BasicAttack extends OnGround {
         line.color = Color.GREEN;
 
         if(this.owner.imageId == "tahoe"){
-            this.attackDuration = 1800;
-            this.startDelay = 1000;
+            this.attackDuration = 1700;
+            this.startDelay = 500;
         }
         else if(this.owner.imageId == "reno"){
-            this.attackDuration = 1800;
-            this.startDelay = 300;
+            this.attackDuration = 1700;
+            this.startDelay = 200;
         }
         else if(this.owner.imageId == "flow"){
-            this.attackDuration = 2200;
-            this.startDelay = 400;
+            this.attackDuration = 1700;
+            this.startDelay = 350;
         }
         line.tweens.add("fade", {
             startDelay: this.startDelay,
@@ -138,14 +142,14 @@ export default class BasicAttack extends OnGround {
         if(!this.owner.animation.isPlaying("Basic Attack")){
             this.finished(PlayerStates.IDLE);
         }
-		
-		this.parent.velocity.x = 0;
+        let dir = this.getInputDirection();
+        this.parent.velocity.x = dir.x * this.parent.speed;
 
 		this.owner.move(this.parent.velocity.scaled(deltaT));
+        
 	}
 
     onExit(): Record<string, any> {
-		this.owner.animation.stop();
         return {};
     }
 }
