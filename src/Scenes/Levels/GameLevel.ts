@@ -114,26 +114,45 @@ export default class GameLevel extends Scene{
      */
     protected initPlayers(): void {
         this.players = []
+
+        if(!this.playerSpawn){
+            console.warn("Player spawn was never set - setting spawn to (0, 0)");
+            this.playerSpawn = Vec2.ZERO;
+        }
         
         for(let i = 1; i < this.NUM_OF_CHARACTERS+1; i++){
             let player = this.add.animatedSprite("player"+i, "primary");
-            if(i == 3){
-                player.scale.set(1.5,1.5)
-            }
             
-            if(!this.playerSpawn){
-                console.warn("Player spawn was never set - setting spawn to (0, 0)");
-                this.playerSpawn = Vec2.ZERO;
-            }
-
             player.position.copy(this.playerSpawn);
             player.addPhysics(new AABB(Vec2.ZERO, new Vec2(64, 64)));
-            //player.colliderOffset.set(0, 2);
             player.addAI(PlayerController, {playerType: "platformer", tilemap: "maplevel1"});     
 
             // Add triggers on colliding with coins or coinBlocks
             player.setGroup("player");
-            console.log(player)
+
+
+            if(i != 1){
+                player.visible = false
+                player.disablePhysics()
+            }
+
+            // Set character collision boxes
+            if(player.imageId === "tahoe")  {
+                player.colliderOffset.set(-12,12)
+                player.collisionShape.halfSize.x =32
+            }
+            else if(player.imageId === "reno"){
+                player.collisionShape.halfSize.x =32
+                player.collisionShape.halfSize.y =47
+
+            }        
+            else if(player.imageId == "flow"){
+                player.scale.set(1.5,1.5)
+                player.colliderOffset.set(0, 42);
+                player.collisionShape.halfSize.x =90
+                player.collisionShape.halfSize.y =54
+            }
+            
 
             this.players.push(player)
         }

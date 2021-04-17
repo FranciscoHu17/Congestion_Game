@@ -10,7 +10,7 @@ export default class Jump extends InAir {
 	owner: AnimatedSprite;
 
 	onEnter(options: Record<string, any>): void {
-		this.owner.animation.play("Jump", true); //TODO: change the animation name
+		this.owner.animation.play("Jump", false); //TODO: change the animation name
 		//TODO2: Add jump sound effect here.
 		//this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "jump", loop: false, holdReference: false});
 	}

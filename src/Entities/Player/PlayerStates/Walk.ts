@@ -25,8 +25,8 @@ export default class Walk extends OnGround {
 			this.finished(PlayerStates.IDLE);
 		} 
 
+		
 		this.parent.velocity.x = dir.x * this.parent.speed
-
         //TODO: uncomment the line below and change this to the right event.
 		//this.emitter.fireEvent(HW4_Events.PLAYER_MOVE, {position: this.owner.position.clone()});
         
