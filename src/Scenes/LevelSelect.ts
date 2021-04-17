@@ -40,14 +40,28 @@ export default class LevelSelect extends Scene{
             let event = this.receiver.getNextEvent();
 
             if(event.type === "menu"){
+                
                 this.sceneManager.changeToScene(MainMenu)
             }
             else if(event.type.includes("Select")){
                 this.setLayerVisibility(event.type)
             }
             else{
+                
                 let level= this.levelManager.findLevel(event.type)
-                this.sceneManager.changeToScene(level)
+
+                let sceneOptions = {
+                    physics: {
+                        groupNames: ["ground", "player","enemy"],
+                        collisions:
+                        [
+                            [0, 1, 1],
+                            [1, 0, 0],
+                            [1, 0, 0]
+                        ]
+                    }
+                }
+                this.sceneManager.changeToScene(level, {}, sceneOptions)
             }
         }
     }

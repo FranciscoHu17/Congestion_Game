@@ -1,3 +1,4 @@
+import PlayerController from "../../Entities/Player/PlayerController";
 import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
@@ -113,9 +114,12 @@ export default class GameLevel extends Scene{
      */
     protected initPlayers(): void {
         this.players = []
-
+        
         for(let i = 1; i < this.NUM_OF_CHARACTERS+1; i++){
             let player = this.add.animatedSprite("player"+i, "primary");
+            if(i == 3){
+                player.scale.set(1.5,1.5)
+            }
             
             if(!this.playerSpawn){
                 console.warn("Player spawn was never set - setting spawn to (0, 0)");
@@ -123,9 +127,9 @@ export default class GameLevel extends Scene{
             }
 
             player.position.copy(this.playerSpawn);
-            player.addPhysics(new AABB(Vec2.ZERO, new Vec2(14, 14)));
-            player.colliderOffset.set(0, 2);
-            //player.addAI(PlayerController, {playerType: "platformer", tilemap: "Main"});
+            player.addPhysics(new AABB(Vec2.ZERO, new Vec2(64, 64)));
+            //player.colliderOffset.set(0, 2);
+            player.addAI(PlayerController, {playerType: "platformer", tilemap: "maplevel1"});     
 
             // Add triggers on colliding with coins or coinBlocks
             player.setGroup("player");
@@ -138,7 +142,8 @@ export default class GameLevel extends Scene{
         this.currPlayer = this.players[0]
 
         // Follow only the first player
-        //this.viewport.follow(this.currPlayer);
+        this.viewport.follow(this.currPlayer);
+        
     }
 
     /**

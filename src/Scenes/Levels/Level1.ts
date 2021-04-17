@@ -12,7 +12,7 @@ export default class Level1 extends GameLevel{
      */
     loadScene(): void {
         this.load.image("background", "assets/sprites/stage.png");
-        this.load.tilemap("level1", "assets/tilemaps/level1.json");
+        this.load.tilemap("maplevel1", "assets/tilemaps/level1.json");
         this.load.spritesheet("player1", "assets/spritesheets/player/tahoe.json");
         this.load.spritesheet("player2", "assets/spritesheets/player/reno.json");
         this.load.spritesheet("player3", "assets/spritesheets/player/flow.json");
@@ -41,12 +41,13 @@ export default class Level1 extends GameLevel{
         this.addParallaxLayer("bg", new Vec2(0.25, 0), -100);
         let bg = this.add.sprite("background", "bg");
         bg.position.set(bg.size.x/2,bg.size.y/2);
-
+        
         // Add the level 1 tilemap
-        this.add.tilemap("level1", new Vec2(0, 0));
-        this.viewport.setBounds(0, 0, 32*128, 16*128);
+        this.add.tilemap("maplevel1", new Vec2(1, 1));
 
-        this.playerSpawn = new Vec2(6*128, 28*128);
+        this.viewport.setBounds(0, 0, 1000*128, 1000*128);
+
+        this.playerSpawn = new Vec2(6*128, 27*128);
 
         // Generic GameLevel Scene setup
         super.startScene() 
