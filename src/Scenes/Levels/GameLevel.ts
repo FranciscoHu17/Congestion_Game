@@ -43,7 +43,7 @@ export default class GameLevel extends Scene{
         // Game level standard initializations
         this.initLayers();
         //this.initViewport();
-        //this.initPlayers();
+        this.initPlayers();
         this.subscribeToEvents();
         this.addUI();
 
