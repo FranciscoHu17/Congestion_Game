@@ -4,6 +4,7 @@ import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import Layer from "../../Wolfie2D/Scene/Layer";
 import Scene from "../../Wolfie2D/Scene/Scene";
@@ -23,6 +24,7 @@ export default class GameLevel extends Scene{
     protected playerHealthBar: Rect;
     protected bossHealth: number = 150;
     protected bossHealthBar: Rect;
+    protected playerIcons: Sprite; //Changes based on currPlayer
 
     //GameLevel viewport
     protected static gameLevelViewport: Viewport
@@ -97,12 +99,28 @@ export default class GameLevel extends Scene{
         let healthBar = this.add.sprite("player_info", "UI");
         healthBar.position.set(healthBar.size.x/2, healthBar.size.y/2);
 
+        this.playerIcons = this.add.sprite("tahoe_info", "UI");
+        this.playerIcons.position.set(this.playerIcons.size.x/2, this.playerIcons.size.y/2);
+
         this.playerHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(256,42), size: new Vec2(this.playerHealth,18)});
         this.playerHealthBar.color = Color.GREEN;
 
         this.bossHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "bossUI", {position: new Vec2(950,50), size: new Vec2(this.bossHealth*3,15)});
         this.bossHealthBar.color = Color.RED;
         
+    }
+
+    protected updatePlayerInfo(){
+        if(this.currPlayer.imageId === "tahoe")  {
+            this.playerIcons = this.add.sprite("tahoe_info", "UI");
+        }
+        else if(this.currPlayer.imageId === "reno"){
+            this.playerIcons = this.add.sprite("reno_info", "UI");
+        }        
+        else if(this.currPlayer.imageId == "flow"){
+            this.playerIcons = this.add.sprite("flow_info", "UI");
+        }
+        this.playerIcons.position.set(this.playerIcons.size.x/2, this.playerIcons.size.y/2);
     }
 
     /**
