@@ -101,15 +101,15 @@ export default class BasicAttack extends OnGround {
         let line = <Line>scene.add.graphic(GraphicType.LINE, "primary", {start: new Vec2(-1, 1), end: new Vec2(-1, -1)});
         line.color = Color.GREEN;
 
-        if(GameLevel.getCurrPlayer() == "tahoe"){
+        if(this.owner.imageId == "tahoe"){
             this.attackDuration = 1800;
             this.startDelay = 1000;
         }
-        else if(GameLevel.getCurrPlayer() == "reno"){
+        else if(this.owner.imageId == "reno"){
             this.attackDuration = 1800;
             this.startDelay = 300;
         }
-        else if(GameLevel.getCurrPlayer() == "flow"){
+        else if(this.owner.imageId == "flow"){
             this.attackDuration = 2200;
             this.startDelay = 400;
         }
