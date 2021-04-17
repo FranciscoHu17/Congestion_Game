@@ -106,7 +106,7 @@ export default class BasicAttack extends PlayerState {
         line.color = Color.GREEN;
 
         if(this.owner.imageId == "tahoe"){
-            this.attackDuration = 1700;
+            this.attackDuration = 1800;
             this.startDelay = 500;
         }
         else if(this.owner.imageId == "reno"){
