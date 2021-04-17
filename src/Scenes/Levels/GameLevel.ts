@@ -1,10 +1,13 @@
 import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
+import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
+import Layer from "../../Wolfie2D/Scene/Layer";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Timer from "../../Wolfie2D/Timing/Timer";
+import Color from "../../Wolfie2D/Utils/Color";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
@@ -14,8 +17,15 @@ export default class GameLevel extends Scene{
     protected respawnTimer: Timer;
 
     //Labels for UI
-    protected static health: number = 100;
-    protected healthLabel: Label;
+    protected playerHealth: number = 100;
+    protected playerHealthBar: Rect;
+    protected bossHealth: number = 150;
+    protected bossHealthBar: Rect;
+
+    //Layers
+    protected primaryLayer: Layer
+    protected primaryUI: Layer;
+    protected bossUI: Layer;
 
     // Screen fade in/out for level start and end
     protected levelTransitionTimer: Timer;
@@ -54,10 +64,14 @@ export default class GameLevel extends Scene{
      */
     protected initLayers(): void {
         // Add a layer for UI
-        this.addUILayer("UI");
+        this.primaryUI = this.addUILayer("UI");
+        this.bossUI = this.addUILayer("bossUI");
 
         // Add a layer for players and enemies
-        this.addLayer("primary", 0);
+        this.primaryLayer = this.addLayer("primary", 0);
+
+        // Set layer visibility
+        this.bossUI.setHidden(true)
     }
 
     /**
@@ -73,7 +87,12 @@ export default class GameLevel extends Scene{
      * Adds in any necessary UI to the game
      */
     protected addUI(){
-    
+        this.playerHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(250,50), size: new Vec2(this.playerHealth*3,15)})
+        this.playerHealthBar.color = Color.GREEN
+
+        this.bossHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "bossUI", {position: new Vec2(950,50), size: new Vec2(this.bossHealth*3,15)})
+        this.bossHealthBar.color = Color.RED
+        
     }
 
     /**
@@ -165,7 +184,7 @@ export default class GameLevel extends Scene{
      * @param amt The amount to add to the player life
      */
     protected incPlayerhealth(amt: number): void {
-        GameLevel.health += amt;
+        this.playerHealth += amt;
         //this.healthLabel.text = "Health: " + GameLevel.health;
     }
 
