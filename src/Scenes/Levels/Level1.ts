@@ -41,7 +41,7 @@ export default class Level1 extends GameLevel{
         this.addParallaxLayer("bg", new Vec2(0.25, 0), -100);
         let bg = this.add.sprite("background", "bg");
         bg.scale.set(3, 3);
-        bg.position.set(bg.boundary.halfSize.x, 30);
+        bg.position.set(bg.size.x/2,bg.size.y/2);
 
         // Add the level 1 tilemap
         this.add.tilemap("level1", new Vec2(0, 0));
