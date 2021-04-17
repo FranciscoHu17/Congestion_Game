@@ -21,15 +21,15 @@ export default class Walk extends OnGround {
 		if(Input.isMouseJustPressed()){
             this.finished(PlayerStates.BASICATTACK)
         }
-		else if(Input.isPressed("tahoe") && GameLevel.getCurrPlayer() !== "tahoe"){
+		else if(Input.isPressed("tahoe") && this.owner.imageId !== "tahoe"){
 			this.retObj = {player: "tahoe"}
 			this.finished(PlayerStates.SWITCHING)
 		}
-		else if(Input.isPressed("reno") && GameLevel.getCurrPlayer() !== "reno"){
+		else if(Input.isPressed("reno") && this.owner.imageId !== "reno"){
 			this.retObj = {player: "reno"}
 			this.finished(PlayerStates.SWITCHING)
 		}
-		else if(Input.isPressed("flow") && GameLevel.getCurrPlayer() !== "flow"){
+		else if(Input.isPressed("flow") && this.owner.imageId !== "flow"){
 			this.retObj = {player: "flow"}
 			this.finished(PlayerStates.SWITCHING)
 		}

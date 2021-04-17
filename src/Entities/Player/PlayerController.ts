@@ -15,6 +15,9 @@ import InAir from "./PlayerStates/InAir";
 import Jump from "./PlayerStates/Jump";
 import Walk from "./PlayerStates/Walk";
 import Switching from "./PlayerStates/Switching";
+import GameLevel from "../../Scenes/Levels/GameLevel";
+import PlayerState from "./PlayerStates/PlayerState";
+import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
 //play once and no other checks are needed on them....
@@ -47,6 +50,9 @@ export enum PlayerStates {//TODO: Do we have to change all the animation names t
 export default class PlayerController extends StateMachineAI {
     protected owner: GameNode; //have to design a way to switch the owner.
     //playerID: number = 3; //1=Tahoe, 2=Reno, 3=Flow. Starts with flow by default(?)
+    protected states: Array<PlayerState>
+    protected viewport: Viewport
+    players: Array<AnimatedSprite>
     velocity: Vec2 = Vec2.ZERO;
 	speed: number = 200;
 	MIN_SPEED: number = 128*4;
@@ -59,51 +65,71 @@ export default class PlayerController extends StateMachineAI {
         this.initializePlatformer();
 
         this.tilemap = this.owner.getScene().getTilemap(options.tilemap) as OrthogonalTilemap;
-        console.log(options)
+        this.players = options.players
+        this.viewport = options.viewport
     }
 
     //TODO: changes the owner of the controller
-    // switchOwner(owner: GameNode, playerID: number){
-    //     //TODO: what should I do after I change the owner?
-    //     //position should be the same as the current owner
-    //     //play the switch in and out animation
-    //     //change player stats based on their passives..
-    //     if(this.playerID != playerID){
-    //         (<AnimatedSprite>this.owner).animation.play("Switching In",false);
-    //         this.playerID = playerID;
-    //         var oldOwner = this.owner;
-    //         this.owner = owner;
-    //         this.owner.positionX = oldOwner.positionX;
-    //         this.owner.positionY = oldOwner.positionY;
-    //         if(playerID == 1){
+    switchOwner(newOwner: string){
+        let centerX = this.owner.position.x
+        let bottomBound = this.owner.collisionShape.bottom
+
+        for(let i = 0; i< 3; i++){
+            if(this.players[i].imageId === newOwner){
+                this.owner = this.players[i]
                 
-    //         }
-    //         else if(playerID == 2){
 
-    //         }
-    //         else if(playerID == 3){
+                this.owner.position.x = centerX
+                this.owner.position.y = bottomBound - this.owner.collisionShape.halfSize.y - this.owner.colliderOffset.y
 
-    //         }
-    //     }
-    // }
+                this.players[i].enablePhysics()
+                this.players[i].visible = true
+
+                this.updateStateOwners()
+                this.viewport.follow(this.owner)
+                //GameLevel.gameLevelViewport.follow(this.owner)
+            }
+            else{
+                this.players[i].disablePhysics()
+                this.players[i].visible = false
+            }
+        }
+    }
+
+    updateStateOwners(): void{
+        for(let i=0; i < this.states.length; i++){
+            this.states[i].owner = this.owner
+        }
+    }
 
     initializePlatformer(): void {
         this.speed = 5000;
+        this.states = []
 
         let idle = new Idle(this, this.owner);
 		this.addState(PlayerStates.IDLE, idle);
+        this.states.push(idle)
+
 		let walk = new Walk(this, this.owner);
 		this.addState(PlayerStates.WALK, walk);
+        this.states.push(walk)
+
 		let jump = new Jump(this, this.owner);
         this.addState(PlayerStates.JUMP, jump);
+        this.states.push(jump)
+
         let fall = new Fall(this, this.owner);
         this.addState(PlayerStates.FALL, fall);
+        this.states.push(fall)
+
         let basicAttack = new BasicAttack(this, this.owner);
         this.addState(PlayerStates.BASICATTACK, basicAttack);
+        this.states.push(basicAttack)
+
         let switching = new Switching(this, this.owner)
         this.addState(PlayerStates.SWITCHING, switching)
+        this.states.push(switching)
 
-        
         this.initialize(PlayerStates.IDLE);
     }
 

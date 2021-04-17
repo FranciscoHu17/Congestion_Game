@@ -22,7 +22,13 @@ export default class Switching extends PlayerState{
 
 	onEnter(options: Record<string, any>): void {
 		//this.owner.animation.play("Switch Out", false);
-		GameLevel.changePlayer(options.player)
+		//GameLevel.changePlayer(options.player)
+		this.parent.switchOwner(options.player)
+
+		
+		this.owner.animation.play("Switch In", false)
+		
+		
 		this.switchingTimer.start()
 		
 
@@ -35,7 +41,6 @@ export default class Switching extends PlayerState{
 	update(deltaT: number): void {
 		super.update(deltaT);
 		if(this.switchingTimer.isStopped()){
-			
 			this.finished(PlayerStates.IDLE)
 			return;
 		}
@@ -43,7 +48,7 @@ export default class Switching extends PlayerState{
 	}
 
 	onExit(): Record<string, any> {
-		//this.owner.animation.stop();
+		this.owner.animation.stop();
 		return {};
 	}
 }
