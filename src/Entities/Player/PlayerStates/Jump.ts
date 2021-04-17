@@ -27,15 +27,15 @@ export default class Jump extends InAir {
 			this.parent.velocity.y = 0;
 		}
 
-		if(Input.isPressed("tahoe") && this.owner.imageId !== "tahoe"){
+		if(Input.isPressed("tahoe") && this.owner.imageId !== "tahoe" && this.parent.switchTimer.isStopped()){
 			this.retObj = {player: "tahoe"}
 			this.finished(PlayerStates.SWITCHING)
 		}
-		else if(Input.isPressed("reno") && this.owner.imageId !== "reno"){
+		else if(Input.isPressed("reno") && this.owner.imageId !== "reno" && this.parent.switchTimer.isStopped()){
 			this.retObj = {player: "reno"}
 			this.finished(PlayerStates.SWITCHING)
 		}
-		else if(Input.isPressed("flow") && this.owner.imageId !== "flow"){
+		else if(Input.isPressed("flow") && this.owner.imageId !== "flow" && this.parent.switchTimer.isStopped()){
 			this.retObj = {player: "flow"}
 			this.finished(PlayerStates.SWITCHING)
 		}

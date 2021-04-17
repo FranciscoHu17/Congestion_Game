@@ -4,15 +4,17 @@ import InAir from "./InAir";
 
 export default class Fall extends InAir {
     owner: AnimatedSprite;
+	retObj: Record<string, any>
 
 	onEnter(options: Record<string, any>): void {
 		//this.owner.animation.play("Fall", true);//TODO: add a fall animation and change the JSON files.
+		this.retObj = options
 	}
 
 	handleInput(event: GameEvent): void {}
 
     onExit(): Record<string, any> {
 		this.owner.animation.stop();
-        return {};
+        return this.retObj;
     }
 }

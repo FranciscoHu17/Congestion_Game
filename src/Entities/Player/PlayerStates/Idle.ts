@@ -11,7 +11,6 @@ export default class Idle extends OnGround {
 	onEnter(options: Record<string, any>): void {
 		this.parent.speed = this.parent.MIN_SPEED;
 		this.owner.animation.play("Idle", true);//TODO: change the animation name
-		this.retObj = {}
 	}
 
 	update(deltaT: number): void {
@@ -20,27 +19,29 @@ export default class Idle extends OnGround {
 		if(Input.isMouseJustPressed()){
             this.finished(PlayerStates.BASICATTACK)
         }
-		else if(Input.isPressed("tahoe") && this.owner.imageId !== "tahoe"){
+		else if(Input.isPressed("tahoe") && this.owner.imageId !== "tahoe" && this.parent.switchTimer.isStopped()){
 			this.retObj = {player: "tahoe"}
 			this.finished(PlayerStates.SWITCHING)
 		}
-		else if(Input.isPressed("reno") && this.owner.imageId !== "reno"){
+		else if(Input.isPressed("reno") && this.owner.imageId !== "reno" && this.parent.switchTimer.isStopped()){
 			this.retObj = {player: "reno"}
 			this.finished(PlayerStates.SWITCHING)
 		}
-		else if(Input.isPressed("flow") && this.owner.imageId !== "flow"){
+		else if(Input.isPressed("flow") && this.owner.imageId !== "flow" && this.parent.switchTimer.isStopped()){
 			this.retObj = {player: "flow"}
 			this.finished(PlayerStates.SWITCHING)
 		}
-		
-		let dir = this.getInputDirection();
+		else{
+			
+			let dir = this.getInputDirection();
 
-		if(!dir.isZero() && dir.y === 0){
-			this.finished(PlayerStates.WALK);
+			if(!dir.isZero() && dir.y === 0){
+				this.finished(PlayerStates.WALK);
+			}
+			this.parent.velocity.x = 0;
+
+			this.owner.move(this.parent.velocity.scaled(deltaT));
 		}
-		this.parent.velocity.x = 0;
-
-		this.owner.move(this.parent.velocity.scaled(deltaT));
 	}
 
 	onExit(): Record<string, any> {

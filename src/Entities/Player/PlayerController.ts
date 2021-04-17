@@ -18,6 +18,8 @@ import Switching from "./PlayerStates/Switching";
 import GameLevel from "../../Scenes/Levels/GameLevel";
 import PlayerState from "./PlayerStates/PlayerState";
 import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
+import { Game_Events } from "../../Enums/GameEvents";
+import Timer from "../../Wolfie2D/Timing/Timer";
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
 //play once and no other checks are needed on them....
@@ -52,6 +54,7 @@ export default class PlayerController extends StateMachineAI {
     //playerID: number = 3; //1=Tahoe, 2=Reno, 3=Flow. Starts with flow by default(?)
     protected states: Array<PlayerState>
     protected viewport: Viewport
+    switchTimer: Timer
     players: Array<AnimatedSprite>
     velocity: Vec2 = Vec2.ZERO;
 	speed: number = 200;
@@ -67,6 +70,11 @@ export default class PlayerController extends StateMachineAI {
         this.tilemap = this.owner.getScene().getTilemap(options.tilemap) as OrthogonalTilemap;
         this.players = options.players
         this.viewport = options.viewport
+
+        this.switchTimer = new Timer(1500)
+
+        this.receiver.subscribe(Game_Events.SWITCHING)
+        this.receiver.subscribe(Game_Events.SWITCHING_END)
     }
 
     //TODO: changes the owner of the controller
@@ -87,7 +95,6 @@ export default class PlayerController extends StateMachineAI {
 
                 this.updateStateOwners()
                 this.viewport.follow(this.owner)
-                //GameLevel.gameLevelViewport.follow(this.owner)
             }
             else{
                 this.players[i].disablePhysics()
