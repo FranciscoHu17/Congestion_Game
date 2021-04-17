@@ -14,6 +14,7 @@ import Idle from "./PlayerStates/Idle";
 import InAir from "./PlayerStates/InAir";
 import Jump from "./PlayerStates/Jump";
 import Walk from "./PlayerStates/Walk";
+import Switching from "./PlayerStates/Switching";
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
 //play once and no other checks are needed on them....
@@ -32,6 +33,7 @@ export enum PlayerStates {//TODO: Do we have to change all the animation names t
 	JUMP = "jump",
     // DAMAGED = "damaged",
     // DEATH = "death",
+    SWITCHING = "switch",
     // SWITCHINGIN = "switching in",
     // SWITCHINGOUT = "switching out",
     BASICATTACK = "basic attack",
@@ -57,7 +59,7 @@ export default class PlayerController extends StateMachineAI {
         this.initializePlatformer();
 
         this.tilemap = this.owner.getScene().getTilemap(options.tilemap) as OrthogonalTilemap;
-        
+        console.log(options)
     }
 
     //TODO: changes the owner of the controller
@@ -98,6 +100,9 @@ export default class PlayerController extends StateMachineAI {
         this.addState(PlayerStates.FALL, fall);
         let basicAttack = new BasicAttack(this, this.owner);
         this.addState(PlayerStates.BASICATTACK, basicAttack);
+        let switching = new Switching(this, this.owner)
+        this.addState(PlayerStates.SWITCHING, switching)
+
         
         this.initialize(PlayerStates.IDLE);
     }

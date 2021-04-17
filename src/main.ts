@@ -27,9 +27,9 @@ import Level1 from "./Scenes/Levels/Level1";
             {name: "right", keys: ["d"]},
             {name: "ability1", keys: ["q"]},
             {name: "ability2", keys: ["e"]},
-            {name: "switch1", keys: ["1"]},
-            {name: "switch2", keys: ["2"]},
-            {name: "switch3", keys: ["3"]},
+            {name: "tahoe", keys: ["1"]},
+            {name: "reno", keys: ["2"]},
+            {name: "flow", keys: ["3"]},
             {name: "pause", keys: ["esc"]},
         ]
     }

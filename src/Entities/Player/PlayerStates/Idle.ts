@@ -1,3 +1,4 @@
+import GameLevel from "../../../Scenes/Levels/GameLevel";
 import Input from "../../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { PlayerStates } from "../PlayerController";
@@ -5,10 +6,12 @@ import OnGround from "./OnGround";
 
 export default class Idle extends OnGround {
 	owner: AnimatedSprite;
+	retObj: Record<string, any>
 
 	onEnter(options: Record<string, any>): void {
 		this.parent.speed = this.parent.MIN_SPEED;
 		this.owner.animation.play("Idle", true);//TODO: change the animation name
+		this.retObj = {}
 	}
 
 	update(deltaT: number): void {
@@ -17,6 +20,18 @@ export default class Idle extends OnGround {
 		if(Input.isMouseJustPressed()){
             this.finished(PlayerStates.BASICATTACK)
         }
+		else if(Input.isPressed("tahoe") && GameLevel.getCurrPlayer() !== "tahoe"){
+			this.retObj = {player: "tahoe"}
+			this.finished(PlayerStates.SWITCHING)
+		}
+		else if(Input.isPressed("reno") && GameLevel.getCurrPlayer() !== "reno"){
+			this.retObj = {player: "reno"}
+			this.finished(PlayerStates.SWITCHING)
+		}
+		else if(Input.isPressed("flow") && GameLevel.getCurrPlayer() !== "flow"){
+			this.retObj = {player: "flow"}
+			this.finished(PlayerStates.SWITCHING)
+		}
 		
 		let dir = this.getInputDirection();
 
@@ -30,6 +45,6 @@ export default class Idle extends OnGround {
 
 	onExit(): Record<string, any> {
 		this.owner.animation.stop();
-		return {};
+		return this.retObj;
 	}
 }

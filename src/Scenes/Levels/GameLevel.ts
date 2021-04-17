@@ -7,13 +7,14 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import Layer from "../../Wolfie2D/Scene/Layer";
 import Scene from "../../Wolfie2D/Scene/Scene";
+import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import Color from "../../Wolfie2D/Utils/Color";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
-    protected players: Array<AnimatedSprite>;
-    protected currPlayer: AnimatedSprite;
+    protected static players: Array<AnimatedSprite>;
+    protected static currPlayer: AnimatedSprite;
     protected playerSpawn: Vec2;               
     protected respawnTimer: Timer;
 
@@ -22,6 +23,9 @@ export default class GameLevel extends Scene{
     protected playerHealthBar: Rect;
     protected bossHealth: number = 150;
     protected bossHealthBar: Rect;
+
+    //GameLevel viewport
+    protected static gameLevelViewport: Viewport
 
     //Layers
     protected primaryLayer: Layer
@@ -33,7 +37,7 @@ export default class GameLevel extends Scene{
     protected levelTransitionScreen: Rect;
 
     // Number of characters
-    protected readonly NUM_OF_CHARACTERS = 3;
+    protected static readonly NUM_OF_CHARACTERS = 3;
 
     /**
      * TODO
@@ -79,6 +83,7 @@ export default class GameLevel extends Scene{
      * Initializes the viewport
      */
     protected initViewport(): void {
+        GameLevel.gameLevelViewport = this.viewport
         this.viewport.setZoomLevel(1);
     }
 
@@ -103,7 +108,7 @@ export default class GameLevel extends Scene{
      */
      protected subscribeToEvents(){
         this.receiver.subscribe([
-
+            
         ]);
     }
 
@@ -113,14 +118,14 @@ export default class GameLevel extends Scene{
      * MIGHT NEED TO CHANGE SOME VALUES
      */
     protected initPlayers(): void {
-        this.players = []
+        GameLevel.players = []
 
         if(!this.playerSpawn){
             console.warn("Player spawn was never set - setting spawn to (0, 0)");
             this.playerSpawn = Vec2.ZERO;
         }
         
-        for(let i = 1; i < this.NUM_OF_CHARACTERS+1; i++){
+        for(let i = 1; i < GameLevel.NUM_OF_CHARACTERS+1; i++){
             let player = this.add.animatedSprite("player"+i, "primary");
             
             player.position.copy(this.playerSpawn);
@@ -154,14 +159,14 @@ export default class GameLevel extends Scene{
             }
             
 
-            this.players.push(player)
+            GameLevel.players.push(player)
         }
         
         // Set current player to first player added
-        this.currPlayer = this.players[0]
+        GameLevel.currPlayer = GameLevel.players[0]
 
-        // Follow only the first player
-        this.viewport.follow(this.currPlayer);
+        // Follow only the current player
+        this.viewport.follow(GameLevel.currPlayer);
         
     }
 
@@ -219,7 +224,31 @@ export default class GameLevel extends Scene{
      * Returns the player to spawn
      */
     protected respawnPlayer(): void {
-        this.currPlayer.position.copy(this.playerSpawn);
+        GameLevel.currPlayer.position.copy(this.playerSpawn);
+    }
+
+    static changePlayer(newPlayer: string){
+        //let switchPos = GameLevel.currPlayer.position.sub(GameLevel.currPlayer.collisionShape.halfSize).sub(GameLevel.currPlayer.colliderOffset)
+        //console.log(GameLevel.currPlayer.collisionShape.halfSize)
+        console.log(GameLevel.currPlayer.collisionShape.bottom)
+
+        for(let i = 0; i<GameLevel.NUM_OF_CHARACTERS; i++){
+            if(GameLevel.players[i].imageId === newPlayer){
+                GameLevel.currPlayer = GameLevel.players[i]
+                //GameLevel.currPlayer.position = switchPos
+                GameLevel.currPlayer.enablePhysics()
+                GameLevel.currPlayer.visible = true
+                GameLevel.gameLevelViewport.follow(this.currPlayer)
+            }
+            else{
+                GameLevel.players[i].disablePhysics()
+                GameLevel.players[i].visible = false
+            }
+        }
+    }
+
+    static getCurrPlayer(): string{
+        return GameLevel.currPlayer.imageId
     }
     
 }
