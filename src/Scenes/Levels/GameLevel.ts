@@ -19,7 +19,7 @@ export default class GameLevel extends Scene{
     protected respawnTimer: Timer;
 
     //Labels for UI
-    protected playerHealth: number = 100;
+    protected playerHealth: number = 100 * 2.55;
     protected playerHealthBar: Rect;
     protected bossHealth: number = 150;
     protected bossHealthBar: Rect;
@@ -93,11 +93,15 @@ export default class GameLevel extends Scene{
      * Adds in any necessary UI to the game
      */
     protected addUI(){
-        this.playerHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(250,50), size: new Vec2(this.playerHealth*3,15)})
-        this.playerHealthBar.color = Color.GREEN
+        //add player information layer
+        let healthBar = this.add.sprite("player_info", "UI");
+        healthBar.position.set(healthBar.size.x/2, healthBar.size.y/2);
 
-        this.bossHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "bossUI", {position: new Vec2(950,50), size: new Vec2(this.bossHealth*3,15)})
-        this.bossHealthBar.color = Color.RED
+        this.playerHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(256,42), size: new Vec2(this.playerHealth,18)});
+        this.playerHealthBar.color = Color.GREEN;
+
+        this.bossHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "bossUI", {position: new Vec2(950,50), size: new Vec2(this.bossHealth*3,15)});
+        this.bossHealthBar.color = Color.RED;
         
     }
 

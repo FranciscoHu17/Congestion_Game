@@ -12,6 +12,7 @@ export default class Level1 extends GameLevel{
      */
     loadScene(): void {
         this.load.image("background", "assets/sprites/stage.png");
+        this.load.image("player_info", "assets/sprites/playerInfo.png");
         this.load.tilemap("maplevel1", "assets/tilemaps/level1.json");
         this.load.spritesheet("player1", "assets/spritesheets/player/tahoe.json");
         this.load.spritesheet("player2", "assets/spritesheets/player/reno.json");
