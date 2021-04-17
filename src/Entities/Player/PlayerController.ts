@@ -6,6 +6,8 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
+import Input from "../../Wolfie2D/Input/Input";
+import BasicAttack from "./PlayerStates/BasicAttack";
 //import { HW4_Events } from "../hw4_enums";
 import Fall from "./PlayerStates/Fall";
 import Idle from "./PlayerStates/Idle";
@@ -32,7 +34,7 @@ export enum PlayerStates {//TODO: Do we have to change all the animation names t
     // DEATH = "death",
     // SWITCHINGIN = "switching in",
     // SWITCHINGOUT = "switching out",
-    // BASICATTACK = "basic attack",
+    BASICATTACK = "basic attack",
     // ABILITYQ = "ability 1",
     // ABILITYEIN = "ability 2 in",
     // ABILITYEOUT = "ability 2 out",
@@ -94,6 +96,8 @@ export default class PlayerController extends StateMachineAI {
         this.addState(PlayerStates.JUMP, jump);
         let fall = new Fall(this, this.owner);
         this.addState(PlayerStates.FALL, fall);
+        let basicAttack = new BasicAttack(this, this.owner);
+        this.addState(PlayerStates.BASICATTACK, basicAttack);
         
         this.initialize(PlayerStates.IDLE);
     }
@@ -119,6 +123,8 @@ export default class PlayerController extends StateMachineAI {
 			Debug.log("playerstate", "Player State: Idle");
 		} else if(this.currentState instanceof Fall){
             Debug.log("playerstate", "Player State: Fall");
+        } else if(this.currentState instanceof BasicAttack){
+            Debug.log("playerstate", "Player State: BasicAttack");
         }
 	}
 }

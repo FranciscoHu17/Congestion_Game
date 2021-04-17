@@ -15,6 +15,10 @@ export default class Walk extends OnGround {
 	update(deltaT: number): void {
 		super.update(deltaT);
 
+		if(Input.isMouseJustPressed()){
+            this.finished(PlayerStates.BASICATTACK)
+        }
+		
 		let dir = this.getInputDirection();
 
 		if(dir.isZero()){
