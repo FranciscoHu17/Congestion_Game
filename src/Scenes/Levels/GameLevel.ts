@@ -42,7 +42,7 @@ export default class GameLevel extends Scene{
     startScene():void {
         // Game level standard initializations
         this.initLayers();
-        //this.initViewport();
+        this.initViewport();
         this.initPlayers();
         this.subscribeToEvents();
         this.addUI();
@@ -78,7 +78,7 @@ export default class GameLevel extends Scene{
      * Initializes the viewport
      */
     protected initViewport(): void {
-        this.viewport.setZoomLevel(2);
+        this.viewport.setZoomLevel(1);
     }
 
     /**
@@ -112,6 +112,8 @@ export default class GameLevel extends Scene{
      * MIGHT NEED TO CHANGE SOME VALUES
      */
     protected initPlayers(): void {
+        this.players = []
+
         for(let i = 1; i < this.NUM_OF_CHARACTERS+1; i++){
             let player = this.add.animatedSprite("player"+i, "primary");
             
@@ -127,15 +129,16 @@ export default class GameLevel extends Scene{
 
             // Add triggers on colliding with coins or coinBlocks
             player.setGroup("player");
+            console.log(player)
 
             this.players.push(player)
         }
-
+        
         // Set current player to first player added
         this.currPlayer = this.players[0]
 
         // Follow only the first player
-        this.viewport.follow(this.players[0]);
+        //this.viewport.follow(this.currPlayer);
     }
 
     /**

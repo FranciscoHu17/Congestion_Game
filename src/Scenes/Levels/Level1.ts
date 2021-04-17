@@ -17,7 +17,7 @@ export default class Level1 extends GameLevel{
         this.load.spritesheet("player2", "assets/spritesheets/player/reno.json");
         this.load.spritesheet("player3", "assets/spritesheets/player/flow.json");
         this.load.spritesheet("generator", "assets/spritesheets/objects/generator.json");
-        this.load.audio("level1", "assets/music/level 1.mp3");
+        this.load.audio("level1", "assets/music/level1.mp3");
     }
 
     /**
