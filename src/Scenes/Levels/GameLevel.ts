@@ -79,6 +79,15 @@ export default class GameLevel extends Scene{
         this.subscribeToEvents();
         this.addUI();
 
+        // Initialize the timers
+        /*this.respawnTimer = new Timer(1000, () => {
+                this.respawnPlayer();
+                this.currPlayer.enablePhysics();
+                
+            }
+        );*/
+
+        this.enemies = []
         
     }
 
@@ -110,6 +119,38 @@ export default class GameLevel extends Scene{
                         this.renoIcons.visible = false;
                         this.tahoeIcons.visible = true;
                         this.flowIcons.visible = false;
+                    }
+                    break;
+                case Game_Events.PLAYER_HIT_ENEMY:
+                        {
+                            let node = this.sceneGraph.getNode(event.data.get("node"));
+                            let other = this.sceneGraph.getNode(event.data.get("other"));
+    
+                            if(node === this.currPlayer){
+                                // Node is player, other is enemy
+                                this.handlePlayerEnemyCollision(<AnimatedSprite>node, <AnimatedSprite>other);
+                            } else {
+                                // Other is player, node is enemy
+                                this.handlePlayerEnemyCollision(<AnimatedSprite>other,<AnimatedSprite>node);
+    
+                            }
+                        }
+                        break;
+                case Game_Events.ENEMY_DIED:
+                    {
+                        // An enemy finished its dying animation, destroy it
+                        let node = this.sceneGraph.getNode(event.data.get("owner"));
+                        node.destroy();
+                    }
+                break;
+                
+                case Game_Events.PLAYER_DEATH:
+                    {
+                       // this.respawnTimer.start();
+                        //this.respawnTimer.reset();   
+                        this.respawnPlayer();
+                        this.currPlayer.enablePhysics();
+                        
                     }
                     break;
                 case Game_Events.GAME_PAUSED:
@@ -308,6 +349,9 @@ export default class GameLevel extends Scene{
             Game_Events.SWITCH_TO_FLOW,
             Game_Events.SWITCH_TO_RENO,
             Game_Events.SWITCH_TO_TAHOE,
+            Game_Events.PLAYER_HIT_ENEMY,
+            Game_Events.ENEMY_DIED,
+            Game_Events.PLAYER_DEATH,
             Game_Events.GAME_PAUSED,
             "controls",
             "help1",
@@ -393,8 +437,8 @@ export default class GameLevel extends Scene{
         //enemy.addAI(EnemyController, aiOptions);
         enemy.setGroup("enemy");
         enemy.animation.play("Idle", true);
-        //enemy.setTrigger("player", HW4_Events.PLAYER_HIT_ENEMY, null)
-        //this.enemies.push(enemy);
+        enemy.setTrigger("player", Game_Events.PLAYER_HIT_ENEMY, null);
+        this.enemies.push(enemy);
     }
 
     /**
@@ -415,6 +459,8 @@ export default class GameLevel extends Scene{
      * @param enemy 
      */
     protected handlePlayerEnemyCollision(player: AnimatedSprite, enemy: AnimatedSprite) {   
+        this.currPlayer.disablePhysics();
+        this.currPlayer.animation.play("Death", false, Game_Events.PLAYER_DEATH);
 
     }
 
