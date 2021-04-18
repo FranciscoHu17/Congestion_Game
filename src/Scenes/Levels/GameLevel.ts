@@ -69,6 +69,7 @@ export default class GameLevel extends Scene{
      * Generic GameLevel Scene setup
      */
     startScene():void {
+        this.enemies = []
         this.originalViewportPosX = this.viewport.getCenter().x
         this.originalViewportPosY = this.viewport.getCenter().y
 
@@ -394,7 +395,7 @@ export default class GameLevel extends Scene{
         enemy.setGroup("enemy");
         enemy.animation.play("Idle", true);
         //enemy.setTrigger("player", HW4_Events.PLAYER_HIT_ENEMY, null)
-        //this.enemies.push(enemy);
+        this.enemies.push(enemy);
     }
 
     /**
