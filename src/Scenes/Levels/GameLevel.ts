@@ -68,6 +68,7 @@ export default class GameLevel extends Scene{
             switch(event.type){
                 case Game_Events.SWITCH_TO_FLOW:
                     {
+                        this.currPlayer = this.players[2];
                         this.renoIcons.visible = false;
                         this.tahoeIcons.visible = false;
                         this.flowIcons.visible = true;
@@ -75,6 +76,7 @@ export default class GameLevel extends Scene{
                     break;
                 case Game_Events.SWITCH_TO_RENO:
                     {
+                        this.currPlayer = this.players[1];
                         this.renoIcons.visible = true;
                         this.tahoeIcons.visible = false;
                         this.flowIcons.visible = false;
@@ -82,12 +84,17 @@ export default class GameLevel extends Scene{
                     break;
                 case Game_Events.SWITCH_TO_TAHOE:
                     {
+                        this.currPlayer = this.players[0];
                         this.renoIcons.visible = false;
                         this.tahoeIcons.visible = true;
                         this.flowIcons.visible = false;
                     }
                     break;
             }
+        }
+        // If player falls into a pit, kill them off and reset their position
+        if(this.currPlayer.position.y > 32*128){
+            this.respawnPlayer();
         }
     }
 
