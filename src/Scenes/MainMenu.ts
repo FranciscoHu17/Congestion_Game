@@ -25,6 +25,7 @@ export default class SplashScreen extends Scene{
     
     startScene(): void {
         this.initLayers()
+        this.viewport.setFocus(this.viewport.getHalfSize())
 
         // UI
         this.addUI()
@@ -103,6 +104,7 @@ export default class SplashScreen extends Scene{
         // Background Image
         let bg = this.add.sprite("main_menu", "bg");
         bg.position.set(bg.size.x/2,bg.size.y/2);
+        
 
         // Shadow label
         let shadowLabel = <Label>this.add.uiElement(UIElementType.LABEL,"titleShadow", {position: new Vec2(bg.size.x/2-8, bg.size.y/4+9), text: "Congestion"})
