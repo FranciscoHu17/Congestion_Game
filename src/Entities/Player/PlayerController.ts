@@ -22,6 +22,8 @@ import { Game_Events } from "../../Enums/GameEvents";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import AbilityQ from "./PlayerStates/AbilityQ";
 import TahoeQ from "./PlayerStates/Abilities/TahoeQ";
+import Dying from "./PlayerStates/Dying";
+
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
 //play once and no other checks are needed on them....
@@ -39,6 +41,7 @@ export enum PlayerStates {//TODO: Do we have to change all the animation names t
     //DUCKOUT = "duck out",
 	JUMP = "jump",
     // DAMAGED = "damaged",
+    DYING = "dying",
     // DEATH = "death",
     SWITCHING = "switch",
     // SWITCHINGIN = "switching in",
@@ -83,6 +86,8 @@ export default class PlayerController extends StateMachineAI {
 
         this.receiver.subscribe(Game_Events.SWITCHING)
         this.receiver.subscribe(Game_Events.SWITCHING_END)
+        this.receiver.subscribe(Game_Events.PLAYER_DYING)
+        this.receiver.subscribe(Game_Events.PLAYER_DEATH)
     }
 
     //TODO: changes the owner of the controller
@@ -93,7 +98,7 @@ export default class PlayerController extends StateMachineAI {
         for(let i = 0; i< 3; i++){
             if(this.players[i].imageId === newOwner){
                 this.owner = this.players[i]
-                
+
 
                 this.owner.position.x = centerX
                 this.owner.position.y = bottomBound - this.owner.collisionShape.halfSize.y - this.owner.colliderOffset.y
@@ -153,6 +158,10 @@ export default class PlayerController extends StateMachineAI {
         let tahoeQ = new TahoeQ(this, this.owner);
         this.addState(PlayerStates.TAHOEQ,tahoeQ);
         this.states.push(tahoeQ);
+
+        let dying = new Dying(this, this.owner)
+        this.addState(PlayerStates.DYING, dying)
+        this.states.push(dying)
 
         this.initialize(PlayerStates.IDLE);
     }

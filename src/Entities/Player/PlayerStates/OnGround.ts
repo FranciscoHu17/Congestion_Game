@@ -1,14 +1,20 @@
+import { Game_Events } from "../../../Enums/GameEvents";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Input from "../../../Wolfie2D/Input/Input";
 import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 import MathUtils from "../../../Wolfie2D/Utils/MathUtils";
+import { PlayerStates } from "../PlayerController";
 import PlayerState from "./PlayerState";
 import { PlayerStates } from "../PlayerController";
 
 export default class OnGround extends PlayerState {
 	onEnter(options: Record<string, any>): void {}
 
-	handleInput(event: GameEvent): void {}
+	handleInput(event: GameEvent){
+		if(event.type == Game_Events.PLAYER_DYING){
+			this.finished(PlayerStates.DYING)
+		}
+	}
 
 	update(deltaT: number): void {
 		if(this.parent.velocity.y > 0){

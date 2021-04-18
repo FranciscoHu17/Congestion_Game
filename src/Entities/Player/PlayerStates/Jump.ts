@@ -18,8 +18,6 @@ export default class Jump extends InAir {
 		//this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "jump", loop: false, holdReference: false});
 	}
 
-	handleInput(event: GameEvent): void {}
-
 	update(deltaT: number): void {
 		super.update(deltaT);
 

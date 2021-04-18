@@ -11,8 +11,6 @@ export default class Fall extends InAir {
 		this.retObj = options
 	}
 
-	handleInput(event: GameEvent): void {}
-
     onExit(): Record<string, any> {
 		this.owner.animation.stop();
         return this.retObj;

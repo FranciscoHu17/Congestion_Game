@@ -68,7 +68,7 @@ export default class Level1 extends GameLevel{
         // The coordinates are the positions in Tiled BUT ADD 0.5 TO X AND 0.5 TO Y
         for(let pos of [new Vec2(19.5, 26.5), new Vec2(33.5, 22.5), 
             new Vec2(65.5, 11.5), new Vec2(67.5, 11.5), new Vec2(65.5, 13.5), new Vec2(67.5, 13.5), new Vec2(65.5, 15.5), new Vec2(67.5, 15.5),
-            new Vec2(70.5, 28.5)]){
+            new Vec2(65.5, 28.5), new Vec2(9.5, 28.5), new Vec2(21.5, 23.5)] ){
             this.addEnemy("enemy", pos, {});
         }
     }
