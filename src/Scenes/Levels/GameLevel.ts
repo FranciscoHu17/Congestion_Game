@@ -40,9 +40,6 @@ export default class GameLevel extends Scene{
     protected mainMenuButton: Button;
     protected resumeButton: Button;
 
-    //GameLevel viewport
-    protected static gameLevelViewport: Viewport
-
     //Layers
     protected primaryLayer: Layer
     protected primaryUI: Layer;
@@ -54,6 +51,10 @@ export default class GameLevel extends Scene{
     protected help4: Layer;
     protected controlsShadow: Layer;
     protected helpShadow: Layer;
+
+    // Initial viewport position
+    protected originalViewportPosX: number
+    protected originalViewportPosY: number
 
     // Screen fade in/out for level start and end
     protected levelTransitionTimer: Timer;
@@ -68,6 +69,9 @@ export default class GameLevel extends Scene{
      * Generic GameLevel Scene setup
      */
     startScene():void {
+        this.originalViewportPosX = this.viewport.getCenter().x
+        this.originalViewportPosY = this.viewport.getCenter().y
+
         // Game level standard initializations
         this.initLayers();
         this.initViewport();
@@ -75,7 +79,7 @@ export default class GameLevel extends Scene{
         this.subscribeToEvents();
         this.addUI();
 
-
+        
     }
 
     updateScene(deltaT: number){
@@ -128,6 +132,7 @@ export default class GameLevel extends Scene{
                     break;
                 case "menu":
                     {
+                        this.viewport.follow(null)
                         this.sceneManager.changeToScene(MainMenu);
                     }
                     break;
@@ -224,7 +229,6 @@ export default class GameLevel extends Scene{
      * Initializes the viewport
      */
     protected initViewport(): void {
-        GameLevel.gameLevelViewport = this.viewport
         this.viewport.setZoomLevel(1);
     }
 
