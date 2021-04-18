@@ -156,6 +156,17 @@ export default class GameLevel extends Scene{
                     break;
                 case Game_Events.GAME_PAUSED:
                     {
+                        // Layers visibility set
+                        this.controls.setHidden(true);
+                        this.help1.setHidden(true);
+                        this.help2.setHidden(true);
+                        this.help3.setHidden(true);
+                        this.help4.setHidden(true);
+
+                        // Shadow layers visibility set
+                        this.controlsShadow.setHidden(true);
+                        this.helpShadow.setHidden(true);
+
                         this.currPlayer.disablePhysics();
                         this.currPlayer.freeze();
                         if(this.enemies != null){
@@ -165,21 +176,32 @@ export default class GameLevel extends Scene{
                             }
                         }
                         //In game menu pop up
-                        this.ingame_menu.visible = true;
-                        this.controlsButton.visible = true;
-                        this.helpButton.visible = true;
-                        this.mainMenuButton.visible = true;
-                        this.resumeButton.visible = true;
+                        this.showInGameMenu();
+                    }
+                    break;
+                case Game_Events.GAME_RESUMED:
+                    {
+                        this.hideInGameMenu();
+                        this.currPlayer.enablePhysics();
+                        this.currPlayer.unfreeze();
+                        if(this.enemies != null){
+                            for(var i = 0; i< this.enemies.length; i++){
+                                this.enemies[i].enablePhysics();
+                                this.enemies[i].unfreeze();
+                            }
+                        }
                     }
                     break;
                 case "menu":
                     {
+                        console.log("I'm in menu");
                         this.viewport.follow(null)
                         this.sceneManager.changeToScene(MainMenu);
                     }
                     break;
                 case "controls":
                     {
+                        console.log("I'm in control....");
                         this.setMenuLayerVisibility(event.type);
                     }
                     break;
@@ -210,9 +232,25 @@ export default class GameLevel extends Scene{
             this.respawnPlayer();
         }
     }
+    showInGameMenu(): void {
+        this.ingame_menu.visible = true;
+        this.controlsButton.visible = true;
+        this.helpButton.visible = true;
+        this.mainMenuButton.visible = true;
+        this.resumeButton.visible = true;
+    }
+
+    hideInGameMenu(): void{
+        this.ingame_menu.visible = false;
+        this.controlsButton.visible = false;
+        this.helpButton.visible = false;
+        this.mainMenuButton.visible = false;
+        this.resumeButton.visible = false;
+    }
 
     setMenuLayerVisibility(layer: string): void {
         // Checks which layer should be invisible
+        this.hideInGameMenu();
         let ctrls = (layer != "controls") ? true : false
         let hlp1 = (layer != "help1") ? true : false
         let hlp2 = (layer != "help2") ? true : false
@@ -224,11 +262,11 @@ export default class GameLevel extends Scene{
         this.help1.setHidden(hlp1);
         this.help2.setHidden(hlp2);
         this.help3.setHidden(hlp3);
-        this.help4.setHidden(hlp4)
+        this.help4.setHidden(hlp4);
 
         // Shadow layers visibility set
-        this.controlsShadow.setHidden(ctrls)
-        this.helpShadow.setHidden(hlp1 && hlp2 && hlp3 && hlp4)
+        this.controlsShadow.setHidden(ctrls);
+        this.helpShadow.setHidden(hlp1 && hlp2 && hlp3 && hlp4);
         
     }
 
@@ -241,29 +279,32 @@ export default class GameLevel extends Scene{
         // Add a layer for UI
         this.primaryUI = this.addUILayer("UI");
         this.bossUI = this.addUILayer("bossUI");
-        this.controlsShadow = this.addLayer("controlsShadow", 100);
-        this.helpShadow = this.addLayer("helpShadow", 100);
-        this.controls = this.addLayer("controls", 200);
-        this.help1 = this.addLayer("help1", 200);
-        this.help2 = this.addLayer("help2", 200);
-        this.help3 = this.addLayer("help3", 200);
-        this.help4 = this.addLayer("help4", 200);
+        this.controlsShadow = this.addUILayer("controlsShadow");
+        this.helpShadow = this.addUILayer("helpShadow");
+        this.controls = this.addUILayer("controls");
+        this.help1 = this.addUILayer("help1");
+        this.help2 = this.addUILayer("help2");
+        this.help3 = this.addUILayer("help3");
+        this.help4 = this.addUILayer("help4");
         
         LayerHelper.controlsLayer(this, Game_Events.GAME_PAUSED);
         LayerHelper.helpLayer(this, Game_Events.GAME_PAUSED);
+
+        console.log(this.controls.getItems());
+        console.log(this.controlsShadow.getItems());
 
         // Add a layer for players and enemies
         this.primaryLayer = this.addLayer("primary", 0);
 
         // Set layer visibility
         this.bossUI.setHidden(true);
-        // this.controlsShadow.setHidden(true);
-        // this.helpShadow.setHidden(true);
-        // this.controls.setHidden(true);
-        // this.help1.setHidden(true);
-        // this.help2.setHidden(true);
-        // this.help3.setHidden(true);
-        // this.help4.setHidden(true);
+        this.controlsShadow.setHidden(true);
+        this.helpShadow.setHidden(true);
+        this.controls.setHidden(true);
+        this.help1.setHidden(true);
+        this.help2.setHidden(true);
+        this.help3.setHidden(true);
+        this.help4.setHidden(true);
 
     }
 
