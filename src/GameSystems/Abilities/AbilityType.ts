@@ -1,4 +1,5 @@
 import GameNode from "../../Wolfie2D/Nodes/GameNode";
+import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import Scene from "../../Wolfie2D/Scene/Scene";
 
 export default abstract class AbilityType {
@@ -27,7 +28,7 @@ export default abstract class AbilityType {
      */
     abstract doAnimation(...args: any): void;
 
-    abstract createRequiredAssets(scene: Scene): Array<any>;
+    abstract createRequiredAssets(scene: Scene, user: Sprite): Array<any>;
 
     abstract interact(node: GameNode, ...args: any): boolean;
 }

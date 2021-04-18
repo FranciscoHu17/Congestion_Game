@@ -34,7 +34,7 @@ export default class Ability {
         this.sprite = sprite;
 
         // Rely on the weapon type to create any necessary assets
-        this.assets = this.type.createRequiredAssets(this.sprite.getScene());
+        this.assets = this.type.createRequiredAssets(this.sprite.getScene(), this.sprite);
 
         // Create an event emitter
         this.emitter = new Emitter();
