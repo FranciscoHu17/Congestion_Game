@@ -69,6 +69,7 @@ export default class GameLevel extends Scene{
      * Generic GameLevel Scene setup
      */
     startScene():void {
+        this.enemies = []
         this.originalViewportPosX = this.viewport.getCenter().x
         this.originalViewportPosY = this.viewport.getCenter().y
 

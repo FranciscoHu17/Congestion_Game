@@ -26,6 +26,7 @@ export default class SplashScreen extends Scene{
     startScene(): void {
         this.initLayers()
         this.viewport.setFocus(this.viewport.getHalfSize())
+        console.log("adding this here for a commit check, please delete this if there are no troubles")
 
         // UI
         this.addUI()
