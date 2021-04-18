@@ -30,7 +30,7 @@ import Level1 from "./Scenes/Levels/Level1";
             {name: "tahoe", keys: ["1"]},
             {name: "reno", keys: ["2"]},
             {name: "flow", keys: ["3"]},
-            {name: "pause", keys: ["esc"]},
+            {name: "pause", keys: ["escape"]},
         ]
     }
 

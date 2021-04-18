@@ -12,10 +12,16 @@ import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import Color from "../../Wolfie2D/Utils/Color";
 import { Game_Events } from "../../Enums/GameEvents";
+import GameLoop from "../../Wolfie2D/Loop/GameLoop";
+import LayerHelper from "../LayerHelper";
+import MainMenu from "../MainMenu";
+import Button from "../../Wolfie2D/Nodes/UIElements/Button";
+import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
     protected players: Array<AnimatedSprite>;
+    protected enemies: Array<AnimatedSprite>;//TODO: add all the enemies into this array
     protected currPlayer: AnimatedSprite;
     protected playerSpawn: Vec2;               
     protected respawnTimer: Timer;
@@ -28,6 +34,11 @@ export default class GameLevel extends Scene{
     protected tahoeIcons: Sprite;
     protected renoIcons: Sprite;
     protected flowIcons: Sprite;
+    protected ingame_menu: Sprite;
+    protected controlsButton: Button;
+    protected helpButton: Button;
+    protected mainMenuButton: Button;
+    protected resumeButton: Button;
 
     //GameLevel viewport
     protected static gameLevelViewport: Viewport
@@ -36,6 +47,13 @@ export default class GameLevel extends Scene{
     protected primaryLayer: Layer
     protected primaryUI: Layer;
     protected bossUI: Layer;
+    protected controls: Layer;
+    protected help1: Layer;
+    protected help2: Layer;
+    protected help3: Layer;
+    protected help4: Layer;
+    protected controlsShadow: Layer;
+    protected helpShadow: Layer;
 
     // Screen fade in/out for level start and end
     protected levelTransitionTimer: Timer;
@@ -87,8 +105,77 @@ export default class GameLevel extends Scene{
                         this.flowIcons.visible = false;
                     }
                     break;
+                case Game_Events.GAME_PAUSED:
+                    {
+                        this.currPlayer.disablePhysics();
+                        this.currPlayer.freeze();
+                        if(this.enemies != null){
+                            for(var i = 0; i< this.enemies.length; i++){
+                                this.enemies[i].disablePhysics();
+                                this.enemies[i].freeze();
+                            }
+                        }
+                        //In game menu pop up
+                        this.ingame_menu.visible = true;
+                        this.controlsButton.visible = true;
+                        this.helpButton.visible = true;
+                        this.mainMenuButton.visible = true;
+                        this.resumeButton.visible = true;
+                    }
+                    break;
+                case "menu":
+                    {
+                        this.sceneManager.changeToScene(MainMenu);
+                    }
+                    break;
+                case "controls":
+                    {
+                        this.setMenuLayerVisibility(event.type);
+                    }
+                    break;
+                case "help1":
+                    {
+                        this.setMenuLayerVisibility(event.type);
+                    }
+                    break;
+                case "help2":
+                    {
+                        this.setMenuLayerVisibility(event.type);
+                    }
+                    break;
+                case "help3":
+                    {
+                        this.setMenuLayerVisibility(event.type);
+                    }
+                    break;      
+                case "help4":
+                    {
+                        this.setMenuLayerVisibility(event.type);
+                    }
+                    break;
             }
         }
+    }
+
+    setMenuLayerVisibility(layer: string): void {
+        // Checks which layer should be invisible
+        let ctrls = (layer != "controls") ? true : false
+        let hlp1 = (layer != "help1") ? true : false
+        let hlp2 = (layer != "help2") ? true : false
+        let hlp3 = (layer != "help3") ? true : false
+        let hlp4 = (layer != "help4") ? true : false
+
+        // Layers visibility set
+        this.controls.setHidden(ctrls)
+        this.help1.setHidden(hlp1);
+        this.help2.setHidden(hlp2);
+        this.help3.setHidden(hlp3);
+        this.help4.setHidden(hlp4)
+
+        // Shadow layers visibility set
+        this.controlsShadow.setHidden(ctrls)
+        this.helpShadow.setHidden(hlp1 && hlp2 && hlp3 && hlp4)
+        
     }
 
     /**
@@ -100,12 +187,30 @@ export default class GameLevel extends Scene{
         // Add a layer for UI
         this.primaryUI = this.addUILayer("UI");
         this.bossUI = this.addUILayer("bossUI");
+        this.controlsShadow = this.addLayer("controlsShadow", 100);
+        this.helpShadow = this.addLayer("helpShadow", 100);
+        this.controls = this.addLayer("controls", 200);
+        this.help1 = this.addLayer("help1", 200);
+        this.help2 = this.addLayer("help2", 200);
+        this.help3 = this.addLayer("help3", 200);
+        this.help4 = this.addLayer("help4", 200);
+        
+        LayerHelper.controlsLayer(this, Game_Events.GAME_PAUSED);
+        LayerHelper.helpLayer(this, Game_Events.GAME_PAUSED);
 
         // Add a layer for players and enemies
         this.primaryLayer = this.addLayer("primary", 0);
 
         // Set layer visibility
-        this.bossUI.setHidden(true)
+        this.bossUI.setHidden(true);
+        // this.controlsShadow.setHidden(true);
+        // this.helpShadow.setHidden(true);
+        // this.controls.setHidden(true);
+        // this.help1.setHidden(true);
+        // this.help2.setHidden(true);
+        // this.help3.setHidden(true);
+        // this.help4.setHidden(true);
+
     }
 
     /**
@@ -141,6 +246,45 @@ export default class GameLevel extends Scene{
         this.bossHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "bossUI", {position: new Vec2(950,50), size: new Vec2(this.bossHealth*3,15)});
         this.bossHealthBar.color = Color.RED;
         
+        this.ingame_menu = this.add.sprite("ingame_menu","UI");
+        this.ingame_menu.position.set(this.ingame_menu.size.x/2,this.ingame_menu.size.y/2);
+        this.ingame_menu.visible = false;
+
+        this.controlsButton = <Button>this.add.uiElement(UIElementType.BUTTON, "UI", {position: new Vec2(650,299), text: "CONTROLS"});
+        this.controlsButton.backgroundColor = Color.BLACK;
+        this.controlsButton.textColor = Color.GREEN;
+        this.controlsButton.size = new Vec2(160,20);
+        this.controlsButton.font = "Consola";
+        this.controlsButton.fontSize = 22;
+        this.controlsButton.onClickEventId = "controls";
+        this.controlsButton.visible = false;
+
+        this.helpButton = <Button>this.add.uiElement(UIElementType.BUTTON, "UI", {position: new Vec2(650,345), text: "HELP"});
+        this.helpButton.backgroundColor = Color.BLACK;
+        this.helpButton.textColor = Color.GREEN;
+        this.helpButton.size = new Vec2(160,20);
+        this.helpButton.font = "Consola";
+        this.helpButton.fontSize = 22;
+        this.helpButton.onClickEventId = "help1";
+        this.helpButton.visible = false;
+
+        this.mainMenuButton = <Button>this.add.uiElement(UIElementType.BUTTON, "UI", {position: new Vec2(650,392), text: "MAIN MENU"});
+        this.mainMenuButton.backgroundColor = Color.BLACK;
+        this.mainMenuButton.textColor = Color.GREEN;
+        this.mainMenuButton.size = new Vec2(160,20);
+        this.mainMenuButton.font = "Consola";
+        this.mainMenuButton.fontSize = 22;
+        this.mainMenuButton.onClickEventId = "menu";
+        this.mainMenuButton.visible = false;
+
+        this.resumeButton = <Button>this.add.uiElement(UIElementType.BUTTON, "UI", {position: new Vec2(650,440), text: "RESUME"});
+        this.resumeButton.backgroundColor = Color.BLACK;
+        this.resumeButton.textColor = Color.GREEN;
+        this.resumeButton.size = new Vec2(160,20);
+        this.resumeButton.font = "Consola";
+        this.resumeButton.fontSize = 22;
+        this.resumeButton.onClickEventId = Game_Events.GAME_RESUMED;
+        this.resumeButton.visible = false;
     }
 
     /**
@@ -152,7 +296,15 @@ export default class GameLevel extends Scene{
         this.receiver.subscribe([
             Game_Events.SWITCH_TO_FLOW,
             Game_Events.SWITCH_TO_RENO,
-            Game_Events.SWITCH_TO_TAHOE
+            Game_Events.SWITCH_TO_TAHOE,
+            Game_Events.GAME_PAUSED,
+            "controls",
+            "help1",
+            "help2",
+            "help3",
+            "help4",
+            "menu",
+            Game_Events.GAME_RESUMED
         ]);
     }
 
@@ -231,6 +383,7 @@ export default class GameLevel extends Scene{
         //enemy.addAI(EnemyController, aiOptions);
         enemy.setGroup("enemy");
         //enemy.setTrigger("player", HW4_Events.PLAYER_HIT_ENEMY, null)
+        this.enemies.push(enemy);
     }
 
     /**
