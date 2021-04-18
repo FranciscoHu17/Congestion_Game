@@ -18,4 +18,6 @@ export enum Game_Events {
     RENO_ABILITY2 = "RenoAbility2",
     FLOW_ABILITY1 = "FlowAbility1",
     FLOW_ABILITY2 = "FlowAbility2",
+    GAME_PAUSED = "Paused",
+    GAME_RESUMED = "Resume"
 }

@@ -153,6 +153,10 @@ export default class PlayerController extends StateMachineAI {
     update(deltaT: number): void {
 		super.update(deltaT);
 
+        if(Input.isJustPressed("pause")){
+            this.emitter.fireEvent(Game_Events.GAME_PAUSED);
+        }
+
 		if(this.currentState instanceof Jump){
 			Debug.log("playerstate", "Player State: Jump");
 		} else if (this.currentState instanceof Walk){
