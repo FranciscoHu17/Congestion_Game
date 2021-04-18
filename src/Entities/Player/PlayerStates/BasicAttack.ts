@@ -14,6 +14,7 @@ import Input from "../../../Wolfie2D/Input/Input";
 import GameLevel from "../../../Scenes/Levels/GameLevel";
 import PlayerState from "./PlayerState";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
+import { Game_Events } from "../../../Enums/GameEvents";
 
 export default class BasicAttack extends PlayerState {
 
@@ -48,7 +49,11 @@ export default class BasicAttack extends PlayerState {
         this.doAnimation(this.owner, this.lookDirection, this.createRequiredAssets(this.owner.getScene()));
 	}
 
-    handleInput(event: GameEvent): void {}
+    handleInput(event: GameEvent){
+		if(event.type == Game_Events.PLAYER_DYING){
+			this.finished(PlayerStates.DYING)
+		}
+	}
 
     initialize(options: Record<string, any>): void {
         this.damage = options.damage;

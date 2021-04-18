@@ -502,8 +502,8 @@ export default class GameLevel extends Scene{
      */
     protected handlePlayerEnemyCollision(player: AnimatedSprite, enemy: AnimatedSprite) {   
         this.currPlayer.disablePhysics();
-        this.currPlayer.animation.play("Death", false, Game_Events.PLAYER_DEATH);
-
+        //this.currPlayer.animation.play("Death", false, Game_Events.PLAYER_DEATH);
+        this.emitter.fireEvent(Game_Events.PLAYER_DYING)
     }
 
     /**

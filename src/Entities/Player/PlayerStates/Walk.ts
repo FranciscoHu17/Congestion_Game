@@ -1,4 +1,6 @@
+import { Game_Events } from "../../../Enums/GameEvents";
 import GameLevel from "../../../Scenes/Levels/GameLevel";
+import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Input from "../../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 //import { HW4_Events } from "../../hw4_enums";
@@ -37,6 +39,7 @@ export default class Walk extends OnGround {
 		let dir = this.getInputDirection();
 
 		if(dir.isZero()){
+			console.log("idle now")
 			this.finished(PlayerStates.IDLE);
 		} 
 		

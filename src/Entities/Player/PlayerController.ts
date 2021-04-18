@@ -20,6 +20,7 @@ import PlayerState from "./PlayerStates/PlayerState";
 import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import { Game_Events } from "../../Enums/GameEvents";
 import Timer from "../../Wolfie2D/Timing/Timer";
+import Dying from "./PlayerStates/Dying";
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
 //play once and no other checks are needed on them....
@@ -37,6 +38,7 @@ export enum PlayerStates {//TODO: Do we have to change all the animation names t
     //DUCKOUT = "duck out",
 	JUMP = "jump",
     // DAMAGED = "damaged",
+    DYING = "dying",
     // DEATH = "death",
     SWITCHING = "switch",
     // SWITCHINGIN = "switching in",
@@ -75,6 +77,8 @@ export default class PlayerController extends StateMachineAI {
 
         this.receiver.subscribe(Game_Events.SWITCHING)
         this.receiver.subscribe(Game_Events.SWITCHING_END)
+        this.receiver.subscribe(Game_Events.PLAYER_DYING)
+        this.receiver.subscribe(Game_Events.PLAYER_DEATH)
     }
 
     //TODO: changes the owner of the controller
@@ -136,6 +140,10 @@ export default class PlayerController extends StateMachineAI {
         let switching = new Switching(this, this.owner)
         this.addState(PlayerStates.SWITCHING, switching)
         this.states.push(switching)
+
+        let dying = new Dying(this, this.owner)
+        this.addState(PlayerStates.DYING, dying)
+        this.states.push(dying)
 
         this.initialize(PlayerStates.IDLE);
     }
