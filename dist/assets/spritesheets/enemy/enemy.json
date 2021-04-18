@@ -1,0 +1,35 @@
+{
+	"name": "enemy",
+	"spriteSheetImage": "enemy.png",
+	"spriteWidth": 128,
+	"spriteHeight": 128,
+	"leftBuffer": 0,
+	"rightBuffer": 0,
+	"topBuffer": 0,
+	"bottomBuffer": 0,
+	"columns": 10,
+	"rows": 5,
+	"animations": [
+		{
+			"name": "Idle",
+			"repeat": true,
+			"frames": [
+				{ "index": 0, "duration": 30 },
+                { "index": 1, "duration": 30 }
+
+			]
+		},
+        {
+			"name": "Attack",
+			"repeat": true,
+			"frames": [
+				{ "index": 0, "duration": 10 },
+                { "index": 10, "duration": 20 },
+				{ "index": 0, "duration": 10 },
+                { "index": 10, "duration": 20 }
+
+			]
+		}
+		
+	]
+}

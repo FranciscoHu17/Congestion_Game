@@ -18,6 +18,7 @@ export default class Level1 extends GameLevel{
         this.load.image("flow_info", "assets/sprites/flow_info.png");
         this.load.image("ingame_menu", "assets/sprites/ingame_menu.png");
         this.load.tilemap("maplevel1", "assets/tilemaps/level1.json");
+        this.load.spritesheet("enemy", "assets/spritesheets/enemy/enemy.json");
         this.load.spritesheet("player1", "assets/spritesheets/player/tahoe.json");
         this.load.spritesheet("player2", "assets/spritesheets/player/reno.json");
         this.load.spritesheet("player3", "assets/spritesheets/player/flow.json");
@@ -64,12 +65,12 @@ export default class Level1 extends GameLevel{
         //this.nextLevel = Level2;
 
         // Add enemies of various types
-        // i put the locations of where i want the enemies. The coordinates are the positions in Tiled
-        /*for(let pos of [new Vec2(19, 26), new Vec2(33, 22), 
-            new Vec2(65, 11), new Vec2(67, 11), new Vec2(65, 13), new Vec2(67, 13), new Vec2(65, 15), new Vec2(67, 15),
-            new Vec2(70, 28)]){
-            this.addEnemy("", pos, {});
-        }*/
+        // The coordinates are the positions in Tiled BUT ADD 0.5 TO X AND 0.5 TO Y
+        for(let pos of [new Vec2(19.5, 26.5), new Vec2(33.5, 22.5), 
+            new Vec2(65.5, 11.5), new Vec2(67.5, 11.5), new Vec2(65.5, 13.5), new Vec2(67.5, 13.5), new Vec2(65.5, 15.5), new Vec2(67.5, 15.5),
+            new Vec2(70.5, 28.5)]){
+            this.addEnemy("enemy", pos, {});
+        }
     }
 
     /**
