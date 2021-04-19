@@ -487,8 +487,9 @@ export default class GameLevel extends Scene{
 
             // Set character collision boxes
             if(player.imageId === "tahoe")  {
-                player.colliderOffset.set(-12,12)
+                player.colliderOffset.set(-12,0)
                 player.collisionShape.halfSize.x =32
+                player.collisionShape.halfSize.y =50
             }
             else if(player.imageId === "reno"){
                 player.collisionShape.halfSize.x =32
@@ -525,7 +526,7 @@ export default class GameLevel extends Scene{
      * @param tilePos The tilemap position to add the enemy to
      * @param aiOptions The options for the enemy AI
      */
-     protected addEnemy(spriteKey: string, tilePos: Vec2, aiOptions: Record<string, any>): void {
+     protected addEnemy(spriteKey: string, tilePos: Vec2, aiOptions: Record<string, any>): AnimatedSprite {
         let enemy = this.add.animatedSprite(spriteKey, "primary");
         enemy.position.set(tilePos.x*128, tilePos.y*128);
         enemy.addPhysics();
@@ -534,6 +535,8 @@ export default class GameLevel extends Scene{
         enemy.animation.play("Idle", true);
         enemy.setTrigger("player", Game_Events.PLAYER_HIT_ENEMY, null);
         this.enemies.push(enemy);
+
+        return enemy
     }
 
     /**
