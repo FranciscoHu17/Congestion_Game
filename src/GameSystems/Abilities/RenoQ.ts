@@ -33,7 +33,7 @@ export default class RenoQ extends AbilityType {
     doAnimation(shooter: GameNode, direction: Vec2, line: Line[]): void {
         console.log(this.hitbox);
 
-        (<AnimatedSprite>shooter).animation.play("Ability 1", false, PlayerStates.JUMP);//TODO: should I be firing an event instead of doing this?
+        (<AnimatedSprite>shooter).animation.play("Ability 1", false);//TODO: should I be firing an event instead of doing this?
 
         // Get the wall tilemap
         let walls = <OrthogonalTilemap>shooter.getScene().getLayer("bottom").getItems()[0];

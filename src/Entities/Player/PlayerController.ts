@@ -99,6 +99,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.initializeAbilities();
 
         this.switchTimer = new Timer(1500)
+        this.abilitiesTimer = new Timer(1500)
 
         this.receiver.subscribe(Game_Events.SWITCHING)
         this.receiver.subscribe(Game_Events.SWITCHING_END)
@@ -239,8 +240,10 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.updateDirection();
 
         //TODO: use a timer to make sure to only use one ability at a time
-        if(Input.isJustPressed("ability1")){
+        if(Input.isJustPressed("ability1") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
+            this.abilitiesTimer.start()
+
             if(currentPlayer == "tahoe"){
                 this.abilities[0].use(this.owner, "player", this.direction);
             }else if(currentPlayer == "reno"){
@@ -249,8 +252,10 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                 this.abilities[2].use(this.owner, "player", this.direction);
             }
             super.changeState(PlayerStates.IDLE)
-        }else if(Input.isJustPressed("ability2")){
+        }else if(Input.isJustPressed("ability2") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
+            this.abilitiesTimer.start()
+
             if(currentPlayer == "tahoe"){
                 this.abilities[3].use(this.owner, "player", this.direction);
             }else if(currentPlayer == "reno"){

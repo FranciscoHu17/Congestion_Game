@@ -29,7 +29,6 @@ export default class Dying extends PlayerState{
     }
 
 	update(deltaT: number): void {
-		super.update(deltaT);
 	}
 
 	onExit(): Record<string, any> {
