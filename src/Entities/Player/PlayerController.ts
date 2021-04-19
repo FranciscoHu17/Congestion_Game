@@ -31,6 +31,7 @@ import RenoQ from "../../GameSystems/Abilities/RenoQ";
 import RenoE from "../../GameSystems/Abilities/TahoeE";
 import FlowQ from "../../GameSystems/Abilities/FlowQ";
 import FlowE from "../../GameSystems/Abilities/FlowE";
+import Game from "../../Wolfie2D/Loop/Game";
 
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
@@ -109,7 +110,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
     //TODO: change all the stats later
     initializeAbilities(){
-        let battle_manager = new BattleManager();
+        let battle_manager = BattleManager.getInstance();
 
         let tahoeq = new TahoeQ();
         tahoeq.initialize({damage: 100, cooldown:1800, displayName: "TahoeQ", spriteKey: "tahoe", useVolume: 100});
