@@ -247,6 +247,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             }else if(currentPlayer == "flow"){
                 this.abilities[2].use(this.owner, "player", this.direction);
             }
+            super.changeState(PlayerStates.IDLE)
         }else if(Input.isJustPressed("ability2")){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
             if(currentPlayer == "tahoe"){
@@ -256,6 +257,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             }else if(currentPlayer == "flow"){
                 this.abilities[5].use(this.owner, "player", this.direction);
             }
+            super.changeState(PlayerStates.IDLE)
         }
 
         if(Input.isJustPressed("pause")){
