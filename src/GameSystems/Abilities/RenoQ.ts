@@ -38,7 +38,7 @@ export default class RenoQ extends AbilityType {
         // Get the wall tilemap
         let walls = <OrthogonalTilemap>shooter.getScene().getLayer("bottom").getItems()[0];
 
-        var angles = [0, 0.261799, 0.523599, 0.785398, 1.0472, 1.309];
+        var angles = [4.0578905, 4.3196899, 4.5814893, 4.8432887, 5.1050881, 5.3668874];
 
         for(var i=0; i<this.hitbox.length;i++){
             let start = shooter.position.clone();
