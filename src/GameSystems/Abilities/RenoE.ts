@@ -13,7 +13,7 @@ import Color from "../../Wolfie2D/Utils/Color";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 import AbilityType from "./AbilityType";
 
-export default class TahoeQ extends AbilityType {
+export default class RenoE extends AbilityType {
     startDelay: any | number;
     attackDuration: any | number;
 

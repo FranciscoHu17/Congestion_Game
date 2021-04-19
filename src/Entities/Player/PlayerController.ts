@@ -71,7 +71,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     switchTimer: Timer
     players: Array<AnimatedSprite>
     velocity: Vec2 = Vec2.ZERO;
-    direction: Vec2 = Vec2.ZERO;
+    direction: Vec2 = new Vec2(1,0);
 	speed: number = 200;
 	MIN_SPEED: number = 128*4;
     MAX_SPEED: number = 10000; // francisco-CHANGED THIS TEMPORARILY
