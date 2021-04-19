@@ -61,7 +61,8 @@ export default class Ability {
         this.type.doAnimation(user, direction, ...this.assets);
 
         // Apply damage
-        this.battleManager.handleInteraction(userType, this);
+        if(this.type.damage > 0)
+            this.battleManager.handleInteraction(userType, this);
 
         // Send out an event to alert enemies
         //TODO: do i need to get rid of position and volume?
