@@ -237,6 +237,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
         this.updateDirection();
 
+        //TODO: use a timer to make sure to only use one ability at a time
         if(Input.isJustPressed("ability1")){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
             if(currentPlayer == "tahoe"){
