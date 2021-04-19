@@ -20,7 +20,11 @@ import PlayerState from "./PlayerStates/PlayerState";
 import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import { Game_Events } from "../../Enums/GameEvents";
 import Timer from "../../Wolfie2D/Timing/Timer";
+import AbilityQ from "./PlayerStates/AbilityQ";
+import TahoeQ from "./PlayerStates/Abilities/TahoeQ";
 import Dying from "./PlayerStates/Dying";
+import BattlerAI from "../../GameSystems/BattlerAI";
+
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
 //play once and no other checks are needed on them....
@@ -44,15 +48,21 @@ export enum PlayerStates {//TODO: Do we have to change all the animation names t
     // SWITCHINGIN = "switching in",
     // SWITCHINGOUT = "switching out",
     BASICATTACK = "basic attack",
-    // ABILITYQ = "ability 1",
+    ABILITYQ = "ability 1",
+    TAHOEQ = "tahoe q",
+    TAHOEE = "tahoe e",
+    RENOQ = "reno q",
+    RENOE = "reno e",
+    FLOWQ = "flow q",
+    FLOWE = "flow e",
     // ABILITYEIN = "ability 2 in",
     // ABILITYEOUT = "ability 2 out",
     FALL = "fall",
 	PREVIOUS = "previous"
 }
 
-export default class PlayerController extends StateMachineAI {
-    protected owner: GameNode; //have to design a way to switch the owner.
+export default class PlayerController extends StateMachineAI implements BattlerAI{
+    owner: GameNode; //have to design a way to switch the owner.
     //playerID: number = 3; //1=Tahoe, 2=Reno, 3=Flow. Starts with flow by default(?)
     protected states: Array<PlayerState>
     protected viewport: Viewport
@@ -63,6 +73,8 @@ export default class PlayerController extends StateMachineAI {
 	MIN_SPEED: number = 128*4;
     MAX_SPEED: number = 10000; // francisco-CHANGED THIS TEMPORARILY
     tilemap: OrthogonalTilemap;
+    health: number;//TODO: put in health and damage!!!!
+    damage: (damage: number) => void;//TODO: implement damage function...
 
     initializeAI(owner: GameNode, options: Record<string, any>){
         this.owner = owner;
@@ -81,7 +93,7 @@ export default class PlayerController extends StateMachineAI {
         this.receiver.subscribe(Game_Events.PLAYER_DEATH)
     }
 
-    //TODO: changes the owner of the controller
+
     switchOwner(newOwner: string){
         let centerX = this.owner.position.x
         let bottomBound = this.owner.collisionShape.bottom
@@ -89,7 +101,7 @@ export default class PlayerController extends StateMachineAI {
         for(let i = 0; i< 3; i++){
             if(this.players[i].imageId === newOwner){
                 this.owner = this.players[i]
-                
+
 
                 this.owner.position.x = centerX
                 this.owner.position.y = bottomBound - this.owner.collisionShape.halfSize.y - this.owner.colliderOffset.y
@@ -140,6 +152,15 @@ export default class PlayerController extends StateMachineAI {
         let switching = new Switching(this, this.owner)
         this.addState(PlayerStates.SWITCHING, switching)
         this.states.push(switching)
+
+        let abilityQ = new AbilityQ(this, this.owner);
+        this.addState(PlayerStates.ABILITYQ,abilityQ);
+        this.states.push(abilityQ);
+
+        //TODO: add more states!!!!!
+        let tahoeQ = new TahoeQ(this, this.owner);
+        this.addState(PlayerStates.TAHOEQ,tahoeQ);
+        this.states.push(tahoeQ);
 
         let dying = new Dying(this, this.owner)
         this.addState(PlayerStates.DYING, dying)

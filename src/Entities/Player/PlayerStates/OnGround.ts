@@ -5,6 +5,7 @@ import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 import MathUtils from "../../../Wolfie2D/Utils/MathUtils";
 import { PlayerStates } from "../PlayerController";
 import PlayerState from "./PlayerState";
+import { PlayerStates } from "../PlayerController";
 
 export default class OnGround extends PlayerState {
 	onEnter(options: Record<string, any>): void {}
@@ -20,6 +21,12 @@ export default class OnGround extends PlayerState {
 			this.parent.velocity.y = 0;
 		}
 		super.update(deltaT);
+
+		if(Input.isJustPressed("ability1")){
+            this.finished(PlayerStates.ABILITYQ);
+        }else if(Input.isJustPressed("ability2")){
+
+        }
 
 		let direction = this.getInputDirection();
 
