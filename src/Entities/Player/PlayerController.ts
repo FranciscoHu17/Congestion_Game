@@ -83,6 +83,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     tilemap: OrthogonalTilemap;
 
     abilities: Array<Ability> = [];
+    abilitiesTimer: Timer;
     health: number;//TODO: put in health and damage!!!!
     damage: (damage: number) => void;//TODO: implement damage function...
 
