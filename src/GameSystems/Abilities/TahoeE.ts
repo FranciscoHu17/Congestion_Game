@@ -29,7 +29,7 @@ export default class TahoeE extends AbilityType {
     }
 
     doAnimation(shooter: GameNode, direction: Vec2, hitbox: Rect): void {
-        (<AnimatedSprite>shooter).animation.play("Ability 1", false, PlayerStates.IDLE);
+        (<AnimatedSprite>shooter).animation.play("Ability 2", false, PlayerStates.IDLE);
         hitbox.position.x = hitbox.position.x + (256 * direction.x);
 
         let start = shooter.position.clone();
@@ -78,7 +78,7 @@ export default class TahoeE extends AbilityType {
     createRequiredAssets(scene: Scene, user: Sprite): [Rect] {
         let line = <Rect>scene.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(user.position.clone().x, 
             user.position.clone().y), size: new Vec2 (384,128)});
-        line.color = Color.GREEN;
+        line.color = Color.MAGENTA;
         this.attackDuration = 1800;
         this.startDelay = 500;
 
