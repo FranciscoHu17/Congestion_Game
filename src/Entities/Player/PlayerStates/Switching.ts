@@ -59,7 +59,7 @@ export default class Switching extends PlayerState{
 		super.update(deltaT);
 		if(!this.switching){
 			this.switching = true
-			this.finished(PlayerStates.IDLE)
+			this.finished(PlayerStates.IDLE);
 			return;
 		}
 
