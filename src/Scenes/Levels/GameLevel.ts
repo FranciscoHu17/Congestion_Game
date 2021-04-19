@@ -17,14 +17,20 @@ import LayerHelper from "../LayerHelper";
 import MainMenu from "../MainMenu";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import LevelSelect from "../LevelSelect";
+import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
+import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
     protected players: Array<AnimatedSprite>;
     protected enemies: Array<AnimatedSprite>;//TODO: add all the enemies into this array
     protected currPlayer: AnimatedSprite;
-    protected playerSpawn: Vec2;               
+    protected playerSpawn: Vec2;
+    
+    
     protected respawnTimer: Timer;
+    protected levelEndTimer: Timer;
 
     //Labels for UI
     protected playerHealth: number = 100 * 2.55;
@@ -39,6 +45,10 @@ export default class GameLevel extends Scene{
     protected helpButton: Button;
     protected mainMenuButton: Button;
     protected resumeButton: Button;
+
+    //Level End
+    protected levelEndArea: Rect
+    protected levelEndLabel: Label
 
     //Layers
     protected primaryLayer: Layer
@@ -87,6 +97,9 @@ export default class GameLevel extends Scene{
                 
             }
         );*/
+        this.levelEndTimer = new Timer(3000, () => {
+
+        });
 
         this.enemies = []
         
@@ -178,7 +191,7 @@ export default class GameLevel extends Scene{
                         //In game menu pop up
                         this.showInGameMenu();
                     }
-                    break;
+                    break;    
                 case Game_Events.GAME_RESUMED:
                     {
                         this.hideInGameMenu();
@@ -192,16 +205,33 @@ export default class GameLevel extends Scene{
                         }
                     }
                     break;
+                
+                case Game_Events.PLAYER_ENTERED_LEVEL_END:
+                    {
+                        if(!this.levelEndTimer.hasRun() && this.levelEndTimer.isStopped()){
+                            // The player has reached the end of the level
+                            this.levelEndTimer.start();
+                            this.levelEndLabel.visible = true
+                            this.levelEndLabel.tweens.play("slideIn");
+                        }
+                    }   
+                    break; 
+                case Game_Events.LEVEL_END:
+                    {
+                        this.levelManager.finishLevel(0)
+                        // Go to level select
+                        this.viewport.follow(null)
+                        this.sceneManager.changeToScene(LevelSelect);
+                    }   
+                    break; 
                 case "menu":
                     {
-                        console.log("I'm in menu");
                         this.viewport.follow(null)
                         this.sceneManager.changeToScene(MainMenu);
                     }
                     break;
                 case "controls":
                     {
-                        console.log("I'm in control....");
                         this.setMenuLayerVisibility(event.type);
                     }
                     break;
@@ -290,9 +320,6 @@ export default class GameLevel extends Scene{
         LayerHelper.controlsLayer(this, Game_Events.GAME_PAUSED);
         LayerHelper.helpLayer(this, Game_Events.GAME_PAUSED);
 
-        console.log(this.controls.getItems());
-        console.log(this.controlsShadow.getItems());
-
         // Add a layer for players and enemies
         this.primaryLayer = this.addLayer("primary", 0);
 
@@ -379,6 +406,29 @@ export default class GameLevel extends Scene{
         this.resumeButton.fontSize = 22;
         this.resumeButton.onClickEventId = Game_Events.GAME_RESUMED;
         this.resumeButton.visible = false;
+
+        this.levelEndLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: this.ingame_menu.position, text: "Level Complete"});
+        this.levelEndLabel.size.set(4000, 120);
+        this.levelEndLabel.borderRadius = 0;
+        this.levelEndLabel.backgroundColor = new Color(34, 32, 52);
+        this.levelEndLabel.textColor = Color.GREEN;
+        this.levelEndLabel.fontSize = 96;
+        this.levelEndLabel.font = "PositiveSystem";
+        this.levelEndLabel.visible = false
+
+        this.levelEndLabel.tweens.add("slideIn", {
+            startDelay: 0,
+            duration: 5000,
+            effects: [
+                {
+                    property: TweenableProperties.posX,
+                    start: -600,
+                    end: 1700,
+                    ease: EaseFunctionType.OUT_SINE
+                }
+            ],
+            onEnd: Game_Events.LEVEL_END
+        });
     }
 
     /**
@@ -395,6 +445,8 @@ export default class GameLevel extends Scene{
             Game_Events.ENEMY_DIED,
             Game_Events.PLAYER_DEATH,
             Game_Events.GAME_PAUSED,
+            Game_Events.PLAYER_ENTERED_LEVEL_END,
+            Game_Events.LEVEL_END,
             "controls",
             "help1",
             "help2",
@@ -489,7 +541,13 @@ export default class GameLevel extends Scene{
      * Initializes the level end area
      */
     protected addLevelEnd(startingTile: Vec2, size: Vec2){
+        startingTile.scale(128,128)
+        startingTile.y -= size.y/2
 
+        this.levelEndArea = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: startingTile, size: size});
+        this.levelEndArea.addPhysics(undefined, undefined, false, true)
+        this.levelEndArea.setTrigger("player", Game_Events.PLAYER_ENTERED_LEVEL_END, null)
+        this.levelEndArea.color = Color.TRANSPARENT
     }
 
 

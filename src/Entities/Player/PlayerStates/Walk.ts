@@ -39,7 +39,6 @@ export default class Walk extends OnGround {
 		let dir = this.getInputDirection();
 
 		if(dir.isZero()){
-			console.log("idle now")
 			this.finished(PlayerStates.IDLE);
 		} 
 		

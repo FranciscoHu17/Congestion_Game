@@ -19,7 +19,6 @@ export default class Dying extends PlayerState{
 	}
 
 	onEnter(options: Record<string, any>): void {
-        console.log("Dying")
         this.owner.animation.play("Death", false, Game_Events.PLAYER_DEATH)
     }
 
