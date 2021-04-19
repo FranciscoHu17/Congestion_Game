@@ -12,8 +12,11 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 import AbilityType from "./AbilityType";
+import PlayerState from "../../Entities/Player/PlayerStates/PlayerState";
 
 export default class TahoeQ extends AbilityType {
+    startDelay: any | number;
+    attackDuration: any | number;
 
     // color: Color;
 
@@ -28,6 +31,7 @@ export default class TahoeQ extends AbilityType {
 
     doAnimation(shooter: GameNode, direction: Vec2, hitbox: Rect): void {
         (<AnimatedSprite>shooter).animation.play("Ability 1", false, PlayerStates.IDLE);
+        hitbox.position.x = hitbox.position.x + (256 * direction.x);
 
         let start = shooter.position.clone();
         let end = shooter.position.clone().add(direction.scaled(900));
@@ -73,15 +77,15 @@ export default class TahoeQ extends AbilityType {
     }
 
     createRequiredAssets(scene: Scene, user: Sprite): [Rect] {
-        let line = <Rect>scene.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(user.position.clone().x+50, user.position.clone().y), size: new Vec2 (50,128)});
+        let line = <Rect>scene.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(user.position.clone().x, 
+            user.position.clone().y), size: new Vec2 (384,128)});
         line.color = Color.GREEN;
-
-        // this.attackDuration = 1800;
-        // this.startDelay = 500;
+        this.attackDuration = 1800;
+        this.startDelay = 500;
 
         line.tweens.add("fade", {
-            startDelay: 0,
-            duration: 300,
+            startDelay: this.startDelay,
+            duration: this.attackDuration,
             effects: [
                 {
                     property: TweenableProperties.alpha,

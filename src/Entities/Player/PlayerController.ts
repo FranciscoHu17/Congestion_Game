@@ -20,8 +20,6 @@ import PlayerState from "./PlayerStates/PlayerState";
 import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import { Game_Events } from "../../Enums/GameEvents";
 import Timer from "../../Wolfie2D/Timing/Timer";
-import AbilityQ from "./PlayerStates/AbilityQ";
-
 import Dying from "./PlayerStates/Dying";
 import BattlerAI from "../../GameSystems/BattlerAI";
 import Ability from "../../GameSystems/Abilities/Ability";
@@ -73,6 +71,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     switchTimer: Timer
     players: Array<AnimatedSprite>
     velocity: Vec2 = Vec2.ZERO;
+    direction: Vec2 = Vec2.ZERO;
 	speed: number = 200;
 	MIN_SPEED: number = 128*4;
     MAX_SPEED: number = 10000; // francisco-CHANGED THIS TEMPORARILY
@@ -171,9 +170,9 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.addState(PlayerStates.SWITCHING, switching)
         this.states.push(switching)
 
-        let abilityQ = new AbilityQ(this, this.owner);
-        this.addState(PlayerStates.ABILITYQ,abilityQ);
-        this.states.push(abilityQ);
+        // let abilityQ = new AbilityQ(this, this.owner);
+        // this.addState(PlayerStates.ABILITYQ,abilityQ);
+        // this.states.push(abilityQ);
 
         //TODO: add more states!!!!!
         // let tahoeQ = new TahoeQ(this, this.owner);
@@ -197,11 +196,35 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         super.changeState(stateName);
     }
 
+    updateDirection(){
+        if(this.velocity.x > 0){
+            this.direction.x = 1;
+        }
+        if(this.velocity.x < 0){
+            this.direction.x = -1;
+        }
+        if(this.velocity.y > 0){
+            this.direction.y = 1;
+        }
+        if(this.velocity.y < 0){
+            this.direction.y = -1;
+        }
+    }
+
     update(deltaT: number): void {
 		super.update(deltaT);
 
+        this.updateDirection();
+
         if(Input.isJustPressed("ability1")){
-            this.abilities[0].use(this.owner, "player", this.velocity);
+            var currentPlayer = (<AnimatedSprite>this.owner).imageId;
+            if(currentPlayer == "tahoe"){
+                this.abilities[0].use(this.owner, "player", this.direction);
+            }else if(currentPlayer == "reno"){
+                this.abilities[1].use(this.owner, "player", this.direction);
+            }else if(currentPlayer == "flow"){
+                this.abilities[2].use(this.owner, "player", this.direction);
+            }
         }else if(Input.isJustPressed("ability2")){
 
         }
@@ -210,6 +233,8 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             this.emitter.fireEvent(Game_Events.GAME_PAUSED);
         }
 
+        Debug.log("Direction", "Direction: "+ this.direction);
+        Debug.log("velocity", "Velocity: "+ this.velocity);
 		if(this.currentState instanceof Jump){
 			Debug.log("playerstate", "Player State: Jump");
 		} else if (this.currentState instanceof Walk){
