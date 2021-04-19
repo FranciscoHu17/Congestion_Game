@@ -1,9 +1,11 @@
+import { PlayerStates } from "../../Entities/Player/PlayerController";
 import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import GameNode, { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Line from "../../Wolfie2D/Nodes/Graphics/Line";
 import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
+import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import Scene from "../../Wolfie2D/Scene/Scene";
@@ -25,6 +27,8 @@ export default class TahoeQ extends AbilityType {
     }
 
     doAnimation(shooter: GameNode, direction: Vec2, hitbox: Rect): void {
+        (<AnimatedSprite>shooter).animation.play("Ability 1", false, PlayerStates.IDLE);
+
         let start = shooter.position.clone();
         let end = shooter.position.clone().add(direction.scaled(900));
         let delta = end.clone().sub(start);
@@ -36,7 +40,7 @@ export default class TahoeQ extends AbilityType {
         let maxY = Math.max(start.y, end.y);
 
         // Get the wall tilemap
-        let walls = <OrthogonalTilemap>shooter.getScene().getLayer("Wall").getItems()[0];
+        let walls = <OrthogonalTilemap>shooter.getScene().getLayer("bottom").getItems()[0];
 
         let minIndex = walls.getColRowAt(new Vec2(minX, minY));
 		let maxIndex = walls.getColRowAt(new Vec2(maxX, maxY));

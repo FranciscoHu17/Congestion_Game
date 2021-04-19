@@ -5,7 +5,7 @@ import Ability from "./Abilities/Ability";
 export default class BattleManager {
     player: BattlerAI;
 
-    enemies: Array<BattlerAI>;
+    enemies: Array<BattlerAI> = [];
 
     handleInteraction(attackerType: string, weapon: Ability){
         if(attackerType === "player"){

@@ -21,9 +21,13 @@ import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import { Game_Events } from "../../Enums/GameEvents";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import AbilityQ from "./PlayerStates/AbilityQ";
-import TahoeQ from "./PlayerStates/Abilities/TahoeQ";
+
 import Dying from "./PlayerStates/Dying";
 import BattlerAI from "../../GameSystems/BattlerAI";
+import Ability from "../../GameSystems/Abilities/Ability";
+import AbilityType from "../../GameSystems/Abilities/AbilityType";
+import BattleManager from "../../GameSystems/BattleManager";
+import TahoeQ from "../../GameSystems/Abilities/TahoeQ";
 
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
@@ -73,6 +77,8 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 	MIN_SPEED: number = 128*4;
     MAX_SPEED: number = 10000; // francisco-CHANGED THIS TEMPORARILY
     tilemap: OrthogonalTilemap;
+
+    abilities: Array<Ability> = [];
     health: number;//TODO: put in health and damage!!!!
     damage: (damage: number) => void;//TODO: implement damage function...
 
@@ -85,12 +91,24 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.players = options.players
         this.viewport = options.viewport
 
+        this.initializeAbilities();
+
         this.switchTimer = new Timer(1500)
 
         this.receiver.subscribe(Game_Events.SWITCHING)
         this.receiver.subscribe(Game_Events.SWITCHING_END)
         this.receiver.subscribe(Game_Events.PLAYER_DYING)
         this.receiver.subscribe(Game_Events.PLAYER_DEATH)
+    }
+
+    //TODO: change all the stats later
+    initializeAbilities(){
+        let battle_manager = new BattleManager();
+
+        let tahoeq = new TahoeQ();
+        tahoeq.initialize({damage: 100, cooldown:1800, displayName: "TahoeQ", spriteKey: "tahoe", useVolume: 100});
+        let tahoeQ = new Ability(this.players[0], tahoeq, battle_manager);
+        this.abilities.push(tahoeQ);
     }
 
 
@@ -158,9 +176,9 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.states.push(abilityQ);
 
         //TODO: add more states!!!!!
-        let tahoeQ = new TahoeQ(this, this.owner);
-        this.addState(PlayerStates.TAHOEQ,tahoeQ);
-        this.states.push(tahoeQ);
+        // let tahoeQ = new TahoeQ(this, this.owner);
+        // this.addState(PlayerStates.TAHOEQ,tahoeQ);
+        // this.states.push(tahoeQ);
 
         let dying = new Dying(this, this.owner)
         this.addState(PlayerStates.DYING, dying)
@@ -181,6 +199,12 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
     update(deltaT: number): void {
 		super.update(deltaT);
+
+        if(Input.isJustPressed("ability1")){
+            this.abilities[0].use(this.owner, "player", this.velocity);
+        }else if(Input.isJustPressed("ability2")){
+
+        }
 
         if(Input.isJustPressed("pause")){
             this.emitter.fireEvent(Game_Events.GAME_PAUSED);

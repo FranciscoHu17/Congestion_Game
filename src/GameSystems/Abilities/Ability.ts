@@ -33,9 +33,6 @@ export default class Ability {
         // Keep a reference to the sprite of that uses this ability
         this.sprite = sprite;
 
-        // Rely on the weapon type to create any necessary assets
-        this.assets = this.type.createRequiredAssets(this.sprite.getScene(), this.sprite);
-
         // Create an event emitter
         this.emitter = new Emitter();
 
@@ -56,6 +53,9 @@ export default class Ability {
         if(!this.cooldownTimer.isStopped()){
             return false;
         }
+
+        // Rely on the weapon type to create any necessary assets
+        this.assets = this.type.createRequiredAssets(this.sprite.getScene(), this.sprite);
 
         // Do a type specific weapon animation
         this.type.doAnimation(user, direction, ...this.assets);
