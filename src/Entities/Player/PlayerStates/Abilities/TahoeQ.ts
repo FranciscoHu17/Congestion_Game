@@ -1,31 +1,31 @@
-import AABB from "../../../Wolfie2D/DataTypes/Shapes/AABB";
-import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
-import GameNode, { TweenableProperties } from "../../../Wolfie2D/Nodes/GameNode";
-import { GraphicType } from "../../../Wolfie2D/Nodes/Graphics/GraphicTypes";
-import Line from "../../../Wolfie2D/Nodes/Graphics/Line";
-import OrthogonalTilemap from "../../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
-import Scene from "../../../Wolfie2D/Scene/Scene";
-import Color from "../../../Wolfie2D/Utils/Color";
-import { EaseFunctionType } from "../../../Wolfie2D/Utils/EaseFunctions";
-import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import { PlayerStates } from "../PlayerController";
-import OnGround from "./OnGround";
-import Input from "../../../Wolfie2D/Input/Input";
-import GameLevel from "../../../Scenes/Levels/GameLevel";
-import PlayerState from "./PlayerState";
-import GameEvent from "../../../Wolfie2D/Events/GameEvent";
-import { Game_Events } from "../../../Enums/GameEvents";
+import AABB from "../../../../Wolfie2D/DataTypes/Shapes/AABB";
+import Vec2 from "../../../../Wolfie2D/DataTypes/Vec2";
+import GameNode, { TweenableProperties } from "../../../../Wolfie2D/Nodes/GameNode";
+import { GraphicType } from "../../../../Wolfie2D/Nodes/Graphics/GraphicTypes";
+import OrthogonalTilemap from "../../../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
+import Scene from "../../../../Wolfie2D/Scene/Scene";
+import Color from "../../../../Wolfie2D/Utils/Color";
+import { EaseFunctionType } from "../../../../Wolfie2D/Utils/EaseFunctions";
+import AnimatedSprite from "../../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import { PlayerStates } from "../../PlayerController";
+import OnGround from "../OnGround";
+import Input from "../../../../Wolfie2D/Input/Input";
+import GameLevel from "../../../../Scenes/Levels/GameLevel";
+import PlayerState from "../PlayerState";
+import GameEvent from "../../../../Wolfie2D/Events/GameEvent";
+import Rect from "../../../../Wolfie2D/Nodes/Graphics/Rect";
 
-export default class BasicAttack extends PlayerState {
+export default class TahoeQ extends PlayerState {
 
+    //TODO: fill in all the info here!
     // Attacking
     private lookDirection: Vec2;
 
     /** The key for this sprite image */
-    spriteKey: string;
+    spriteKey: string = "tahoe";
 
     /** How much damage this weapon does */
-    damage: number;
+    damage: number = 100;
 
     /** Display name */
     displayName: string;
@@ -43,19 +43,16 @@ export default class BasicAttack extends PlayerState {
     owner: AnimatedSprite;
 
     onEnter(options: Record<string, any>): void {
+        console.log("Activating Tahoe's Q..");
 		this.parent.speed = this.parent.MIN_SPEED;
-		this.owner.animation.play("Basic Attack", false);
+		this.owner.animation.play("Ability 1", false);
         this.lookDirection = this.owner.position.dirTo(Input.getGlobalMousePosition());
         this.doAnimation(this.owner, this.lookDirection, this.createRequiredAssets(this.owner.getScene()));
 	}
 
-    handleInput(event: GameEvent){
-		if(event.type == Game_Events.PLAYER_DYING){
-			this.finished(PlayerStates.DYING)
-		}
-	}
+    handleInput(event: GameEvent): void {}
 
-    initialize(options: Record<string, any>): void {
+    initialize(options: Record<string, any>): void {//TODO: might not need this...
         this.damage = options.damage;
         this.cooldown = options.cooldown;
         this.displayName = options.displayName;
@@ -63,7 +60,8 @@ export default class BasicAttack extends PlayerState {
         this.useVolume = options.useVolume;
     }
 
-    doAnimation(shooter: GameNode, direction: Vec2, line: Line): void {
+    doAnimation(shooter: GameNode, direction: Vec2, hitbox: Rect): void {
+        console.log("Generating hitbox...");
         let start = shooter.position.clone();
         let end = shooter.position.clone().add(direction.scaled(900));
         let delta = end.clone().sub(start);
@@ -101,27 +99,21 @@ export default class BasicAttack extends PlayerState {
             }
         }
 
-        line.start = start;
-        line.end = end;
-        line.tweens.play("fade");
+        //TODO: where the hitbox starts and ends if it collides with a wall. change the size!!
+        //line.start = start;
+        // line.end = end;
+        hitbox.tweens.play("fade");
     }
 
-    createRequiredAssets(scene: Scene): Line {
-        let line = <Line>scene.add.graphic(GraphicType.LINE, "primary", {start: new Vec2(-1, 1), end: new Vec2(-1, -1)});
+    createRequiredAssets(scene: Scene): Rect {
+        console.log("creating hitbox...");
+        //line is actually the hitbox
+        let line = <Rect>scene.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(this.owner.position.clone().x+50, this.owner.position.clone().y), size: new Vec2 (50,128)});
         line.color = Color.GREEN;
 
-        if(this.owner.imageId == "tahoe"){
-            this.attackDuration = 1800;
-            this.startDelay = 500;
-        }
-        else if(this.owner.imageId == "reno"){
-            this.attackDuration = 1700;
-            this.startDelay = 200;
-        }
-        else if(this.owner.imageId == "flow"){
-            this.attackDuration = 1700;
-            this.startDelay = 350;
-        }
+        this.attackDuration = 1800;
+        this.startDelay = 500;
+
         line.tweens.add("fade", {
             startDelay: this.startDelay,
             duration: this.attackDuration,
@@ -138,13 +130,14 @@ export default class BasicAttack extends PlayerState {
         return line;
     }
 
-    hits(node: GameNode, line: Line): boolean {
-        return node.collisionShape.getBoundingRect().intersectSegment(line.start, line.end.clone().sub(line.start)) !== null;
+    hits(node: GameNode, hitbox: Rect): boolean {
+        //return node.collisionShape.getBoundingRect().intersectSegment(line.start, line.end.clone().sub(line.start)) !== null;
+        return node.collisionShape.getBoundingRect().overlaps(hitbox.boundary);
     }
 
     update(deltaT: number): void {
 		super.update(deltaT);
-        if(!this.owner.animation.isPlaying("Basic Attack")){
+        if(!this.owner.animation.isPlaying("Ability 1")){
             this.finished(PlayerStates.IDLE);
         }
         let dir = this.getInputDirection();
@@ -157,4 +150,5 @@ export default class BasicAttack extends PlayerState {
     onExit(): Record<string, any> {
         return {};
     }
+
 }

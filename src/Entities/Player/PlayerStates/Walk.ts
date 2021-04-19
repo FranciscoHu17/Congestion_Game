@@ -1,4 +1,6 @@
+import { Game_Events } from "../../../Enums/GameEvents";
 import GameLevel from "../../../Scenes/Levels/GameLevel";
+import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Input from "../../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 //import { HW4_Events } from "../../hw4_enums";

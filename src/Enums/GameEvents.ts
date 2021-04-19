@@ -6,9 +6,10 @@ export enum Game_Events {
     PLAYER_ENTERED_LEVEL_END = "PlayerEnteredLevelEnd",
     LEVEL_START = "LevelStart",
     LEVEL_END = "LevelEnd",
+    PLAYER_DYING = "PlayerDying",
     PLAYER_DEATH = "PlayerDeath",
     SWITCHING = "Switching",
-    SWITCHING_END = "SwitcingEnd",
+    SWITCHING_END = "SwitchingEnd",
     SWITCH_TO_TAHOE = "SwitchToTahoe",
     SWITCH_TO_RENO = "SwitchToReno",
     SWITCH_TO_FLOW = "SwitchToFlow",
@@ -19,5 +20,6 @@ export enum Game_Events {
     FLOW_ABILITY1 = "FlowAbility1",
     FLOW_ABILITY2 = "FlowAbility2",
     GAME_PAUSED = "Paused",
-    GAME_RESUMED = "Resume"
+    GAME_RESUMED = "Resume",
+    ABILITYUSED = "Ability Used"
 }

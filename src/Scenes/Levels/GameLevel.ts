@@ -17,14 +17,20 @@ import LayerHelper from "../LayerHelper";
 import MainMenu from "../MainMenu";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import LevelSelect from "../LevelSelect";
+import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
+import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
     protected players: Array<AnimatedSprite>;
     protected enemies: Array<AnimatedSprite>;//TODO: add all the enemies into this array
     protected currPlayer: AnimatedSprite;
-    protected playerSpawn: Vec2;               
+    protected playerSpawn: Vec2;
+    
+    
     protected respawnTimer: Timer;
+    protected levelEndTimer: Timer;
 
     //Labels for UI
     protected playerHealth: number = 100 * 2.55;
@@ -39,6 +45,10 @@ export default class GameLevel extends Scene{
     protected helpButton: Button;
     protected mainMenuButton: Button;
     protected resumeButton: Button;
+
+    //Level End
+    protected levelEndArea: Rect
+    protected levelEndLabel: Label
 
     //Layers
     protected primaryLayer: Layer
@@ -87,6 +97,9 @@ export default class GameLevel extends Scene{
                 
             }
         );*/
+        this.levelEndTimer = new Timer(3000, () => {
+
+        });
 
         this.enemies = []
         
@@ -156,6 +169,17 @@ export default class GameLevel extends Scene{
                     break;
                 case Game_Events.GAME_PAUSED:
                     {
+                        // Layers visibility set
+                        this.controls.setHidden(true);
+                        this.help1.setHidden(true);
+                        this.help2.setHidden(true);
+                        this.help3.setHidden(true);
+                        this.help4.setHidden(true);
+
+                        // Shadow layers visibility set
+                        this.controlsShadow.setHidden(true);
+                        this.helpShadow.setHidden(true);
+
                         this.currPlayer.disablePhysics();
                         this.currPlayer.freeze();
                         if(this.enemies != null){
@@ -165,13 +189,41 @@ export default class GameLevel extends Scene{
                             }
                         }
                         //In game menu pop up
-                        this.ingame_menu.visible = true;
-                        this.controlsButton.visible = true;
-                        this.helpButton.visible = true;
-                        this.mainMenuButton.visible = true;
-                        this.resumeButton.visible = true;
+                        this.showInGameMenu();
+                    }
+                    break;    
+                case Game_Events.GAME_RESUMED:
+                    {
+                        this.hideInGameMenu();
+                        this.currPlayer.enablePhysics();
+                        this.currPlayer.unfreeze();
+                        if(this.enemies != null){
+                            for(var i = 0; i< this.enemies.length; i++){
+                                this.enemies[i].enablePhysics();
+                                this.enemies[i].unfreeze();
+                            }
+                        }
                     }
                     break;
+                
+                case Game_Events.PLAYER_ENTERED_LEVEL_END:
+                    {
+                        if(!this.levelEndTimer.hasRun() && this.levelEndTimer.isStopped()){
+                            // The player has reached the end of the level
+                            this.levelEndTimer.start();
+                            this.levelEndLabel.visible = true
+                            this.levelEndLabel.tweens.play("slideIn");
+                        }
+                    }   
+                    break; 
+                case Game_Events.LEVEL_END:
+                    {
+                        this.levelManager.finishLevel(0)
+                        // Go to level select
+                        this.viewport.follow(null)
+                        this.sceneManager.changeToScene(LevelSelect);
+                    }   
+                    break; 
                 case "menu":
                     {
                         this.viewport.follow(null)
@@ -210,9 +262,25 @@ export default class GameLevel extends Scene{
             this.respawnPlayer();
         }
     }
+    showInGameMenu(): void {
+        this.ingame_menu.visible = true;
+        this.controlsButton.visible = true;
+        this.helpButton.visible = true;
+        this.mainMenuButton.visible = true;
+        this.resumeButton.visible = true;
+    }
+
+    hideInGameMenu(): void{
+        this.ingame_menu.visible = false;
+        this.controlsButton.visible = false;
+        this.helpButton.visible = false;
+        this.mainMenuButton.visible = false;
+        this.resumeButton.visible = false;
+    }
 
     setMenuLayerVisibility(layer: string): void {
         // Checks which layer should be invisible
+        this.hideInGameMenu();
         let ctrls = (layer != "controls") ? true : false
         let hlp1 = (layer != "help1") ? true : false
         let hlp2 = (layer != "help2") ? true : false
@@ -224,11 +292,11 @@ export default class GameLevel extends Scene{
         this.help1.setHidden(hlp1);
         this.help2.setHidden(hlp2);
         this.help3.setHidden(hlp3);
-        this.help4.setHidden(hlp4)
+        this.help4.setHidden(hlp4);
 
         // Shadow layers visibility set
-        this.controlsShadow.setHidden(ctrls)
-        this.helpShadow.setHidden(hlp1 && hlp2 && hlp3 && hlp4)
+        this.controlsShadow.setHidden(ctrls);
+        this.helpShadow.setHidden(hlp1 && hlp2 && hlp3 && hlp4);
         
     }
 
@@ -241,13 +309,13 @@ export default class GameLevel extends Scene{
         // Add a layer for UI
         this.primaryUI = this.addUILayer("UI");
         this.bossUI = this.addUILayer("bossUI");
-        this.controlsShadow = this.addLayer("controlsShadow", 100);
-        this.helpShadow = this.addLayer("helpShadow", 100);
-        this.controls = this.addLayer("controls", 200);
-        this.help1 = this.addLayer("help1", 200);
-        this.help2 = this.addLayer("help2", 200);
-        this.help3 = this.addLayer("help3", 200);
-        this.help4 = this.addLayer("help4", 200);
+        this.controlsShadow = this.addUILayer("controlsShadow");
+        this.helpShadow = this.addUILayer("helpShadow");
+        this.controls = this.addUILayer("controls");
+        this.help1 = this.addUILayer("help1");
+        this.help2 = this.addUILayer("help2");
+        this.help3 = this.addUILayer("help3");
+        this.help4 = this.addUILayer("help4");
         
         LayerHelper.controlsLayer(this, Game_Events.GAME_PAUSED);
         LayerHelper.helpLayer(this, Game_Events.GAME_PAUSED);
@@ -257,13 +325,13 @@ export default class GameLevel extends Scene{
 
         // Set layer visibility
         this.bossUI.setHidden(true);
-        // this.controlsShadow.setHidden(true);
-        // this.helpShadow.setHidden(true);
-        // this.controls.setHidden(true);
-        // this.help1.setHidden(true);
-        // this.help2.setHidden(true);
-        // this.help3.setHidden(true);
-        // this.help4.setHidden(true);
+        this.controlsShadow.setHidden(true);
+        this.helpShadow.setHidden(true);
+        this.controls.setHidden(true);
+        this.help1.setHidden(true);
+        this.help2.setHidden(true);
+        this.help3.setHidden(true);
+        this.help4.setHidden(true);
 
     }
 
@@ -338,6 +406,29 @@ export default class GameLevel extends Scene{
         this.resumeButton.fontSize = 22;
         this.resumeButton.onClickEventId = Game_Events.GAME_RESUMED;
         this.resumeButton.visible = false;
+
+        this.levelEndLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: this.ingame_menu.position, text: "Level Complete"});
+        this.levelEndLabel.size.set(4000, 120);
+        this.levelEndLabel.borderRadius = 0;
+        this.levelEndLabel.backgroundColor = new Color(34, 32, 52);
+        this.levelEndLabel.textColor = Color.GREEN;
+        this.levelEndLabel.fontSize = 96;
+        this.levelEndLabel.font = "PositiveSystem";
+        this.levelEndLabel.visible = false
+
+        this.levelEndLabel.tweens.add("slideIn", {
+            startDelay: 0,
+            duration: 5000,
+            effects: [
+                {
+                    property: TweenableProperties.posX,
+                    start: -600,
+                    end: 1700,
+                    ease: EaseFunctionType.OUT_SINE
+                }
+            ],
+            onEnd: Game_Events.LEVEL_END
+        });
     }
 
     /**
@@ -354,6 +445,8 @@ export default class GameLevel extends Scene{
             Game_Events.ENEMY_DIED,
             Game_Events.PLAYER_DEATH,
             Game_Events.GAME_PAUSED,
+            Game_Events.PLAYER_ENTERED_LEVEL_END,
+            Game_Events.LEVEL_END,
             "controls",
             "help1",
             "help2",
@@ -448,7 +541,13 @@ export default class GameLevel extends Scene{
      * Initializes the level end area
      */
     protected addLevelEnd(startingTile: Vec2, size: Vec2){
+        startingTile.scale(128,128)
+        startingTile.y -= size.y/2
 
+        this.levelEndArea = <Rect>this.add.graphic(GraphicType.RECT, "primary", {position: startingTile, size: size});
+        this.levelEndArea.addPhysics(undefined, undefined, false, true)
+        this.levelEndArea.setTrigger("player", Game_Events.PLAYER_ENTERED_LEVEL_END, null)
+        this.levelEndArea.color = Color.TRANSPARENT
     }
 
 
@@ -461,8 +560,8 @@ export default class GameLevel extends Scene{
      */
     protected handlePlayerEnemyCollision(player: AnimatedSprite, enemy: AnimatedSprite) {   
         this.currPlayer.disablePhysics();
-        this.currPlayer.animation.play("Death", false, Game_Events.PLAYER_DEATH);
-
+        //this.currPlayer.animation.play("Death", false, Game_Events.PLAYER_DEATH);
+        this.emitter.fireEvent(Game_Events.PLAYER_DYING)
     }
 
     /**
