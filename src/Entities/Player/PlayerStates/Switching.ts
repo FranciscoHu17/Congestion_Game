@@ -58,7 +58,6 @@ export default class Switching extends PlayerState{
 
 	update(deltaT: number): void {
 		if(!this.switching){
-			console.log("end swithcing")
 			this.switching = false
 			this.finished(PlayerStates.IDLE);
 			return;

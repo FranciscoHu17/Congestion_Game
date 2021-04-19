@@ -20,6 +20,7 @@ export default class OnGround extends PlayerState {
 			this.parent.velocity.y = 0;
 		}
 		super.update(deltaT);
+		
 
 		let direction = this.getInputDirection();
 
@@ -29,6 +30,7 @@ export default class OnGround extends PlayerState {
 
 		//TODO: we would have to add Duck here if we wish to implement it.
 		if(Input.isJustPressed("jump")){ //TODO: might have to change input name
+			this.parent.initialDirX = this.parent.direction.x
 			this.finished("jump");
 			this.parent.velocity.y = -128*8;
 			// if(this.parent.velocity.x !== 0){

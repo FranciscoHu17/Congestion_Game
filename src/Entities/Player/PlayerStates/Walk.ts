@@ -37,6 +37,7 @@ export default class Walk extends OnGround {
 		}
 		
 		let dir = this.getInputDirection();
+		this.parent.initialDirX = dir.x
 
 		if(dir.isZero()){
 			this.finished(PlayerStates.IDLE);

@@ -31,6 +31,7 @@ import RenoQ from "../../GameSystems/Abilities/RenoQ";
 import RenoE from "../../GameSystems/Abilities/TahoeE";
 import FlowQ from "../../GameSystems/Abilities/FlowQ";
 import FlowE from "../../GameSystems/Abilities/FlowE";
+import UsingAbility from "./PlayerStates/UsingAbility";
 
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
@@ -54,6 +55,7 @@ export enum PlayerStates {//TODO: Do we have to change all the animation names t
     SWITCHING = "switch",
     // SWITCHINGIN = "switching in",
     // SWITCHINGOUT = "switching out",
+    ABILITY = "ability",
     BASICATTACK = "basic attack",
     ABILITYQ = "ability 1",
     TAHOEQ = "tahoe q",
@@ -77,6 +79,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     players: Array<AnimatedSprite>
     velocity: Vec2 = Vec2.ZERO;
     direction: Vec2 = new Vec2(1,0);
+    initialDirX: number; 
 	speed: number = 200;
 	MIN_SPEED: number = 128*4;
     MAX_SPEED: number = 10000; // francisco-CHANGED THIS TEMPORARILY
@@ -89,6 +92,9 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
     initializeAI(owner: GameNode, options: Record<string, any>){
         this.owner = owner;
+        this.switchTimer = new Timer(1500)
+        this.abilitiesTimer = new Timer(1500)
+        this.initialDirX = 1
 
         this.initializePlatformer();
 
@@ -98,13 +104,13 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
         this.initializeAbilities();
 
-        this.switchTimer = new Timer(1500)
-        this.abilitiesTimer = new Timer(1500)
+        
 
         this.receiver.subscribe(Game_Events.SWITCHING)
         this.receiver.subscribe(Game_Events.SWITCHING_END)
         this.receiver.subscribe(Game_Events.PLAYER_DYING)
         this.receiver.subscribe(Game_Events.PLAYER_DEATH)
+        this.receiver.subscribe(Game_Events.ABILITYFINISHED)
     }
 
     //TODO: change all the stats later
@@ -117,7 +123,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.abilities.push(tahoeQ);
 
         let renoq = new RenoQ();
-        renoq.initialize({damage: 100, cooldown:1800, displayName: "RenoQ", spriteKey: "reno", useVolume: 100});
+        renoq.initialize({damage: 100, cooldown:1000, displayName: "RenoQ", spriteKey: "reno", useVolume: 100});
         let renoQ = new Ability(this.players[1], renoq, battle_manager);
         this.abilities.push(renoQ);
 
@@ -206,6 +212,10 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.addState(PlayerStates.DYING, dying)
         this.states.push(dying)
 
+        let using_ability = new UsingAbility(this, this.owner)
+        this.addState(PlayerStates.ABILITY, using_ability)
+        this.states.push(using_ability)
+
         this.initialize(PlayerStates.IDLE);
     }
 
@@ -238,10 +248,12 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 		super.update(deltaT);
 
         this.updateDirection();
+        
 
         //TODO: use a timer to make sure to only use one ability at a time
         if(Input.isJustPressed("ability1") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
+            super.changeState(PlayerStates.ABILITY)
 
             if(currentPlayer == "tahoe"){
                 this.abilities[0].use(this.owner, "player", this.direction);
@@ -253,9 +265,10 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                 this.abilities[2].use(this.owner, "player", this.direction);
                 this.abilitiesTimer.start(this.abilities[2].type.cooldown)
             }
-            super.changeState(PlayerStates.IDLE)
+            
         }else if(Input.isJustPressed("ability2") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
+            super.changeState(PlayerStates.ABILITY)
 
             if(currentPlayer == "tahoe"){
                 this.abilities[3].use(this.owner, "player", this.direction);
@@ -267,7 +280,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                 this.abilities[5].use(this.owner, "player", this.direction);
                 this.abilitiesTimer.start(this.abilities[5].type.cooldown)
             }
-            super.changeState(PlayerStates.IDLE)
+            
         }
 
         if(Input.isJustPressed("pause")){

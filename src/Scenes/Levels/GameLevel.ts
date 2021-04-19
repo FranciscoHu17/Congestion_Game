@@ -110,7 +110,7 @@ export default class GameLevel extends Scene{
         while(this.receiver.hasNextEvent()){
             let event= this.receiver.getNextEvent()
             console.log(event)
-
+            
             switch(event.type){
                 case Game_Events.SWITCH_TO_FLOW:
                     {
