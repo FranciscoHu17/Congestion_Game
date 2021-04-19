@@ -5,7 +5,6 @@ import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 import MathUtils from "../../../Wolfie2D/Utils/MathUtils";
 import { PlayerStates } from "../PlayerController";
 import PlayerState from "./PlayerState";
-import { PlayerStates } from "../PlayerController";
 
 export default class OnGround extends PlayerState {
 	onEnter(options: Record<string, any>): void {}
