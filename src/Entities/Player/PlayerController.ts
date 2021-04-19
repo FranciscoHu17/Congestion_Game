@@ -99,6 +99,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.initializeAbilities();
 
         this.switchTimer = new Timer(1500)
+        this.abilitiesTimer = new Timer(1500)
 
         this.receiver.subscribe(Game_Events.SWITCHING)
         this.receiver.subscribe(Game_Events.SWITCHING_END)
@@ -121,7 +122,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.abilities.push(renoQ);
 
         let flowq = new FlowQ();
-        flowq.initialize({damage: 100, cooldown:1800, displayName: "FlowQ", spriteKey: "flow", useVolume: 100});
+        flowq.initialize({damage: 0, cooldown:1800, displayName: "FlowQ", spriteKey: "flow", useVolume: 100});
         let flowQ = new Ability(this.players[2], flowq, battle_manager);
         this.abilities.push(flowQ);
 
@@ -136,7 +137,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.abilities.push(renoE);
 
         let flowe = new FlowE();
-        flowe.initialize({damage: 100, cooldown:1800, displayName: "FlowE", spriteKey: "flow", useVolume: 100});
+        flowe.initialize({damage: 0, cooldown:1800, displayName: "FlowE", spriteKey: "flow", useVolume: 100});
         let flowE = new Ability(this.players[2], flowe, battle_manager);
         this.abilities.push(flowE);
     }
@@ -239,24 +240,34 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.updateDirection();
 
         //TODO: use a timer to make sure to only use one ability at a time
-        if(Input.isJustPressed("ability1")){
+        if(Input.isJustPressed("ability1") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
+
             if(currentPlayer == "tahoe"){
                 this.abilities[0].use(this.owner, "player", this.direction);
+                this.abilitiesTimer.start(this.abilities[0].type.cooldown)
             }else if(currentPlayer == "reno"){
                 this.abilities[1].use(this.owner, "player", this.direction);
+                this.abilitiesTimer.start(this.abilities[1].type.cooldown)
             }else if(currentPlayer == "flow"){
                 this.abilities[2].use(this.owner, "player", this.direction);
+                this.abilitiesTimer.start(this.abilities[2].type.cooldown)
             }
-        }else if(Input.isJustPressed("ability2")){
+            super.changeState(PlayerStates.IDLE)
+        }else if(Input.isJustPressed("ability2") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
+
             if(currentPlayer == "tahoe"){
                 this.abilities[3].use(this.owner, "player", this.direction);
+                this.abilitiesTimer.start(this.abilities[3].type.cooldown)
             }else if(currentPlayer == "reno"){
                 this.abilities[4].use(this.owner, "player", this.direction);
+                this.abilitiesTimer.start(this.abilities[4].type.cooldown)
             }else if(currentPlayer == "flow"){
                 this.abilities[5].use(this.owner, "player", this.direction);
+                this.abilitiesTimer.start(this.abilities[5].type.cooldown)
             }
+            super.changeState(PlayerStates.IDLE)
         }
 
         if(Input.isJustPressed("pause")){

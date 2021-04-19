@@ -19,7 +19,7 @@ export default class Switching extends PlayerState{
 	constructor(parent: StateMachine, owner: GameNode){
 		super(parent, owner)
 
-		this.switching = true
+		this.switching = false
 	}
 
 	onEnter(options: Record<string, any>): void {
@@ -36,6 +36,7 @@ export default class Switching extends PlayerState{
 				this.emitter.fireEvent(Game_Events.SWITCH_TO_FLOW);
 			}
 			this.parent.switchTimer.start()
+			this.switching = true
 		}
 		else{
 			this.switching = false
@@ -56,9 +57,9 @@ export default class Switching extends PlayerState{
 	}
 
 	update(deltaT: number): void {
-		super.update(deltaT);
 		if(!this.switching){
-			this.switching = true
+			console.log("end swithcing")
+			this.switching = false
 			this.finished(PlayerStates.IDLE);
 			return;
 		}

@@ -29,7 +29,7 @@ export default class TahoeQ extends AbilityType {
     }
 
     doAnimation(shooter: GameNode, direction: Vec2, hitbox: Rect): void {
-        (<AnimatedSprite>shooter).animation.play("Ability 1", false, PlayerStates.IDLE);
+        (<AnimatedSprite>shooter).animation.play("Ability 1", false);
         hitbox.position.x = hitbox.position.x + (256 * direction.x);
 
         let start = shooter.position.clone();
