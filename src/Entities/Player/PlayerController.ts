@@ -115,7 +115,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
     //TODO: change all the stats later
     initializeAbilities(){
-        let battle_manager = new BattleManager();
+        let battle_manager = BattleManager.getInstance();
 
         let tahoeq = new TahoeQ();
         tahoeq.initialize({damage: 100, cooldown:1800, displayName: "TahoeQ", spriteKey: "tahoe", useVolume: 100});
