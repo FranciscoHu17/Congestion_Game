@@ -28,9 +28,10 @@ import BattleManager from "../../GameSystems/BattleManager";
 import TahoeQ from "../../GameSystems/Abilities/TahoeQ";
 import TahoeE from "../../GameSystems/Abilities/TahoeE";
 import RenoQ from "../../GameSystems/Abilities/RenoQ";
-import RenoE from "../../GameSystems/Abilities/TahoeE";
+import RenoE from "../../GameSystems/Abilities/RenoE";
 import FlowQ from "../../GameSystems/Abilities/FlowQ";
 import FlowE from "../../GameSystems/Abilities/FlowE";
+import Reno_E from "./PlayerStates/Reno_E";
 
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
@@ -104,6 +105,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.receiver.subscribe(Game_Events.SWITCHING_END)
         this.receiver.subscribe(Game_Events.PLAYER_DYING)
         this.receiver.subscribe(Game_Events.PLAYER_DEATH)
+        this.receiver.subscribe(Game_Events.RENO_ABILITY2)
     }
 
     //TODO: change all the stats later
@@ -121,7 +123,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.abilities.push(renoQ);
 
         let flowq = new FlowQ();
-        flowq.initialize({damage: 100, cooldown:1800, displayName: "FlowQ", spriteKey: "flow", useVolume: 100});
+        flowq.initialize({damage: 0, cooldown:1800, displayName: "FlowQ", spriteKey: "flow", useVolume: 100});
         let flowQ = new Ability(this.players[2], flowq, battle_manager);
         this.abilities.push(flowQ);
 
@@ -131,12 +133,12 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.abilities.push(tahoeE);
 
         let renoe = new RenoE();
-        renoe.initialize({damage: 100, cooldown:1800, displayName: "RenoE", spriteKey: "reno", useVolume: 100});
+        renoe.initialize({damage: 0, cooldown:1800, displayName: "RenoE", spriteKey: "reno", useVolume: 100});
         let renoE = new Ability(this.players[1], renoe, battle_manager);
         this.abilities.push(renoE);
 
         let flowe = new FlowE();
-        flowe.initialize({damage: 100, cooldown:1800, displayName: "FlowE", spriteKey: "flow", useVolume: 100});
+        flowe.initialize({damage: 0, cooldown:1800, displayName: "FlowE", spriteKey: "flow", useVolume: 100});
         let flowE = new Ability(this.players[2], flowe, battle_manager);
         this.abilities.push(flowE);
     }
@@ -204,6 +206,10 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         let dying = new Dying(this, this.owner)
         this.addState(PlayerStates.DYING, dying)
         this.states.push(dying)
+
+        let renoe = new Reno_E(this, this.owner);
+        this.addState(PlayerStates.RENOE, renoe);
+        this.states.push(renoe);
 
         this.initialize(PlayerStates.IDLE);
     }

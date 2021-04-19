@@ -144,6 +144,16 @@
 				{ "index": 65, "duration": 4},
 				{ "index": 66, "duration": 4}
 			]
+		},
+		{
+			"name": "Ability 2 Finish",
+			"repeat": false,
+			"frames": [
+				{ "index": 66, "duration": 4},
+				{ "index": 65, "duration": 4},
+				{ "index": 64, "duration": 4},
+				{ "index": 63, "duration": 4}
+			]
 		}
 	]
 }

@@ -9,6 +9,9 @@ export default abstract class InAir extends PlayerState {
 		if(event.type == Game_Events.PLAYER_DYING){
 			this.finished(PlayerStates.DYING)
 		}
+		if(event.type == Game_Events.RENO_ABILITY2){
+			this.finished(PlayerStates.RENOE)
+		}
 	}
 
     update(deltaT: number): void {
