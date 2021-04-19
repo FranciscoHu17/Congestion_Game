@@ -38,6 +38,7 @@ export default class Walk extends OnGround {
 		
 		let dir = this.getInputDirection();
 		this.parent.initialDirX = dir.x
+		this.owner.colliderOffset.x = (this.owner.colliderOffset.x<0) == (this.parent.direction.x>0) ? this.owner.colliderOffset.x : -1*this.owner.colliderOffset.x;
 
 		if(dir.isZero()){
 			this.finished(PlayerStates.IDLE);
