@@ -59,7 +59,9 @@ export default class Level1 extends GameLevel{
         super.startScene() 
 
         // uhh might not be exact coordinates. On Tiled the top left is (112, 6)
-        this.addLevelEnd(new Vec2(112, 6), new Vec2(2, 2));
+        //this.addLevelEnd(new Vec2(112, 6), new Vec2(2, 2));
+        this.addLevelEnd(new Vec2(114, 25), new Vec2(2*256,2*256)) /** USE THIS FOR NOW */
+        //this.addLevelEnd(new Vec2(10, 29), new Vec2(2*256,2*256))
 
         // only one level for now
         //this.nextLevel = Level2;
