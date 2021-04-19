@@ -32,7 +32,6 @@ import RenoE from "../../GameSystems/Abilities/RenoE";
 import FlowQ from "../../GameSystems/Abilities/FlowQ";
 import FlowE from "../../GameSystems/Abilities/FlowE";
 import Reno_E from "./PlayerStates/Reno_E";
-import UsingAbility from "./PlayerStates/UsingAbility";
 
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
@@ -56,7 +55,6 @@ export enum PlayerStates {//TODO: Do we have to change all the animation names t
     SWITCHING = "switch",
     // SWITCHINGIN = "switching in",
     // SWITCHINGOUT = "switching out",
-    ABILITY = "ability",
     BASICATTACK = "basic attack",
     ABILITYQ = "ability 1",
     TAHOEQ = "tahoe q",
@@ -80,7 +78,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     players: Array<AnimatedSprite>
     velocity: Vec2 = Vec2.ZERO;
     direction: Vec2 = new Vec2(1,0);
-    initialDirX: number;
 	speed: number = 200;
 	MIN_SPEED: number = 128*4;
     MAX_SPEED: number = 10000; // francisco-CHANGED THIS TEMPORARILY
@@ -93,9 +90,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
     initializeAI(owner: GameNode, options: Record<string, any>){
         this.owner = owner;
-        this.switchTimer = new Timer(1500)
-        this.abilitiesTimer = new Timer(1500)
-        this.initialDirX = 1
 
         this.initializePlatformer();
 
@@ -105,19 +99,18 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
         this.initializeAbilities();
 
-
+        this.switchTimer = new Timer(1500)
 
         this.receiver.subscribe(Game_Events.SWITCHING)
         this.receiver.subscribe(Game_Events.SWITCHING_END)
         this.receiver.subscribe(Game_Events.PLAYER_DYING)
         this.receiver.subscribe(Game_Events.PLAYER_DEATH)
         this.receiver.subscribe(Game_Events.RENO_ABILITY2)
-        this.receiver.subscribe(Game_Events.ABILITYFINISHED)
     }
 
     //TODO: change all the stats later
     initializeAbilities(){
-        let battle_manager = BattleManager.getInstance();
+        let battle_manager = new BattleManager();
 
         let tahoeq = new TahoeQ();
         tahoeq.initialize({damage: 100, cooldown:1800, displayName: "TahoeQ", spriteKey: "tahoe", useVolume: 100});
@@ -125,7 +118,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.abilities.push(tahoeQ);
 
         let renoq = new RenoQ();
-        renoq.initialize({damage: 100, cooldown:1000, displayName: "RenoQ", spriteKey: "reno", useVolume: 100});
+        renoq.initialize({damage: 100, cooldown:1800, displayName: "RenoQ", spriteKey: "reno", useVolume: 100});
         let renoQ = new Ability(this.players[1], renoq, battle_manager);
         this.abilities.push(renoQ);
 
@@ -218,10 +211,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.addState(PlayerStates.RENOE, renoe);
         this.states.push(renoe);
 
-        let using_ability = new UsingAbility(this, this.owner)
-        this.addState(PlayerStates.ABILITY, using_ability)
-        this.states.push(using_ability)
-
         this.initialize(PlayerStates.IDLE);
     }
 
@@ -255,38 +244,25 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
         this.updateDirection();
 
-
         //TODO: use a timer to make sure to only use one ability at a time
-        if(Input.isJustPressed("ability1") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
+        if(Input.isJustPressed("ability1")){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
-            super.changeState(PlayerStates.ABILITY)
-
             if(currentPlayer == "tahoe"){
                 this.abilities[0].use(this.owner, "player", this.direction);
-                this.abilitiesTimer.start(this.abilities[0].type.cooldown)
             }else if(currentPlayer == "reno"){
                 this.abilities[1].use(this.owner, "player", this.direction);
-                this.abilitiesTimer.start(this.abilities[1].type.cooldown)
             }else if(currentPlayer == "flow"){
                 this.abilities[2].use(this.owner, "player", this.direction);
-                this.abilitiesTimer.start(this.abilities[2].type.cooldown)
             }
-
-        }else if(Input.isJustPressed("ability2") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
+        }else if(Input.isJustPressed("ability2")){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
-            super.changeState(PlayerStates.ABILITY)
-
             if(currentPlayer == "tahoe"){
                 this.abilities[3].use(this.owner, "player", this.direction);
-                this.abilitiesTimer.start(this.abilities[3].type.cooldown)
             }else if(currentPlayer == "reno"){
                 this.abilities[4].use(this.owner, "player", this.direction);
-                this.abilitiesTimer.start(this.abilities[4].type.cooldown)
             }else if(currentPlayer == "flow"){
                 this.abilities[5].use(this.owner, "player", this.direction);
-                this.abilitiesTimer.start(this.abilities[5].type.cooldown)
             }
-
         }
 
         if(Input.isJustPressed("pause")){

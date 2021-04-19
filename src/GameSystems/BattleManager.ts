@@ -3,34 +3,15 @@ import BattlerAI from "./BattlerAI";
 import Ability from "./Abilities/Ability";
 
 export default class BattleManager {
-    private static instance: BattleManager;
+    player: BattlerAI;
 
-    private player: BattlerAI;
-
-    private enemies: Array<BattlerAI> = [];
-
-
-    /* ######################################## SINGLETON ########################################*/
-    /**
-     * Returns the current instance of this class or a new instance if none exist
-     * @returns The level Manager
-     */
-     static getInstance(): BattleManager {
-        if(!this.instance){
-            this.instance = new BattleManager();
-        }
-
-        return this.instance;
-    }
-
+    enemies: Array<BattlerAI> = [];
 
     handleInteraction(attackerType: string, weapon: Ability){
         if(attackerType === "player"){
             // Check for collisions with enemies
-            console.log(this.enemies)
             for(let enemy of this.enemies){
                 if(weapon.interact(enemy.owner)){
-                    console.log(enemy)
                     enemy.damage(weapon.type.damage);
                 }
             }
@@ -46,15 +27,7 @@ export default class BattleManager {
         this.player = player;
     }
 
-    getPlayer(): BattlerAI{
-        return this.player;
-    }
-
     setEnemies(enemies: Array<BattlerAI>): void {
         this.enemies = enemies;
-    }
-
-    getEnemies(): Array<BattlerAI>{
-        return this.enemies;
     }
 }

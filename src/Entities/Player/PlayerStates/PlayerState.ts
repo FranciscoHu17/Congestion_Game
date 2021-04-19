@@ -11,7 +11,6 @@ export default abstract class PlayerState extends State {
 	owner: GameNode;
 	gravity: number = 128*10;
 	parent: PlayerController;
-	abilityFinished: boolean;
 
 	constructor(parent: StateMachine, owner: GameNode){
 		super(parent);

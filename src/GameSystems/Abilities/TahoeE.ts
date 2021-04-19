@@ -1,5 +1,4 @@
 import { PlayerStates } from "../../Entities/Player/PlayerController";
-import { Game_Events } from "../../Enums/GameEvents";
 import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import GameNode, { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
@@ -30,7 +29,7 @@ export default class TahoeE extends AbilityType {
     }
 
     doAnimation(shooter: GameNode, direction: Vec2, hitbox: Rect): void {
-        (<AnimatedSprite>shooter).animation.play("Ability 2", false, Game_Events.ABILITYFINISHED);
+        (<AnimatedSprite>shooter).animation.play("Ability 2", false, PlayerStates.IDLE);
         hitbox.position.x = hitbox.position.x + (256 * direction.x);
 
         let start = shooter.position.clone();

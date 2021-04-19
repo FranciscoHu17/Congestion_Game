@@ -72,7 +72,7 @@ export default class Level1 extends GameLevel{
         for(let pos of [new Vec2(19.5, 26.5), new Vec2(33.5, 22.5), 
             new Vec2(65.5, 11.5), new Vec2(67.5, 11.5), new Vec2(65.5, 13.5), new Vec2(67.5, 13.5), new Vec2(65.5, 15.5), new Vec2(67.5, 15.5),
             new Vec2(65.5, 28.5), new Vec2(9.5, 28.5), new Vec2(21.5, 23.5)] ){
-            let enemy = this.addEnemy("enemy", pos, {ability: "none", health: 1, player: this.currPlayer});
+            let enemy = this.addEnemy("enemy", pos, {player: this.currPlayer});
             enemy.collisionShape.halfSize.set(40,50)
         }
         console.log(this.enemies)

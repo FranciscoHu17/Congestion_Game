@@ -1,6 +1,4 @@
-import { Game_Events } from "../../../Enums/GameEvents";
 import GameLevel from "../../../Scenes/Levels/GameLevel";
-import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Input from "../../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { PlayerStates } from "../PlayerController";
@@ -12,8 +10,7 @@ export default class Idle extends OnGround {
 
 	onEnter(options: Record<string, any>): void {
 		this.parent.speed = this.parent.MIN_SPEED;
-		//this.owner.animation.play("Idle", true);//TODO: change the animation name
-		this.owner.animation.play("Idle",true)
+		this.owner.animation.play("Idle", true);//TODO: change the animation name
 	}
 
 	update(deltaT: number): void {
@@ -37,7 +34,6 @@ export default class Idle extends OnGround {
 		else{
 			
 			let dir = this.getInputDirection();
-			this.parent.initialDirX = this.parent.direction.x
 
 			if(!dir.isZero() && dir.y === 0){
 				this.finished(PlayerStates.WALK);
