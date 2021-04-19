@@ -20,6 +20,7 @@ import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import LevelSelect from "../LevelSelect";
 import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
+import EnemyController from "../../Entities/Enemy/EnemyController";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
@@ -486,8 +487,9 @@ export default class GameLevel extends Scene{
 
             // Set character collision boxes
             if(player.imageId === "tahoe")  {
-                player.colliderOffset.set(-12,12)
+                player.colliderOffset.set(-12,0)
                 player.collisionShape.halfSize.x =32
+                player.collisionShape.halfSize.y =50
             }
             else if(player.imageId === "reno"){
                 player.collisionShape.halfSize.x =32
@@ -524,15 +526,17 @@ export default class GameLevel extends Scene{
      * @param tilePos The tilemap position to add the enemy to
      * @param aiOptions The options for the enemy AI
      */
-     protected addEnemy(spriteKey: string, tilePos: Vec2, aiOptions: Record<string, any>): void {
+     protected addEnemy(spriteKey: string, tilePos: Vec2, aiOptions: Record<string, any>): AnimatedSprite {
         let enemy = this.add.animatedSprite(spriteKey, "primary");
         enemy.position.set(tilePos.x*128, tilePos.y*128);
         enemy.addPhysics();
-        //enemy.addAI(EnemyController, aiOptions);
+        enemy.addAI(EnemyController, aiOptions);
         enemy.setGroup("enemy");
         enemy.animation.play("Idle", true);
         enemy.setTrigger("player", Game_Events.PLAYER_HIT_ENEMY, null);
         this.enemies.push(enemy);
+
+        return enemy
     }
 
     /**

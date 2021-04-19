@@ -21,12 +21,6 @@ export default class OnGround extends PlayerState {
 		}
 		super.update(deltaT);
 
-		if(Input.isJustPressed("ability1")){
-            this.finished(PlayerStates.ABILITYQ);
-        }else if(Input.isJustPressed("ability2")){
-
-        }
-
 		let direction = this.getInputDirection();
 
 		if(direction.x !== 0){

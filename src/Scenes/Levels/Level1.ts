@@ -1,3 +1,4 @@
+import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import Debug from "../../Wolfie2D/Debug/Debug";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
@@ -71,8 +72,10 @@ export default class Level1 extends GameLevel{
         for(let pos of [new Vec2(19.5, 26.5), new Vec2(33.5, 22.5), 
             new Vec2(65.5, 11.5), new Vec2(67.5, 11.5), new Vec2(65.5, 13.5), new Vec2(67.5, 13.5), new Vec2(65.5, 15.5), new Vec2(67.5, 15.5),
             new Vec2(65.5, 28.5), new Vec2(9.5, 28.5), new Vec2(21.5, 23.5)] ){
-            this.addEnemy("enemy", pos, {});
+            let enemy = this.addEnemy("enemy", pos, {player: this.currPlayer});
+            enemy.collisionShape.halfSize.set(40,50)
         }
+        console.log(this.enemies)
     }
 
     /**

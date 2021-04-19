@@ -14,12 +14,6 @@ export default abstract class InAir extends PlayerState {
     update(deltaT: number): void {
         super.update(deltaT);
 
-        if(Input.isJustPressed("ability1")){
-            this.finished(PlayerStates.ABILITYQ);
-        }else if(Input.isJustPressed("ability2")){
-
-        }
-
         let dir = this.getInputDirection();
 
 		this.parent.velocity.x += dir.x * this.parent.speed/3.5 - 0.3*this.parent.velocity.x; //TODO: do we want to change this?
