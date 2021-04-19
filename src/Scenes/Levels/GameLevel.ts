@@ -20,6 +20,7 @@ import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import LevelSelect from "../LevelSelect";
 import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
+import EnemyController from "../../Entities/Enemy/EnemyController";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
@@ -528,7 +529,7 @@ export default class GameLevel extends Scene{
         let enemy = this.add.animatedSprite(spriteKey, "primary");
         enemy.position.set(tilePos.x*128, tilePos.y*128);
         enemy.addPhysics();
-        //enemy.addAI(EnemyController, aiOptions);
+        enemy.addAI(EnemyController, aiOptions);
         enemy.setGroup("enemy");
         enemy.animation.play("Idle", true);
         enemy.setTrigger("player", Game_Events.PLAYER_HIT_ENEMY, null);

@@ -9,6 +9,9 @@ import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import GameNode from "../../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
+import Timer from "../../Wolfie2D/Timing/Timer";
+import Attack from "./EnemyStates/Attack";
+import Idle from "./EnemyStates/Idle";
 
 
 export default class EnemyController extends StateMachineAI implements BattlerAI {
@@ -29,6 +32,10 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
     /** A reference to the player object */
     player: GameNode;
 
+    /** Timers */
+    exitTimer: Timer;
+    pollTimer: Timer;
+
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
 
@@ -38,14 +45,30 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
 
         this.player = options.player;
 
+
+        this.exitTimer = new Timer(1000)
+        this.pollTimer = new Timer(1000)
+
+        this.initializeStates()
+
         // Subscribe to events
         //this.receiver.subscribe(hw3_Events.SHOT_FIRED);
         console.log("Subscribed to event");
 
         // Initialize to the default state
-        this.initialize(EnemyStates.DEFAULT);
+        //this.initialize(EnemyStates.DEFAULT);
 
         this.getPlayerPosition();
+    }
+
+    initializeStates(){
+        let idle = new Idle(this, this.owner);
+        this.addState(EnemyStates.IDLE, idle);
+
+        let attack = new Attack(this, this.owner)
+        this.addState(EnemyStates.ATTACK, attack)
+
+        this.initialize(EnemyStates.IDLE)
     }
 
     activate(options: Record<string, any>): void {
