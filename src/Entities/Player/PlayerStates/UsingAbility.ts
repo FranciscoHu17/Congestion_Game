@@ -27,6 +27,9 @@ export default class UsingAbility extends PlayerState{
         if(event.type == Game_Events.ABILITYFINISHED){
 			this.finished(PlayerStates.IDLE)
 		}
+		if(event.type == Game_Events.PLAYER_DYING){
+			this.finished(PlayerStates.DYING)
+		}
     }
 
 	update(deltaT: number): void {
