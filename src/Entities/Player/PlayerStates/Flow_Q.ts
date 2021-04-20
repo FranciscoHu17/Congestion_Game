@@ -31,8 +31,8 @@ export default class Flow_Q extends PlayerState {
             if((!walls.isTileCollidable(top.x, top.y)) && (!walls.isTileCollidable(bottom.x, bottom.y)) 
                 && (!walls.isTileCollidable(middle.x, middle.y))){
                 this.owner.position.copy(new Vec2(teleportx, this.owner.position.y));
-            }else if((!walls.isTileCollidable(top.x, top.y -256)) && (!walls.isTileCollidable(bottom.x, bottom.y-256)) 
-            && (!walls.isTileCollidable(middle.x, middle.y-256))){
+            }else if((!walls.isTileCollidable(top.x, top.y -2)) && (!walls.isTileCollidable(bottom.x, bottom.y-2)) 
+            && (!walls.isTileCollidable(middle.x, middle.y-2))){
                 this.owner.position.copy(new Vec2(teleportx, this.owner.position.y - 256));
             }
         }
