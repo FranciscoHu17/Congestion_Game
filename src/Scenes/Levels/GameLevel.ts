@@ -21,6 +21,8 @@ import LevelSelect from "../LevelSelect";
 import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 import EnemyController from "../../Entities/Enemy/EnemyController";
+import BattleManager from "../../GameSystems/BattleManager";
+import BattlerAI from "../../GameSystems/BattlerAI";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
@@ -74,6 +76,9 @@ export default class GameLevel extends Scene{
     // Number of characters
     protected static readonly NUM_OF_CHARACTERS = 3;
 
+    // The battle manager for the scene
+    protected battleManager: BattleManager;
+
     /**
      * TODO
      * 
@@ -81,6 +86,8 @@ export default class GameLevel extends Scene{
      */
     startScene():void {
         this.enemies = []
+        // Create the battle manager
+        this.battleManager = BattleManager.getInstance();
         this.originalViewportPosX = this.viewport.getCenter().x
         this.originalViewportPosY = this.viewport.getCenter().y
 
@@ -102,19 +109,18 @@ export default class GameLevel extends Scene{
 
         });
 
-        this.enemies = []
-        
     }
 
     updateScene(deltaT: number){
         while(this.receiver.hasNextEvent()){
             let event= this.receiver.getNextEvent()
             console.log(event)
-
+            
             switch(event.type){
                 case Game_Events.SWITCH_TO_FLOW:
                     {
                         this.currPlayer = this.players[2];
+                        this.battleManager.setPlayer(<BattlerAI>this.currPlayer._ai);
                         this.renoIcons.visible = false;
                         this.tahoeIcons.visible = false;
                         this.flowIcons.visible = true;
@@ -123,6 +129,7 @@ export default class GameLevel extends Scene{
                 case Game_Events.SWITCH_TO_RENO:
                     {
                         this.currPlayer = this.players[1];
+                        this.battleManager.setPlayer(<BattlerAI>this.currPlayer._ai);
                         this.renoIcons.visible = true;
                         this.tahoeIcons.visible = false;
                         this.flowIcons.visible = false;
@@ -131,6 +138,7 @@ export default class GameLevel extends Scene{
                 case Game_Events.SWITCH_TO_TAHOE:
                     {
                         this.currPlayer = this.players[0];
+                        this.battleManager.setPlayer(<BattlerAI>this.currPlayer._ai);
                         this.renoIcons.visible = false;
                         this.tahoeIcons.visible = true;
                         this.flowIcons.visible = false;
@@ -535,10 +543,15 @@ export default class GameLevel extends Scene{
         enemy.animation.play("Idle", true);
         enemy.setTrigger("player", Game_Events.PLAYER_HIT_ENEMY, null);
         this.enemies.push(enemy);
-
+        
+        this.battleManager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
+        
         return enemy
     }
 
+    getBattleManager(): BattleManager{
+        return this.battleManager;
+    }
     /**
      * TODO
      * 

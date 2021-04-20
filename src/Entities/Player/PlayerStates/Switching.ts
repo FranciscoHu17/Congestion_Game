@@ -5,7 +5,9 @@ import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Input from "../../../Wolfie2D/Input/Input";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 import Timer from "../../../Wolfie2D/Timing/Timer";
+import MathUtils from "../../../Wolfie2D/Utils/MathUtils";
 import { PlayerStates } from "../PlayerController";
 
 import OnGround from "./OnGround";
@@ -19,7 +21,7 @@ export default class Switching extends PlayerState{
 	constructor(parent: StateMachine, owner: GameNode){
 		super(parent, owner)
 
-		this.switching = true
+		this.switching = false
 	}
 
 	onEnter(options: Record<string, any>): void {
@@ -36,6 +38,7 @@ export default class Switching extends PlayerState{
 				this.emitter.fireEvent(Game_Events.SWITCH_TO_FLOW);
 			}
 			this.parent.switchTimer.start()
+			this.switching = true
 		}
 		else{
 			this.switching = false
@@ -44,9 +47,13 @@ export default class Switching extends PlayerState{
 
 	handleInput(event: GameEvent): void {
 		if(event.type == Game_Events.SWITCHING){
-			this.owner.animation.stop()
+			this.owner.animation.stop()	
 			this.parent.switchOwner(this.newPlayer)
 			this.owner.animation.play("Switch In", false, Game_Events.SWITCHING_END)
+			this.parent.direction.x = 1
+			if(this.parent.direction.x !== 0){
+				(<Sprite>this.owner).invertX = MathUtils.sign(this.parent.direction.x) < 0;
+			}
 
 		}
 		else if(event.type == Game_Events.SWITCHING_END){
@@ -56,9 +63,9 @@ export default class Switching extends PlayerState{
 	}
 
 	update(deltaT: number): void {
-		super.update(deltaT);
 		if(!this.switching){
-			this.switching = true
+			this.switching = false
+
 			this.finished(PlayerStates.IDLE);
 			return;
 		}

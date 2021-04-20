@@ -22,5 +22,9 @@ export enum Game_Events {
     GAME_PAUSED = "Paused",
     GAME_RESUMED = "Resume",
     ABILITYUSED = "Ability Used",
+<<<<<<< HEAD
     ABILITYFINISHED = "ABILITYFINISHED"
+=======
+    ABILITYFINISHED = "Ability Finished"
+>>>>>>> parent of d975359 (Revert "pulling")
 }
