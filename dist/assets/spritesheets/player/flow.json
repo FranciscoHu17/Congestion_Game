@@ -151,10 +151,14 @@
 				{ "index": 65, "duration": 4},
 				{ "index": 66, "duration": 4},
 				{ "index": 67, "duration": 4},
-				{ "index": 68, "duration": 4},
+				{ "index": 68, "duration": 4}
 
-				{ "index": 69, "duration":36},
-
+			]
+		},
+		{
+			"name": "Ability 1 Finish",
+			"repeat": false,
+			"frames": [
 				{ "index": 68, "duration": 4},
 				{ "index": 67, "duration": 4},
 				{ "index": 66, "duration": 4},

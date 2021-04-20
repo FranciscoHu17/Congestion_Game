@@ -32,6 +32,7 @@ import RenoE from "../../GameSystems/Abilities/RenoE";
 import FlowQ from "../../GameSystems/Abilities/FlowQ";
 import FlowE from "../../GameSystems/Abilities/FlowE";
 import Reno_E from "./PlayerStates/Reno_E";
+import Flow_Q from "./PlayerStates/Flow_Q";
 
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
@@ -106,6 +107,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.receiver.subscribe(Game_Events.PLAYER_DYING)
         this.receiver.subscribe(Game_Events.PLAYER_DEATH)
         this.receiver.subscribe(Game_Events.RENO_ABILITY2)
+        this.receiver.subscribe(Game_Events.FLOW_ABILITY1)
     }
 
     //TODO: change all the stats later
@@ -210,6 +212,10 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         let renoe = new Reno_E(this, this.owner);
         this.addState(PlayerStates.RENOE, renoe);
         this.states.push(renoe);
+
+        let flowq = new Flow_Q(this, this.owner);
+        this.addState(PlayerStates.FLOWQ, flowq);
+        this.states.push(flowq);
 
         this.initialize(PlayerStates.IDLE);
     }

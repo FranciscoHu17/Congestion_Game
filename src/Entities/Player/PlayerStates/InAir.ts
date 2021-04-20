@@ -12,6 +12,9 @@ export default abstract class InAir extends PlayerState {
 		if(event.type == Game_Events.RENO_ABILITY2){
 			this.finished(PlayerStates.RENOE)
 		}
+		if(event.type == Game_Events.FLOW_ABILITY1){
+			this.finished(PlayerStates.FLOWQ)
+		}
 	}
 
     update(deltaT: number): void {
