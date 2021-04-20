@@ -33,7 +33,7 @@ export default class Reno_E extends PlayerState {
                 this.owner.position.copy(new Vec2(teleportx, this.owner.position.y));
             }
         }
-		this.owner.animation.play("Ability 2 Finish", false, Game_Events.ABILITYFINISHED);
+		this.owner.animation.play("Ability 2 Finish", false);
 		this.retObj = {};
 	}
 

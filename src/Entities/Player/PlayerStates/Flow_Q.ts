@@ -36,7 +36,7 @@ export default class Flow_Q extends PlayerState {
                 this.owner.position.copy(new Vec2(teleportx, this.owner.position.y - 256));
             }
         }
-		this.owner.animation.play("Ability 1 Finish", false, Game_Events.ABILITYFINISHED);
+		this.owner.animation.play("Ability 1 Finish", false);
 		this.retObj = {};
 	}
 

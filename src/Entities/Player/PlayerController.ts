@@ -268,9 +268,11 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             super.changeState(PlayerStates.ABILITY)
 
             if(currentPlayer == "tahoe"){
+                super.changeState(PlayerStates.ABILITY)
                 this.abilities[0].use(this.owner, "player", this.direction);
                 this.abilitiesTimer.start(this.abilities[0].type.cooldown)
             }else if(currentPlayer == "reno"){
+                super.changeState(PlayerStates.ABILITY)
                 this.abilities[1].use(this.owner, "player", this.direction);
                 this.abilitiesTimer.start(this.abilities[1].type.cooldown)
             }else if(currentPlayer == "flow"){
@@ -280,9 +282,9 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
         }else if(Input.isJustPressed("ability2") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
-            super.changeState(PlayerStates.ABILITY)
 
             if(currentPlayer == "tahoe"){
+                super.changeState(PlayerStates.ABILITY)
                 this.abilities[3].use(this.owner, "player", this.direction);
                 this.abilitiesTimer.start(this.abilities[3].type.cooldown)
             }else if(currentPlayer == "reno"){
