@@ -128,7 +128,7 @@ export default class RenoQ extends AbilityType {
         //return node.collisionShape.getBoundingRect().intersectSegment(line.start, line.end.clone().sub(line.start)) !== null;
         var collide = false;
         for(var i=0; i<hitbox.length; i++){
-            if(node.collisionShape.getBoundingRect().overlaps(hitbox[i].boundary)){
+            if(node.collisionShape.getBoundingRect().intersectSegment(hitbox[i].start, hitbox[i].end.clone().sub(hitbox[i].start)) !== null){
                 collide = true;
             }
         }
