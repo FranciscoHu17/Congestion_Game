@@ -265,8 +265,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         //TODO: use a timer to make sure to only use one ability at a time
         if(Input.isJustPressed("ability1") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
-            super.changeState(PlayerStates.ABILITY)
-
             if(currentPlayer == "tahoe"){
                 super.changeState(PlayerStates.ABILITY)
                 this.abilities[0].use(this.owner, "player", this.direction);
