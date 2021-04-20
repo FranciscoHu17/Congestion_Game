@@ -31,10 +31,7 @@ export default class FlowQ extends AbilityType {
     }
 
     doAnimation(shooter: GameNode, direction: Vec2, hitbox: Rect): void {
-<<<<<<< HEAD
         (<AnimatedSprite>shooter).animation.play("Ability 1", false, Game_Events.FLOW_ABILITY1);
-=======
-        (<AnimatedSprite>shooter).animation.play("Ability 1", false, Game_Events.ABILITYFINISHED);
         hitbox.position.x = hitbox.position.x + (256 * direction.x);
         let start = shooter.position.clone();
         let end = shooter.position.clone().add(direction.scaled(900));
