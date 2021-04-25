@@ -20,12 +20,12 @@ export default class UsingAbility extends PlayerState{
 	}
 
 	onEnter(options: Record<string, any>): void {
-        this.parent.direction.x = this.parent.initialDirX
+		console.log(this.owner.direction.x)
     }
 
 	handleInput(event: GameEvent): void {
         if(event.type == Game_Events.ABILITYFINISHED){
-			this.finished(PlayerStates.IDLE)
+			this.finished(PlayerStates.FALL)
 		}
 		if(event.type == Game_Events.PLAYER_DYING){
 			this.finished(PlayerStates.DYING)
@@ -35,13 +35,18 @@ export default class UsingAbility extends PlayerState{
 	update(deltaT: number): void {
         super.update(deltaT)
         let dir = this.getInputDirection();
+		if(this.owner.onCeiling){
+			this.parent.velocity.y = 0;
+		}
+		if(this.owner.onGround && Input.isJustPressed("jump")){ //TODO: might have to change input name
+			this.parent.velocity.y = -128*8;
+		}
 
 		this.parent.velocity.x += dir.x * this.parent.speed/3.5 - 0.3*this.parent.velocity.x; //TODO: do we want to change this?
         this.owner.move(this.parent.velocity.scaled(deltaT));
 	}
 
 	onExit(): Record<string, any> {
-        this.parent.direction.x = this.parent.initialDirX
 		return {};
 	}
 }

@@ -20,7 +20,6 @@ export default class Switching extends PlayerState{
 
 	constructor(parent: StateMachine, owner: GameNode){
 		super(parent, owner)
-
 		this.switching = false
 	}
 
@@ -47,13 +46,13 @@ export default class Switching extends PlayerState{
 
 	handleInput(event: GameEvent): void {
 		if(event.type == Game_Events.SWITCHING){
-			this.owner.animation.stop()	
-			this.parent.switchOwner(this.newPlayer)
+			this.owner.animation.stop();
+			(<Sprite>this.owner).invertX = false;
+			let prevDir = (<Sprite>this.owner).direction
+			this.parent.switchOwner(this.newPlayer);
+			(<Sprite>this.owner).direction = prevDir;
+			(<Sprite>this.owner).invertX = MathUtils.sign(this.owner.direction.x) < 0;
 			this.owner.animation.play("Switch In", false, Game_Events.SWITCHING_END)
-			this.parent.direction.x = 1
-			if(this.parent.direction.x !== 0){
-				(<Sprite>this.owner).invertX = MathUtils.sign(this.parent.direction.x) < 0;
-			}
 
 		}
 		else if(event.type == Game_Events.SWITCHING_END){

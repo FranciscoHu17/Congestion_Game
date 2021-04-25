@@ -37,9 +37,9 @@ export default class Idle extends OnGround {
 		else{
 			
 			let dir = this.getInputDirection();
-			this.parent.initialDirX = this.parent.direction.x
 
 			if(!dir.isZero() && dir.y === 0){
+				this.owner.direction = dir
 				this.finished(PlayerStates.WALK);
 			}
 			this.parent.velocity.x = 0;

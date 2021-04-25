@@ -37,12 +37,14 @@ export default class Walk extends OnGround {
 		}
 		
 		let dir = this.getInputDirection();
-		this.parent.initialDirX = dir.x
-		this.owner.colliderOffset.x = (this.owner.colliderOffset.x<0) == (this.parent.direction.x>0) ? this.owner.colliderOffset.x : -1*this.owner.colliderOffset.x;
+		this.owner.colliderOffset.x = (this.owner.colliderOffset.x<0) == (this.owner.direction.x>0) ? this.owner.colliderOffset.x : -1*this.owner.colliderOffset.x;
 
 		if(dir.isZero()){
 			this.finished(PlayerStates.IDLE);
 		} 
+		else{
+			this.owner.direction = dir
+		}
 		
 		this.parent.velocity.x = dir.x * this.parent.speed
         //TODO: uncomment the line below and change this to the right event.
