@@ -20,7 +20,6 @@ export default class UsingAbility extends PlayerState{
 	}
 
 	onEnter(options: Record<string, any>): void {
-		console.log(this.owner.direction.x)
     }
 
 	handleInput(event: GameEvent): void {

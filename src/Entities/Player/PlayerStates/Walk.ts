@@ -3,6 +3,7 @@ import GameLevel from "../../../Scenes/Levels/GameLevel";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Input from "../../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 //import { HW4_Events } from "../../hw4_enums";
 import { PlayerStates } from "../PlayerController";
 import OnGround from "./OnGround";

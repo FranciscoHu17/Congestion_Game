@@ -256,6 +256,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                 this.abilities[2].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[2].type.cooldown)
             }
+            console.log(" ")
 
         }else if(Input.isJustPressed("ability2") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
@@ -271,7 +272,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                 this.abilities[5].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[5].type.cooldown)
             }
-
         }
 
         if(Input.isJustPressed("pause")){
