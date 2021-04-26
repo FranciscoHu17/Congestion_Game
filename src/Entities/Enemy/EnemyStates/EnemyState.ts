@@ -7,7 +7,7 @@ import EnemyController from "../EnemyController";
 
 export default abstract class EnemyState extends State {
 	owner: GameNode;
-	gravity: number = 1000;
+	gravity: number = 128*10;
 	parent: EnemyController
     
 
@@ -23,10 +23,9 @@ export default abstract class EnemyState extends State {
 		// Do gravity
 		this.parent.velocity.y += this.gravity*deltaT;
 
+		
 		if(this.owner.onWall){
-			// Flip around
-			this.parent.direction.x *= -1;
-			(<AnimatedSprite>this.owner).invertX = !(<AnimatedSprite>this.owner).invertX;
+			this.parent.velocity.x = 0
 		}
 	}
 }

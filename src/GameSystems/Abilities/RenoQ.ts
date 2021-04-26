@@ -2,6 +2,7 @@ import { PlayerStates } from "../../Entities/Player/PlayerController";
 import { Game_Events } from "../../Enums/GameEvents";
 import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
+import Game from "../../Wolfie2D/Loop/Game";
 import GameNode, { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Line from "../../Wolfie2D/Nodes/Graphics/Line";
@@ -13,12 +14,14 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import Color from "../../Wolfie2D/Utils/Color";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
+import BattlerAI from "../BattlerAI";
 import AbilityType from "./AbilityType";
 
 export default class RenoQ extends AbilityType {
     startDelay: any | number;
     attackDuration: any | number;
     hitbox: Array<Line>;
+    owner: GameNode
 
     // color: Color;
 
@@ -29,6 +32,10 @@ export default class RenoQ extends AbilityType {
         this.displayName = options.displayName;
         this.spriteKey = options.spriteKey;
         this.useVolume = options.useVolume;
+    }
+
+    intializeOwner(node: GameNode): void{
+        this.owner = node
     }
 
     doAnimation(shooter: GameNode, direction: Vec2, line: Line[]): void {
@@ -124,11 +131,11 @@ export default class RenoQ extends AbilityType {
         return lineList;
     }
 
-    interact(node: GameNode, hitbox: Array<Line>): boolean {
+    interact(ai: BattlerAI, hitbox: Array<Line>): boolean {
         //return node.collisionShape.getBoundingRect().intersectSegment(line.start, line.end.clone().sub(line.start)) !== null;
         var collide = false;
         for(var i=0; i<hitbox.length; i++){
-            if(node.collisionShape.getBoundingRect().intersectSegment(hitbox[i].start, hitbox[i].end.clone().sub(hitbox[i].start)) !== null){
+            if(ai.owner.collisionShape.getBoundingRect().overlaps(hitbox[i].boundary)){
                 collide = true;
             }
         }

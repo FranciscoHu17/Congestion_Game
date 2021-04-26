@@ -7,8 +7,9 @@ import OrthogonalTilemap from "../../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilema
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import EnemyAI, { EnemyStates } from "../EnemyController";
 import EnemyState from "./EnemyState";
+import OnGround from "./OnGround";
 
-export default class Attack extends EnemyState {
+export default class Attack extends OnGround {
     owner: AnimatedSprite
 
     // The current known position of the player
@@ -37,7 +38,7 @@ export default class Attack extends EnemyState {
     handleInput(event: GameEvent): void {}
 
     update(deltaT: number): void {
-        
+        super.update(deltaT)
         if(this.parent.pollTimer.isStopped()){
             // Restart the timer
             this.parent.pollTimer.start();
@@ -74,7 +75,9 @@ export default class Attack extends EnemyState {
                 this.finished(EnemyStates.IDLE);
             }
         }
+
         
+        this.owner.move(this.parent.velocity.scaled(deltaT));
     }
 
     onExit(): Record<string, any> {

@@ -3,12 +3,13 @@ import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { EnemyStates } from "../EnemyController";
 import EnemyState from "./EnemyState";
+import OnGround from "./OnGround";
 
 
 /**
  * The idle enemy state. Enemies don't do anything until the player comes near them. 
  */
-export default class Idle extends EnemyState{
+export default class Idle extends OnGround{
     owner:AnimatedSprite
 
 	onEnter(): void {
@@ -26,8 +27,6 @@ export default class Idle extends EnemyState{
 
 	update(deltaT: number): void {
 		super.update(deltaT);
-		
-		this.parent.velocity.x = 0;
 
 		this.owner.move(this.parent.velocity.scaled(deltaT));
         if(this.parent.getPlayerPosition() !== null){

@@ -6,6 +6,7 @@ import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import Timer from "../../Wolfie2D/Timing/Timer";
 // import { hw3_Events } from "../../hw3_constants";
 import BattleManager from "../BattleManager";
+import BattlerAI from "../BattlerAI";
 import AbilityType from "./AbilityType";
 
 export default class Ability {
@@ -54,6 +55,8 @@ export default class Ability {
             return false;
         }
 
+        this.type.intializeOwner(user)
+
         // Rely on the weapon type to create any necessary assets
         this.assets = this.type.createRequiredAssets(this.sprite.getScene(), this.sprite);
 
@@ -74,10 +77,21 @@ export default class Ability {
         return true;
     }
 
+    continueUse(position: Vec2,direction: Vec2,userType:string){
+        if(!this.cooldownTimer.isStopped()){
+            let hitbox = this.assets[0]
+            hitbox.position.x = position.x +128*2*direction.x;
+            hitbox.position.y = position.y
+
+            if(this.type.damage > 0)
+                this.battleManager.handleInteraction(userType, this);
+        }
+    }
+
     /**
      * A check for whether or not this weapon hit a node
      */
-    interact(node: GameNode): boolean {
-        return this.type.interact(node, ...this.assets);
+    interact(ai: BattlerAI): boolean {
+        return this.type.interact(ai, ...this.assets);
     }
 }

@@ -495,9 +495,9 @@ export default class GameLevel extends Scene{
 
             // Set character collision boxes
             if(player.imageId === "tahoe")  {
-                player.colliderOffset.set(-12,0)
+                player.colliderOffset.set(-12,10)
                 player.collisionShape.halfSize.x =32
-                player.collisionShape.halfSize.y =50
+                player.collisionShape.halfSize.y =60
             }
             else if(player.imageId === "reno"){
                 player.collisionShape.halfSize.x =32

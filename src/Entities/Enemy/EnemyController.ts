@@ -11,6 +11,7 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import Attack from "./EnemyStates/Attack";
+import Fall from "./EnemyStates/Fall";
 import Idle from "./EnemyStates/Idle";
 
 
@@ -23,8 +24,14 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
 
     direction: Vec2 = Vec2.ZERO;
 
-    /** The default movement speed of this AI */
-    velocity: Vec2 = new Vec2(128*2,0)
+    /** Current velocity */
+    velocity: Vec2 = new Vec2(0,0)
+
+    /** Movement speed */
+    speed: number = 128*2;
+
+    /** Friction */
+    friction: number = 0;
 
     /** The weapon this AI has */
     ability: Ability;
@@ -68,6 +75,9 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         let attack = new Attack(this, this.owner)
         this.addState(EnemyStates.ATTACK, attack)
 
+        let fall = new Fall(this, this.owner)
+        this.addState(EnemyStates.FALL,fall)
+
         this.initialize(EnemyStates.IDLE)
     }
 
@@ -77,13 +87,13 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
     damage(damage: number): void {
         console.log("Took damage");
         this.health -= damage;
-    
+        /*
         if(this.health <= 0){
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
             this.owner.visible = false;
             this.owner.disablePhysics()
-        }
+        }*/
     }
 
     getPlayerPosition(): Vec2 {
@@ -129,8 +139,9 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         return pos;
     }
 
-    // State machine defers updates and event handling to its children
-    // Check super classes for details
+    update(deltaT: number): void {
+		super.update(deltaT);
+	}
 }
 
 export enum EnemyStates {
@@ -138,5 +149,6 @@ export enum EnemyStates {
     IDLE = "idle",
     ALERT = "alert",
     ATTACK = "attack",
-    PREVIOUS = "previous"
+    PREVIOUS = "previous",
+    FALL = "fall"
 }

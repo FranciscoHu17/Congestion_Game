@@ -1,3 +1,4 @@
+import EnemyController from "../../Entities/Enemy/EnemyController";
 import { PlayerStates } from "../../Entities/Player/PlayerController";
 import { Game_Events } from "../../Enums/GameEvents";
 import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
@@ -12,11 +13,13 @@ import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
+import BattlerAI from "../BattlerAI";
 import AbilityType from "./AbilityType";
 
 export default class TahoeQ extends AbilityType {
     startDelay: any | number;
     attackDuration: any | number;
+    owner: GameNode
 
     // color: Color;
 
@@ -29,10 +32,13 @@ export default class TahoeQ extends AbilityType {
         this.useVolume = options.useVolume;
     }
 
+    intializeOwner(node: GameNode): void{
+        this.owner = node
+    }
+
     doAnimation(shooter: GameNode, direction: Vec2, hitbox: Rect): void {
         (<AnimatedSprite>shooter).animation.play("Ability 1", false, Game_Events.ABILITYFINISHED);
         hitbox.position.x = hitbox.position.x + (256 * direction.x);
-
 
         //TODO: where the hitbox starts and ends if it collides with a wall. change the size!!
         //line.start = start;
@@ -63,8 +69,14 @@ export default class TahoeQ extends AbilityType {
         return [line];
     }
 
-    interact(node: GameNode, hitbox: Rect): boolean {
+    interact(ai: BattlerAI, hitbox: Rect): boolean {
         //return node.collisionShape.getBoundingRect().intersectSegment(line.start, line.end.clone().sub(line.start)) !== null;
-        return node.collisionShape.getBoundingRect().overlaps(hitbox.boundary);
+        let overlap = ai.owner.collisionShape.getBoundingRect().overlaps(hitbox.boundary)
+        let dir = (this.owner.position.x < ai.owner.position.x) ? 1: -1
+        if(overlap && (<EnemyController>ai).velocity.x == 0){
+            (<EnemyController>ai).velocity.x += 128*5*dir
+        }
+
+        return overlap
     }
 }

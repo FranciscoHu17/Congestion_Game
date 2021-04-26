@@ -86,6 +86,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     tilemap: OrthogonalTilemap;
 
     abilities: Array<Ability> = [];
+    currentAbility: Ability;
     abilitiesTimer: Timer;
     health: number;//TODO: put in health and damage!!!!
     damage: (damage: number) => void;//TODO: implement damage function...
@@ -147,6 +148,8 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         flowe.initialize({damage: 0, cooldown:1800, displayName: "FlowE", spriteKey: "flow", useVolume: 100});
         let flowE = new Ability(this.players[2], flowe, battle_manager);
         this.abilities.push(flowE);
+
+        this.currentAbility = tahoeQ;
     }
 
 
@@ -246,14 +249,17 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
             if(currentPlayer == "tahoe"){
                 super.changeState(PlayerStates.ABILITY)
+                this.currentAbility = this.abilities[0]
                 this.abilities[0].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[0].type.cooldown)
             }else if(currentPlayer == "reno"){
                 super.changeState(PlayerStates.ABILITY)
+                this.currentAbility = this.abilities[1]
                 this.abilities[1].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[1].type.cooldown)
             }else if(currentPlayer == "flow"){
                 super.changeState(PlayerStates.ABILITY)
+                this.currentAbility = this.abilities[2]
                 this.abilities[2].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[2].type.cooldown)
             }
@@ -264,13 +270,16 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             if(currentPlayer == "tahoe"){
                 super.changeState(PlayerStates.ABILITY)
                 this.abilities[3].use(this.owner, "player", (<Sprite>this.owner).direction);
+                this.currentAbility = this.abilities[3]
                 this.abilitiesTimer.start(this.abilities[3].type.cooldown)
             }else if(currentPlayer == "reno"){
                 super.changeState(PlayerStates.ABILITY)
                 this.abilities[4].use(this.owner, "player", (<Sprite>this.owner).direction);
+                this.currentAbility = this.abilities[4]
                 this.abilitiesTimer.start(this.abilities[4].type.cooldown)
             }else if(currentPlayer == "flow"){
                 super.changeState(PlayerStates.ABILITY)
+                this.currentAbility = this.abilities[5]
                 this.abilities[5].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[5].type.cooldown)
             }
