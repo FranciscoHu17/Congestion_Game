@@ -22,7 +22,7 @@ export default class Reno_E extends PlayerState {
 
 	onEnter(options: Record<string, any>): void {
 		let walls = <OrthogonalTilemap>this.owner.getScene().getLayer("bottom").getItems()[0];
-        var direction = this.getInputDirection();
+        var direction = this.owner.direction
         if(direction.x!= 0){
             var teleportx = this.owner.position.x + ((128+50) * direction.x);
             var top = walls.getColRowAt(new Vec2(teleportx, this.owner.boundary.top+30));

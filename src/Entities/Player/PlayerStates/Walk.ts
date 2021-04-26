@@ -3,6 +3,7 @@ import GameLevel from "../../../Scenes/Levels/GameLevel";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Input from "../../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 //import { HW4_Events } from "../../hw4_enums";
 import { PlayerStates } from "../PlayerController";
 import OnGround from "./OnGround";
@@ -37,12 +38,14 @@ export default class Walk extends OnGround {
 		}
 		
 		let dir = this.getInputDirection();
-		this.parent.initialDirX = dir.x
-		this.owner.colliderOffset.x = (this.owner.colliderOffset.x<0) == (this.parent.direction.x>0) ? this.owner.colliderOffset.x : -1*this.owner.colliderOffset.x;
+		this.owner.colliderOffset.x = (this.owner.colliderOffset.x<0) == (this.owner.direction.x>0) ? this.owner.colliderOffset.x : -1*this.owner.colliderOffset.x;
 
 		if(dir.isZero()){
 			this.finished(PlayerStates.IDLE);
 		} 
+		else{
+			this.owner.direction = dir
+		}
 		
 		this.parent.velocity.x = dir.x * this.parent.speed
         //TODO: uncomment the line below and change this to the right event.

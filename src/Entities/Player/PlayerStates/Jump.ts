@@ -1,8 +1,10 @@
 import GameLevel from "../../../Scenes/Levels/GameLevel";
+import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import Input from "../../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 import { EaseFunctionType } from "../../../Wolfie2D/Utils/EaseFunctions";
 //import { HW4_Events } from "../../hw4_enums";
 import { PlayerStates } from "../PlayerController";
@@ -11,8 +13,10 @@ import InAir from "./InAir";
 export default class Jump extends InAir {
 	owner: AnimatedSprite;
 	retObj: Record<string,any>;
+	prevDirX: number;
 
 	onEnter(options: Record<string, any>): void {
+		this.prevDirX = (<Sprite>this.parent.owner).direction.x;
 		this.owner.animation.play("Jump", false); //TODO: change the animation name
 		//TODO2: Add jump sound effect here.
 		//this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "jump", loop: false, holdReference: false});
@@ -23,6 +27,10 @@ export default class Jump extends InAir {
 
 		if(this.owner.onCeiling){
 			this.parent.velocity.y = 0;
+		}
+
+		if(this.owner.direction.x == 0){
+			this.owner.direction.x = this.prevDirX
 		}
 
 		if(Input.isMouseJustPressed()){

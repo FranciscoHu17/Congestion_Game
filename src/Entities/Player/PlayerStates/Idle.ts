@@ -3,6 +3,7 @@ import GameLevel from "../../../Scenes/Levels/GameLevel";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Input from "../../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 import { PlayerStates } from "../PlayerController";
 import OnGround from "./OnGround";
 
@@ -37,9 +38,9 @@ export default class Idle extends OnGround {
 		else{
 			
 			let dir = this.getInputDirection();
-			this.parent.initialDirX = this.parent.direction.x
 
 			if(!dir.isZero() && dir.y === 0){
+				this.owner.direction = dir
 				this.finished(PlayerStates.WALK);
 			}
 			this.parent.velocity.x = 0;

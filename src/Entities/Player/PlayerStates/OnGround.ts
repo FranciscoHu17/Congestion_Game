@@ -31,12 +31,12 @@ export default class OnGround extends PlayerState {
 		let direction = this.getInputDirection();
 
 		if(direction.x !== 0){
+			(<Sprite>this.owner).direction.x = direction.x;
 			(<Sprite>this.owner).invertX = MathUtils.sign(direction.x) < 0;
 		}
 
 		//TODO: we would have to add Duck here if we wish to implement it.
 		if(Input.isJustPressed("jump")){ //TODO: might have to change input name
-			this.parent.initialDirX = this.parent.direction.x
 			this.finished("jump");
 			this.parent.velocity.y = -128*8;
 			// if(this.parent.velocity.x !== 0){

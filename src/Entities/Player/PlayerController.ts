@@ -80,11 +80,9 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     switchTimer: Timer
     players: Array<AnimatedSprite>
     velocity: Vec2 = Vec2.ZERO;
-    direction: Vec2 = new Vec2(1,0);
-    initialDirX: number;
 	speed: number = 200;
 	MIN_SPEED: number = 128*4;
-    MAX_SPEED: number = 10000; // francisco-CHANGED THIS TEMPORARILY
+    MAX_SPEED: number = 10000; 
     tilemap: OrthogonalTilemap;
 
     abilities: Array<Ability> = [];
@@ -96,7 +94,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.owner = owner;
         this.switchTimer = new Timer(1500)
         this.abilitiesTimer = new Timer(1500)
-        this.initialDirX = 1
 
         this.initializePlatformer();
 
@@ -155,7 +152,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
     switchOwner(newOwner: string){
         let centerX = this.owner.position.x
-        let bottomBound = this.owner.collisionShape.bottom
+        let bottomBound = this.owner.collisionShape.bottom;
 
         for(let i = 0; i< 3; i++){
             if(this.players[i].imageId === newOwner){
@@ -241,40 +238,23 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         super.changeState(stateName);
     }
 
-    updateDirection(){
-        if(this.velocity.x > 0){
-            this.direction.x = 1;
-        }
-        if(this.velocity.x < 0){
-            this.direction.x = -1;
-        }
-        if(this.velocity.y > 0){
-            this.direction.y = 1;
-        }
-        if(this.velocity.y < 0){
-            this.direction.y = -1;
-        }
-    }
-
     update(deltaT: number): void {
 		super.update(deltaT);
-
-        this.updateDirection();
-
 
         //TODO: use a timer to make sure to only use one ability at a time
         if(Input.isJustPressed("ability1") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
             if(currentPlayer == "tahoe"){
                 super.changeState(PlayerStates.ABILITY)
-                this.abilities[0].use(this.owner, "player", this.direction);
+                this.abilities[0].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[0].type.cooldown)
             }else if(currentPlayer == "reno"){
                 super.changeState(PlayerStates.ABILITY)
-                this.abilities[1].use(this.owner, "player", this.direction);
+                this.abilities[1].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[1].type.cooldown)
             }else if(currentPlayer == "flow"){
-                this.abilities[2].use(this.owner, "player", this.direction);
+                super.changeState(PlayerStates.ABILITY)
+                this.abilities[2].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[2].type.cooldown)
             }
 
@@ -283,23 +263,24 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
             if(currentPlayer == "tahoe"){
                 super.changeState(PlayerStates.ABILITY)
-                this.abilities[3].use(this.owner, "player", this.direction);
+                this.abilities[3].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[3].type.cooldown)
             }else if(currentPlayer == "reno"){
-                this.abilities[4].use(this.owner, "player", this.direction);
+                super.changeState(PlayerStates.ABILITY)
+                this.abilities[4].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[4].type.cooldown)
             }else if(currentPlayer == "flow"){
-                this.abilities[5].use(this.owner, "player", this.direction);
+                super.changeState(PlayerStates.ABILITY)
+                this.abilities[5].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[5].type.cooldown)
             }
-
         }
 
         if(Input.isJustPressed("pause")){
             this.emitter.fireEvent(Game_Events.GAME_PAUSED);
         }
 
-        Debug.log("Direction", "Direction: "+ this.direction);
+        Debug.log("Direction", "Direction: "+ (<Sprite>this.owner).direction);
         Debug.log("velocity", "Velocity: "+ this.velocity);
 		if(this.currentState instanceof Jump){
 			Debug.log("playerstate", "Player State: Jump");
