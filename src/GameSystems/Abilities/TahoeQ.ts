@@ -40,7 +40,6 @@ export default class TahoeQ extends AbilityType {
         (<AnimatedSprite>shooter).animation.play("Ability 1", false, Game_Events.ABILITYFINISHED);
         hitbox.position.x = hitbox.position.x + (256 * direction.x);
 
-
         //TODO: where the hitbox starts and ends if it collides with a wall. change the size!!
         //line.start = start;
         // line.end = end;
@@ -74,7 +73,7 @@ export default class TahoeQ extends AbilityType {
         //return node.collisionShape.getBoundingRect().intersectSegment(line.start, line.end.clone().sub(line.start)) !== null;
         let overlap = ai.owner.collisionShape.getBoundingRect().overlaps(hitbox.boundary)
         let dir = (this.owner.position.x < ai.owner.position.x) ? 1: -1
-        if(overlap){
+        if(overlap && (<EnemyController>ai).velocity.x == 0){
             (<EnemyController>ai).velocity.x += 128*5*dir
         }
 

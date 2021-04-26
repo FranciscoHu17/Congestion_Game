@@ -28,9 +28,9 @@ export default class LayerHelper{
         this.addHeader(mainScene, headerPos, purple, "controls", "Controls")
 
         this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 48), line_size, green, "controls", "W/Space - Jump")
-        this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 88), line_size, green, "controls", "D - Move Right")
-        this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 128), line_size, green, "controls", "A - Move Left")
-        this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 168), line_size, green, "controls", "S - Duck")
+        this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 88), line_size, green, "controls", "A - Move Left")
+        this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 128), line_size, green, "controls", "S - Duck")
+        this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 168), line_size, green, "controls", "D - Move Right")
 
         this.addLabel(mainScene, new Vec2(3*size.x/4-75,size.y/4 + 48), line_size, green, "controls", "Q - Ability 1")
         this.addLabel(mainScene, new Vec2(3*size.x/4-75,size.y/4 + 88), line_size, green, "controls", "E - Ability 2")

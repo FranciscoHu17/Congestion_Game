@@ -77,6 +77,17 @@ export default class Ability {
         return true;
     }
 
+    continueUse(position: Vec2,direction: Vec2,userType:string){
+        if(!this.cooldownTimer.isStopped()){
+            let hitbox = this.assets[0]
+            hitbox.position.x = position.x +128*2*direction.x;
+            hitbox.position.y = position.y
+
+            if(this.type.damage > 0)
+                this.battleManager.handleInteraction(userType, this);
+        }
+    }
+
     /**
      * A check for whether or not this weapon hit a node
      */

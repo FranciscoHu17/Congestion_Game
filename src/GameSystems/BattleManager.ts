@@ -27,7 +27,6 @@ export default class BattleManager {
     handleInteraction(attackerType: string, weapon: Ability){
         if(attackerType === "player"){
             // Check for collisions with enemies
-            console.log(this.enemies)
             for(let enemy of this.enemies){
                 if(weapon.interact(enemy)){
                     console.log(enemy)

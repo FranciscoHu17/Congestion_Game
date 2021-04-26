@@ -47,6 +47,9 @@ export default class UsingAbility extends PlayerState{
 		if(this.owner.onGround && Input.isJustPressed("jump")){ //TODO: might have to change input name
 			this.parent.velocity.y = -128*8;
 		}
+		if((<AnimatedSprite>this.parent.owner).imageId == "tahoe"){
+			this.parent.currentAbility.continueUse(this.parent.owner.position, (<AnimatedSprite>this.parent.owner).direction, "player")
+		}
 
 		this.parent.velocity.x += dir.x * this.parent.speed/3.5 - 0.3*this.parent.velocity.x; //TODO: do we want to change this?
         this.owner.move(this.parent.velocity.scaled(deltaT));
