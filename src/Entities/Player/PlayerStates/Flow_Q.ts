@@ -22,18 +22,22 @@ export default class Flow_Q extends PlayerState {
 
 	onEnter(options: Record<string, any>): void {
 		let walls = <OrthogonalTilemap>this.owner.getScene().getLayer("bottom").getItems()[0];
-        var direction = this.getInputDirection();
+        var direction = this.owner.direction
         if(direction.x!= 0){
-            var teleportx = this.owner.position.x + ((400+50) * direction.x);
-            var top = walls.getColRowAt(new Vec2(teleportx, this.owner.boundary.top+10));
+            var teleportx = this.owner.position.x + ((128*4) * direction.x);
+            var top = walls.getColRowAt(new Vec2(teleportx, this.owner.boundary.top-10));
             var middle = walls.getColRowAt(new Vec2(teleportx, this.owner.position.y));
             var bottom = walls.getColRowAt(new Vec2(teleportx, this.owner.boundary.bottom-10));
+
             if((!walls.isTileCollidable(top.x, top.y)) && (!walls.isTileCollidable(bottom.x, bottom.y)) 
-                && (!walls.isTileCollidable(middle.x, middle.y))){
+                && (!walls.isTileCollidable(middle.x, middle.y))){  
                 this.owner.position.copy(new Vec2(teleportx, this.owner.position.y));
             }else if((!walls.isTileCollidable(top.x, top.y -2)) && (!walls.isTileCollidable(bottom.x, bottom.y-2)) 
             && (!walls.isTileCollidable(middle.x, middle.y-2))){
                 this.owner.position.copy(new Vec2(teleportx, this.owner.position.y - 256));
+            }
+            else{
+                this.finished(PlayerStates.FALL)
             }
         }
 		this.owner.animation.play("Ability 1 Finish", false);

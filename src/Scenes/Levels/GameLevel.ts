@@ -507,7 +507,7 @@ export default class GameLevel extends Scene{
             else if(player.imageId == "flow"){
                 player.scale.set(1.5,1.5)
                 player.colliderOffset.set(0, 42);
-                player.collisionShape.halfSize.x =90
+                player.collisionShape.halfSize.x =60
                 player.collisionShape.halfSize.y =54
             }
             
