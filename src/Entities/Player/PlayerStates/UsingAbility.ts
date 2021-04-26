@@ -24,6 +24,7 @@ export default class UsingAbility extends PlayerState{
 
 	handleInput(event: GameEvent): void {
         if(event.type == Game_Events.ABILITYFINISHED){
+			this.owner.animation.play("Idle")
 			this.finished(PlayerStates.FALL)
 		}
 		if(event.type == Game_Events.PLAYER_DYING){

@@ -12,11 +12,13 @@ import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
+import BattlerAI from "../BattlerAI";
 import AbilityType from "./AbilityType";
 
 export default class FlowE extends AbilityType {
     startDelay: any | number;
     attackDuration: any | number;
+    owner: GameNode
 
     // color: Color;
 
@@ -27,6 +29,10 @@ export default class FlowE extends AbilityType {
         this.displayName = options.displayName;
         this.spriteKey = options.spriteKey;
         this.useVolume = options.useVolume;
+    }
+
+    intializeOwner(node: GameNode): void{
+        this.owner = node
     }
 
     doAnimation(shooter: GameNode, direction: Vec2, hitbox: Rect): void {
@@ -99,8 +105,8 @@ export default class FlowE extends AbilityType {
         return [line];
     }
 
-    interact(node: GameNode, hitbox: Rect): boolean {
+    interact(ai: BattlerAI, hitbox: Rect): boolean {
         //return node.collisionShape.getBoundingRect().intersectSegment(line.start, line.end.clone().sub(line.start)) !== null;
-        return node.collisionShape.getBoundingRect().overlaps(hitbox.boundary);
+        return ai.owner.collisionShape.getBoundingRect().overlaps(hitbox.boundary);
     }
 }

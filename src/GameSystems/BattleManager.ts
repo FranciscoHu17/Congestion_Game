@@ -29,14 +29,14 @@ export default class BattleManager {
             // Check for collisions with enemies
             console.log(this.enemies)
             for(let enemy of this.enemies){
-                if(weapon.interact(enemy.owner)){
+                if(weapon.interact(enemy)){
                     console.log(enemy)
                     enemy.damage(weapon.type.damage);
                 }
             }
         } else {
             // Check for collision with player
-            if(weapon.interact(this.player.owner)){
+            if(weapon.interact(this.player)){
                 this.player.damage(weapon.type.damage);
             }
         }

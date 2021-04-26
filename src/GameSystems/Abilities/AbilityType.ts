@@ -1,6 +1,7 @@
 import GameNode from "../../Wolfie2D/Nodes/GameNode";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import Scene from "../../Wolfie2D/Scene/Scene";
+import BattlerAI from "../BattlerAI";
 
 export default abstract class AbilityType {
     /** The key for this sprite image */
@@ -23,6 +24,8 @@ export default abstract class AbilityType {
      */
     abstract initialize(options: Record<string, any>): void;
 
+    abstract intializeOwner(node: GameNode): void;
+
     /**
      * The animation to do when this weapon is used
      */
@@ -30,5 +33,5 @@ export default abstract class AbilityType {
 
     abstract createRequiredAssets(scene: Scene, user: Sprite): Array<any>;
 
-    abstract interact(node: GameNode, ...args: any): boolean;
+    abstract interact(ai: BattlerAI, ...args: any): boolean;
 }
