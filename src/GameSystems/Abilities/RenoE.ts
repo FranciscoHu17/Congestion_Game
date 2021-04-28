@@ -1,3 +1,4 @@
+import EnemyController from "../../Entities/Enemy/EnemyController";
 import { PlayerStates } from "../../Entities/Player/PlayerController";
 import { Game_Events } from "../../Enums/GameEvents";
 import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
@@ -13,6 +14,7 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import Color from "../../Wolfie2D/Utils/Color";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
+import BattleManager from "../BattleManager";
 import BattlerAI from "../BattlerAI";
 import AbilityType from "./AbilityType";
 
@@ -47,6 +49,6 @@ export default class RenoE extends AbilityType {
     interact(ai: BattlerAI, hitbox: Rect): boolean {
         //return node.collisionShape.getBoundingRect().intersectSegment(line.start, line.end.clone().sub(line.start)) !== null;
         //return node.collisionShape.getBoundingRect().overlaps(hitbox.boundary);
-        return false;
+        return false
     }
 }
