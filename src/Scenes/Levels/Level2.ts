@@ -4,7 +4,7 @@ import Debug from "../../Wolfie2D/Debug/Debug";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import GameLevel from "./GameLevel";
 
-export default class Level1 extends GameLevel{
+export default class Level2 extends GameLevel{
 
     /**
      * TODO
@@ -18,13 +18,12 @@ export default class Level1 extends GameLevel{
         this.load.image("reno_info", "assets/sprites/reno_info.png");
         this.load.image("flow_info", "assets/sprites/flow_info.png");
         this.load.image("ingame_menu", "assets/sprites/ingame_menu.png");
-        this.load.tilemap("maplevel1", "assets/tilemaps/level1.json");
+        this.load.tilemap("maplevel2", "assets/tilemaps/level2.json");
         this.load.spritesheet("enemy", "assets/spritesheets/enemy/enemy.json");
         this.load.spritesheet("player1", "assets/spritesheets/player/tahoe.json");
         this.load.spritesheet("player2", "assets/spritesheets/player/reno.json");
         this.load.spritesheet("player3", "assets/spritesheets/player/flow.json");
         this.load.spritesheet("generator", "assets/spritesheets/objects/generator.json");
-        this.load.audio("level1", "assets/music/level1.mp3");
     }
 
     /**
@@ -47,16 +46,16 @@ export default class Level1 extends GameLevel{
     startScene(): void {
         // Add a background layer and set the background image on it
         // probably need to change position
-        this.addParallaxLayer("bg", new Vec2(0.25, 0), -100);
+        this.addParallaxLayer("bg", new Vec2(0.1, 0), -100);
         let bg = this.add.sprite("background", "bg");
         bg.position.set(bg.size.x/2,bg.size.y/2);
         
         // Add the level 1 tilemap
-        this.add.tilemap("maplevel1", new Vec2(1, 1));
+        this.add.tilemap("maplevel2", new Vec2(1, 1));
 
         this.viewport.setBounds(0, 0, 1000*128, 1000*128);
 
-        this.playerSpawn = new Vec2(6*128, 27*128);
+        this.playerSpawn = new Vec2(2*128, 4*128);
 
         // Generic GameLevel Scene setup
         super.startScene() 
