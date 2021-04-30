@@ -1,0 +1,12 @@
+{
+    "numEnemies": 1,
+    "enemies": [
+        {
+            "key": "camera",
+            "position": [11.5, 2.5],
+            "ability": "",
+            "health": 5
+        }
+
+    ]
+}
