@@ -556,7 +556,7 @@ export default class GameLevel extends Scene{
         for(let i = 0; i < enemyData.numEnemies; i++){
             let enemy = enemyData.enemies[i]
             let position = new Vec2 (enemy.position[0], enemy.position[1])
-            this.addEnemy(enemy.key, position,{ability: enemy.ability, health: enemy.ability, player: this.currPlayer})
+            this.addEnemy(enemy.key, position,{ability: enemy.ability, health: enemy.health, player: this.currPlayer})
             
         }
 
