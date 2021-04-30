@@ -20,11 +20,15 @@ export default class LevelSelect extends Scene{
     loadScene(): void {
         this.load.image("level_select","assets/sprites/level_select.png")
         this.load.image("lock","assets/sprites/lock.png")
+        
     }
     
     startScene(): void {
         this.levels = this.levelManager.getLevels()
         this.locked = this.levelManager.getLocked()
+
+        this.locked[1] = false // UNLOCKS LEVEL 2, DELETE THIS WHEN DONE
+        
         this.levelSelectLayers = []
         this.initLayers()
 
