@@ -1,6 +1,7 @@
 import { Game_Events } from "../../../Enums/GameEvents";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Input from "../../../Wolfie2D/Input/Input";
+import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 import MathUtils from "../../../Wolfie2D/Utils/MathUtils";
 import { PlayerStates } from "../PlayerController";
@@ -42,9 +43,14 @@ export default class OnGround extends PlayerState {
 			// if(this.parent.velocity.x !== 0){
 			// 	// this.owner.tweens.play("flip");
 			// }
-		} else if(!this.owner.onGround){
+		}
+		else if(Input.isJustPressed("duck")){
+			//Enter duck state
+		} 
+		else if(!this.owner.onGround){
 			this.finished("fall");
 		}
+
 	}
 
 	onExit(): Record<string, any> {

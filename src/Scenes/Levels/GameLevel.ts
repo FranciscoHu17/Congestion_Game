@@ -534,7 +534,7 @@ export default class GameLevel extends Scene{
      * @param tilePos The tilemap position to add the enemy to
      * @param aiOptions The options for the enemy AI
      */
-     protected addEnemy(spriteKey: string, tilePos: Vec2, aiOptions: Record<string, any>): AnimatedSprite {
+    protected addEnemy(spriteKey: string, tilePos: Vec2, aiOptions: Record<string, any>): AnimatedSprite {
         let enemy = this.add.animatedSprite(spriteKey, "primary");
         enemy.position.set(tilePos.x*128, tilePos.y*128);
         enemy.addPhysics();
@@ -542,11 +542,24 @@ export default class GameLevel extends Scene{
         enemy.setGroup("enemy");
         enemy.animation.play("Idle", true);
         enemy.setTrigger("player", Game_Events.PLAYER_HIT_ENEMY, null);
+        enemy.collisionShape.halfSize.set(40,50)
         this.enemies.push(enemy);
         
         this.battleManager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai));
         
         return enemy
+    }
+
+    protected initializeEnemies(data: string){
+        let enemyData = this.load.getObject(data)
+
+        for(let i = 0; i < enemyData.numEnemies; i++){
+            let enemy = enemyData.enemies[i]
+            let position = new Vec2 (enemy.position[0], enemy.position[1])
+            this.addEnemy(enemy.key, position,{ability: enemy.ability, health: enemy.ability, player: this.currPlayer})
+            
+        }
+
     }
 
     getBattleManager(): BattleManager{
