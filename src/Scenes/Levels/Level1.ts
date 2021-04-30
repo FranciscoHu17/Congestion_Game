@@ -19,11 +19,22 @@ export default class Level1 extends GameLevel{
         this.load.image("flow_info", "assets/sprites/flow_info.png");
         this.load.image("ingame_menu", "assets/sprites/ingame_menu.png");
         this.load.tilemap("maplevel1", "assets/tilemaps/level1.json");
-        this.load.spritesheet("enemy", "assets/spritesheets/enemy/enemy.json");
+
+        // Player Sprites
+        
         this.load.spritesheet("player1", "assets/spritesheets/player/tahoe.json");
         this.load.spritesheet("player2", "assets/spritesheets/player/reno.json");
         this.load.spritesheet("player3", "assets/spritesheets/player/flow.json");
         this.load.spritesheet("generator", "assets/spritesheets/objects/generator.json");
+
+        // Enemy Sprites
+        this.load.spritesheet("enemy", "assets/spritesheets/enemy/enemy.json");
+        this.load.spritesheet("camera", "assets/spritesheets/enemy/camera.json");
+        this.load.spritesheet("circuit", "assets/spritesheets/enemy/circuit.json");
+        this.load.spritesheet("router", "assets/spritesheets/enemy/router.json");
+
+
+        this.load.object("enemyData", "assets/spawns/level1_enemies.json");
         this.load.audio("level1", "assets/music/level1.mp3");
     }
 
@@ -71,12 +82,7 @@ export default class Level1 extends GameLevel{
 
         // Add enemies of various types
         // The coordinates are the positions in Tiled BUT ADD 0.5 TO X AND 0.5 TO Y
-        for(let pos of [new Vec2(19.5, 26.5), new Vec2(33.5, 22.5), 
-            new Vec2(65.5, 11.5), new Vec2(67.5, 11.5), new Vec2(65.5, 13.5), new Vec2(67.5, 13.5), new Vec2(65.5, 15.5), new Vec2(67.5, 15.5),
-            new Vec2(65.5, 28.5), new Vec2(9.5, 28.5), new Vec2(21.5, 23.5)] ){
-            let enemy = this.addEnemy("enemy", pos, {ability: "none", health: 1, player: this.currPlayer});
-            enemy.collisionShape.halfSize.set(40,50)
-        }
+        this.initializeEnemies("enemyData")
         console.log(this.enemies)
     }
 
