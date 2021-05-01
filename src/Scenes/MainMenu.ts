@@ -39,6 +39,8 @@ export default class SplashScreen extends Scene{
         this.receiver.subscribe("help2")
         this.receiver.subscribe("help3")
         this.receiver.subscribe("help4")
+        this.receiver.subscribe("level1")
+        this.receiver.subscribe("level2")
     }
 
     updateScene(){
@@ -47,6 +49,22 @@ export default class SplashScreen extends Scene{
 
             if(event.type === "start"){
                 this.sceneManager.changeToScene(LevelSelect);
+            }
+            else if(event.type === "level1" || event.type === "level2"){
+                let level= this.levelManager.findLevel(event.type)
+
+                let sceneOptions = {
+                    physics: {
+                        groupNames: ["ground", "player","enemy"],
+                        collisions:
+                        [
+                            [0, 1, 1],
+                            [1, 0, 0],
+                            [1, 0, 0]
+                        ]
+                    }
+                }
+                this.sceneManager.changeToScene(level, {}, sceneOptions)
             }
             else{
                 this.setLayerVisibility(event.type)
