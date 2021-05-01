@@ -33,10 +33,7 @@ export default class Jump extends InAir {
 			this.owner.direction.x = this.prevDirX
 		}
 
-		if(Input.isMouseJustPressed()){
-            this.finished(PlayerStates.BASICATTACK)
-        }
-		else if(Input.isPressed("tahoe") && this.owner.imageId !== "tahoe" && this.parent.switchTimer.isStopped()){
+		if(Input.isPressed("tahoe") && this.owner.imageId !== "tahoe" && this.parent.switchTimer.isStopped()){
 			this.retObj = {player: "tahoe"}
 			this.finished(PlayerStates.SWITCHING)
 		}

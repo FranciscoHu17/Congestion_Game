@@ -7,7 +7,7 @@ import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 import Input from "../../Wolfie2D/Input/Input";
-import BasicAttack from "./PlayerStates/BasicAttack";
+
 //import { HW4_Events } from "../hw4_enums";
 import Fall from "./PlayerStates/Fall";
 import Idle from "./PlayerStates/Idle";
@@ -34,6 +34,8 @@ import FlowE from "../../GameSystems/Abilities/FlowE";
 import Reno_E from "./PlayerStates/Reno_E";
 import Flow_Q from "./PlayerStates/Flow_Q";
 import UsingAbility from "./PlayerStates/UsingAbility";
+import BasicAttack from "../../GameSystems/Abilities/BasicAttack";
+import ProjectileManager from "../../GameSystems/ProjectileManager";
 
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
@@ -58,7 +60,6 @@ export enum PlayerStates {//TODO: Do we have to change all the animation names t
     // SWITCHINGIN = "switching in",
     // SWITCHINGOUT = "switching out",
     ABILITY = "ability",
-    BASICATTACK = "basic attack",
     ABILITYQ = "ability 1",
     TAHOEQ = "tahoe q",
     TAHOEE = "tahoe e",
@@ -84,6 +85,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 	MIN_SPEED: number = 128*4;
     MAX_SPEED: number = 10000; 
     tilemap: OrthogonalTilemap;
+    projectileManager: ProjectileManager
 
     abilities: Array<Ability> = [];
     currentAbility: Ability;
@@ -103,6 +105,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.viewport = options.viewport
 
         this.initializeAbilities();
+        this.projectileManager = ProjectileManager.getInstance()
 
 
 
@@ -148,6 +151,11 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         flowe.initialize({damage: 0, cooldown:1800, displayName: "FlowE", spriteKey: "flow", useVolume: 100});
         let flowE = new Ability(this.players[2], flowe, battle_manager);
         this.abilities.push(flowE);
+
+        let basicattack = new BasicAttack()
+        basicattack.initialize(({damage: 20, cooldown:500, displayName: "basicattack", spriteKey: "", useVolume: 100}));
+        let basicAttack = new Ability(<Sprite>this.owner, basicattack, battle_manager);
+        this.abilities.push(basicAttack);
 
         this.currentAbility = tahoeQ;
     }
@@ -203,10 +211,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         let fall = new Fall(this, this.owner);
         this.addState(PlayerStates.FALL, fall);
         this.states.push(fall)
-
-        let basicAttack = new BasicAttack(this, this.owner);
-        this.addState(PlayerStates.BASICATTACK, basicAttack);
-        this.states.push(basicAttack)
 
         let switching = new Switching(this, this.owner)
         this.addState(PlayerStates.SWITCHING, switching)
@@ -283,6 +287,13 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                 this.abilities[5].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[5].type.cooldown)
             }
+        }else if(Input.isMouseJustPressed() && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
+            //super.changeState(PlayerStates.ABILITY)
+            //this.currentAbility = this.abilities[6]
+            //this.abilities[6].use(this.owner, "player", this.owner.position.dirTo(Input.getGlobalMousePosition()));
+            //this.abilitiesTimer.start(this.abilities[6].type.cooldown)
+            (<AnimatedSprite>this.owner).animation.play("Basic Attack")
+            this.projectileManager.fireProjectile(this.owner, "basic", this.owner.position.dirTo(Input.getGlobalMousePosition()))
         }
 
         if(Input.isJustPressed("pause")){
@@ -299,8 +310,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 			Debug.log("playerstate", "Player State: Idle");
 		} else if(this.currentState instanceof Fall){
             Debug.log("playerstate", "Player State: Fall");
-        } else if(this.currentState instanceof BasicAttack){
-            Debug.log("playerstate", "Player State: BasicAttack");
-        }
+        } 
 	}
 }

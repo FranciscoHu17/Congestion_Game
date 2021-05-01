@@ -23,6 +23,7 @@ export default class Attack extends OnGround {
 
 
     onEnter(options: Record<string, any>): void {
+        console.log("now attacking")
         this.owner.animation.play("Attack", true)
         
         this.lastPlayerPos = this.parent.getPlayerPosition();
@@ -81,6 +82,7 @@ export default class Attack extends OnGround {
     }
 
     onExit(): Record<string, any> {
+        console.log("disengage")
         return this.retObj;
     }
 

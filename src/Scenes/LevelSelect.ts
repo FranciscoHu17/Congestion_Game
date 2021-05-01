@@ -56,12 +56,13 @@ export default class LevelSelect extends Scene{
 
                 let sceneOptions = {
                     physics: {
-                        groupNames: ["ground", "player","enemy"],
+                        groupNames: ["ground", "player","enemy","projectile"],
                         collisions:
                         [
-                            [0, 1, 1],
-                            [1, 0, 0],
-                            [1, 0, 0]
+                            [0, 1, 1, 1],
+                            [1, 0, 0, 0],
+                            [1, 0, 0, 0],
+                            [1, 0, 0, 0]
                         ]
                     }
                 }

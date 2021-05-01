@@ -21,10 +21,7 @@ export default class Walk extends OnGround {
 	update(deltaT: number): void {
 		super.update(deltaT);
 
-		if(Input.isMouseJustPressed()){
-            this.finished(PlayerStates.BASICATTACK)
-        }
-		else if(Input.isPressed("tahoe") && this.owner.imageId !== "tahoe"){
+		if(Input.isPressed("tahoe") && this.owner.imageId !== "tahoe"){
 			this.retObj = {player: "tahoe"}
 			this.finished(PlayerStates.SWITCHING)
 		}

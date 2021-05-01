@@ -18,11 +18,14 @@ import MainMenu from "../MainMenu";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import LevelSelect from "../LevelSelect";
-import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
+import GameNode, { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 import EnemyController from "../../Entities/Enemy/EnemyController";
 import BattleManager from "../../GameSystems/BattleManager";
 import BattlerAI from "../../GameSystems/BattlerAI";
+import ProjectileManager from "../../GameSystems/ProjectileManager";
+import Projectile from "../../GameSystems/Projectiles/Projectile";
+import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
@@ -79,6 +82,8 @@ export default class GameLevel extends Scene{
     // The battle manager for the scene
     protected battleManager: BattleManager;
 
+    protected projectileManager: ProjectileManager
+
     /**
      * TODO
      * 
@@ -88,6 +93,7 @@ export default class GameLevel extends Scene{
         this.enemies = []
         // Create the battle manager
         this.battleManager = BattleManager.getInstance();
+        this.projectileManager = ProjectileManager.getInstance()
         this.originalViewportPosX = this.viewport.getCenter().x
         this.originalViewportPosY = this.viewport.getCenter().y
 
@@ -142,6 +148,21 @@ export default class GameLevel extends Scene{
                         this.renoIcons.visible = false;
                         this.tahoeIcons.visible = true;
                         this.flowIcons.visible = false;
+                    }
+                    break;
+                case Game_Events.PROJECTILE_COLLISION:
+                    {
+                        let node = this.sceneGraph.getNode(event.data.get("node"));
+                        let other = this.sceneGraph.getNode(event.data.get("other"));
+
+                        let projGroup = this.physicsManager.getGroupNumber("projectile")
+                        
+                        if(node.group == projGroup){
+                            this.handleProjectileCollision(node, <AnimatedSprite>other)
+                        }
+                        else{
+                            this.handleProjectileCollision(other, <AnimatedSprite>node)
+                        }
                     }
                     break;
                 case Game_Events.PLAYER_HIT_ENEMY:
@@ -270,6 +291,8 @@ export default class GameLevel extends Scene{
         if(this.currPlayer.position.y > 32*128){
             this.respawnPlayer();
         }
+
+        this.projectileManager.update(deltaT)
     }
     showInGameMenu(): void {
         this.ingame_menu.visible = true;
@@ -450,6 +473,7 @@ export default class GameLevel extends Scene{
             Game_Events.SWITCH_TO_FLOW,
             Game_Events.SWITCH_TO_RENO,
             Game_Events.SWITCH_TO_TAHOE,
+            Game_Events.PROJECTILE_COLLISION,
             Game_Events.PLAYER_HIT_ENEMY,
             Game_Events.ENEMY_DIED,
             Game_Events.PLAYER_DEATH,
@@ -493,7 +517,7 @@ export default class GameLevel extends Scene{
                 player.disablePhysics()
             }
 
-            // Set character collision boxes
+            // Character specific traits
             if(player.imageId === "tahoe")  {
                 player.colliderOffset.set(-12,10)
                 player.collisionShape.halfSize.x =32
@@ -518,7 +542,8 @@ export default class GameLevel extends Scene{
         // Set current player to first player added
         this.currPlayer = this.players[0]
 
-        
+        this.projectileManager.addPlayerProjectiles(this)
+
         this.currPlayer.addAI(PlayerController, {playerType: "platformer", tilemap: "maplevel1", players: this.players, viewport: this.viewport}); 
 
         // Follow only the current player
@@ -591,6 +616,10 @@ export default class GameLevel extends Scene{
         this.currPlayer.disablePhysics();
         //this.currPlayer.animation.play("Death", false, Game_Events.PLAYER_DEATH);
         this.emitter.fireEvent(Game_Events.PLAYER_DYING)
+    }
+
+    protected handleProjectileCollision(projectile: CanvasNode, node: AnimatedSprite) { 
+        this.projectileManager.deactivateProjectile(projectile)
     }
 
     /**
