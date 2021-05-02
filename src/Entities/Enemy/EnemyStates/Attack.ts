@@ -58,10 +58,12 @@ export default class Attack extends OnGround {
             this.parent.exitTimer.start();
             let basic_attack = this.parent.basic_attack
 
-            // Fire at the player
-            let dir = this.playerPos.clone().sub(this.owner.position).normalize();
-           
-            this.parent.projectileManager.fireSpecificProjectile(this.owner, basic_attack, dir, basic_attack.damage)
+            if(basic_attack){
+                // Fire at the player
+                let dir = this.playerPos.clone().sub(this.owner.position).normalize();
+            
+                this.parent.projectileManager.fireSpecificProjectile(this.owner, basic_attack, dir, basic_attack.damage)
+            }
             
         }
         

@@ -125,7 +125,6 @@ export default class GameLevel extends Scene{
                 case Game_Events.SWITCH_TO_FLOW:
                     {
                         this.currPlayer = this.players[2];
-                        this.battleManager.setPlayer(<BattlerAI>this.currPlayer._ai);
                         this.renoIcons.visible = false;
                         this.tahoeIcons.visible = false;
                         this.flowIcons.visible = true;
@@ -134,7 +133,6 @@ export default class GameLevel extends Scene{
                 case Game_Events.SWITCH_TO_RENO:
                     {
                         this.currPlayer = this.players[1];
-                        this.battleManager.setPlayer(<BattlerAI>this.currPlayer._ai);
                         this.renoIcons.visible = true;
                         this.tahoeIcons.visible = false;
                         this.flowIcons.visible = false;
@@ -143,7 +141,6 @@ export default class GameLevel extends Scene{
                 case Game_Events.SWITCH_TO_TAHOE:
                     {
                         this.currPlayer = this.players[0];
-                        this.battleManager.setPlayer(<BattlerAI>this.currPlayer._ai);
                         this.renoIcons.visible = false;
                         this.tahoeIcons.visible = true;
                         this.flowIcons.visible = false;
@@ -623,9 +620,16 @@ export default class GameLevel extends Scene{
         this.emitter.fireEvent(Game_Events.PLAYER_DYING)
     }
 
-    protected handleProjectileCollision(projectile: CanvasNode, node: AnimatedSprite) { 
+    protected handleProjectileCollision(projectile: CanvasNode, node: AnimatedSprite) {   
         let deactivated =this.projectileManager.deactivateProjectile(projectile);
-        (<BattlerAI>node._ai).damage(deactivated[0].damage)
+        let damage = deactivated[0].damage
+
+        if((<PlayerController>this.players[0]._ai).owner == node){
+            (<PlayerController>this.players[0]._ai).damage(damage);
+        }
+        else{
+            (<BattlerAI>node._ai).damage(damage)
+        }
         
     }
 

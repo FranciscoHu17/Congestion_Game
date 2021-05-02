@@ -36,6 +36,7 @@ import Flow_Q from "./PlayerStates/Flow_Q";
 import UsingAbility from "./PlayerStates/UsingAbility";
 import ProjectileManager from "../../GameSystems/ProjectileManager";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import EnemyController from "../Enemy/EnemyController";
 
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
@@ -85,7 +86,9 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 	MIN_SPEED: number = 128*4;
     MAX_SPEED: number = 10000; 
     tilemap: OrthogonalTilemap;
+    battleManager: BattleManager;
     projectileManager: ProjectileManager
+    
 
     abilities: Array<Ability> = [];
     currentAbility: Ability;
@@ -126,36 +129,36 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
     //TODO: change all the stats later
     initializeAbilities(){
-        let battle_manager = BattleManager.getInstance();
+        this.battleManager = BattleManager.getInstance();
 
         let tahoeq = new TahoeQ();
-        tahoeq.initialize({damage: 100, cooldown:1800, displayName: "TahoeQ", spriteKey: "tahoe", useVolume: 100});
-        let tahoeQ = new Ability(this.players[0], tahoeq, battle_manager);
+        tahoeq.initialize({damage: 20, cooldown:1800, displayName: "TahoeQ", spriteKey: "tahoe", useVolume: 100});
+        let tahoeQ = new Ability(this.players[0], tahoeq, this.battleManager);
         this.abilities.push(tahoeQ);
 
         let renoq = new RenoQ();
         renoq.initialize({damage: 100, cooldown:1000, displayName: "RenoQ", spriteKey: "reno", useVolume: 100});
-        let renoQ = new Ability(this.players[1], renoq, battle_manager);
+        let renoQ = new Ability(this.players[1], renoq, this.battleManager);
         this.abilities.push(renoQ);
 
         let flowq = new FlowQ();
         flowq.initialize({damage: 0, cooldown:1800, displayName: "FlowQ", spriteKey: "flow", useVolume: 100});
-        let flowQ = new Ability(this.players[2], flowq, battle_manager);
+        let flowQ = new Ability(this.players[2], flowq, this.battleManager);
         this.abilities.push(flowQ);
 
         let tahoee = new TahoeE();
-        tahoee.initialize({damage: 100, cooldown:1800, displayName: "TahoeE", spriteKey: "tahoe", useVolume: 100});
-        let tahoeE = new Ability(this.players[0], tahoee, battle_manager);
+        tahoee.initialize({damage: 20, cooldown:1800, displayName: "TahoeE", spriteKey: "tahoe", useVolume: 100});
+        let tahoeE = new Ability(this.players[0], tahoee, this.battleManager);
         this.abilities.push(tahoeE);
 
         let renoe = new RenoE();
-        renoe.initialize({damage: 0, cooldown:1800, displayName: "RenoE", spriteKey: "reno", useVolume: 100});
-        let renoE = new Ability(this.players[1], renoe, battle_manager);
+        renoe.initialize({damage: 0, cooldown: 800, displayName: "RenoE", spriteKey: "reno", useVolume: 100});
+        let renoE = new Ability(this.players[1], renoe, this.battleManager);
         this.abilities.push(renoE);
 
         let flowe = new FlowE();
         flowe.initialize({damage: 0, cooldown:1800, displayName: "FlowE", spriteKey: "flow", useVolume: 100});
-        let flowE = new Ability(this.players[2], flowe, battle_manager);
+        let flowE = new Ability(this.players[2], flowe, this.battleManager);
         this.abilities.push(flowE);
 
         this.currentAbility = tahoeQ;
@@ -184,6 +187,11 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                 this.players[i].disablePhysics()
                 this.players[i].visible = false
             }
+        }
+
+        let enemies = this.battleManager.getEnemies()
+        for(let enemy of enemies){
+            (<EnemyController>enemy).player = this.owner
         }
     }
 
