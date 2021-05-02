@@ -619,7 +619,8 @@ export default class GameLevel extends Scene{
     }
 
     protected handleProjectileCollision(projectile: CanvasNode, node: AnimatedSprite) { 
-        this.projectileManager.deactivateProjectile(projectile)
+        let deactivated =this.projectileManager.deactivateProjectile(projectile)
+        console.log("damage dealt:", deactivated[0].damage)
     }
 
     /**

@@ -90,6 +90,9 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     abilities: Array<Ability> = [];
     currentAbility: Ability;
     abilitiesTimer: Timer;
+    basicAttackTimer: Timer;
+    basicAttackCooldown: Timer;
+    basicAttackCounter: number;
     health: number;//TODO: put in health and damage!!!!
     damage: (damage: number) => void;//TODO: implement damage function...
 
@@ -97,12 +100,15 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.owner = owner;
         this.switchTimer = new Timer(1500)
         this.abilitiesTimer = new Timer(1500)
+        this.basicAttackTimer = new Timer(3000)
+        this.basicAttackCooldown = new Timer(1000)
 
         this.initializePlatformer();
 
         this.tilemap = this.owner.getScene().getTilemap(options.tilemap) as OrthogonalTilemap;
         this.players = options.players
         this.viewport = options.viewport
+        this.basicAttackCounter = 0
 
         this.initializeAbilities();
         this.projectileManager = ProjectileManager.getInstance()
@@ -151,11 +157,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         flowe.initialize({damage: 0, cooldown:1800, displayName: "FlowE", spriteKey: "flow", useVolume: 100});
         let flowE = new Ability(this.players[2], flowe, battle_manager);
         this.abilities.push(flowE);
-
-        let basicattack = new BasicAttack()
-        basicattack.initialize(({damage: 20, cooldown:500, displayName: "basicattack", spriteKey: "", useVolume: 100}));
-        let basicAttack = new Ability(<Sprite>this.owner, basicattack, battle_manager);
-        this.abilities.push(basicAttack);
 
         this.currentAbility = tahoeQ;
     }
@@ -287,13 +288,23 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                 this.abilities[5].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[5].type.cooldown)
             }
-        }else if(Input.isMouseJustPressed() && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
-            //super.changeState(PlayerStates.ABILITY)
-            //this.currentAbility = this.abilities[6]
-            //this.abilities[6].use(this.owner, "player", this.owner.position.dirTo(Input.getGlobalMousePosition()));
-            //this.abilitiesTimer.start(this.abilities[6].type.cooldown)
-            (<AnimatedSprite>this.owner).animation.play("Basic Attack")
-            this.projectileManager.fireProjectile(this.owner, "basic", this.owner.position.dirTo(Input.getGlobalMousePosition()))
+        }else if(Input.isMouseJustPressed() && this.basicAttackCooldown.isStopped() && this.abilitiesTimer.isStopped()
+                 && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
+            if(this.projectileManager.getNumBasicShots() == 0){
+                (<AnimatedSprite>this.owner).animation.play("Basic Attack")
+            }
+            this.projectileManager.fireProjectile(this.owner, "basic", this.owner.position.dirTo(Input.getGlobalMousePosition()), 20)
+            if(this.projectileManager.getNumBasicShots() > 0){
+                this.basicAttackTimer.start()
+            }
+            if(!this.basicAttackTimer.isStopped()){
+                this.basicAttackCounter += 1
+                if(this.basicAttackCounter == this.projectileManager.SHOTS_PER_ROUND){
+                    this.basicAttackCounter = 0
+                    this.basicAttackCooldown.start()
+                    console.log("cooldown start")
+                }
+            }
         }
 
         if(Input.isJustPressed("pause")){

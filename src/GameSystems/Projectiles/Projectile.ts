@@ -7,16 +7,31 @@ import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 
 export default abstract class Projectile{
     owner: GameNode
-    spriteKey: string
+    key: string
     velocity: Vec2
     size: Vec2
+    start: Vec2
     active: boolean
+    damage: number
     SPEED: number
-
+    MAX_DIST: number
+    
+    /**
+     * Initialize a Projectile
+     * @param options   Projectile options
+     */
     abstract initialize(options: Record<string, any>): void;
 
+    /**
+     * Set the activity of this Projectile
+     * @param active    Whether or not this Projectile is active
+     */
     abstract setActivity(active: boolean): void;
 
+    /**
+     * Update the movement of this Projectile
+     * @param deltaT    Amount of time that has passed
+     */
     abstract update(deltaT: number): void;
 
     
