@@ -49,6 +49,8 @@ export default class Level1 extends GameLevel{
         this.load.audio("renoQ", "assets/sounds/renoQ.wav");
         this.load.audio("tahoeE", "assets/sounds/tahoeE.wav");
         this.load.audio("tahoeQ", "assets/sounds/tahoeQ.wav");
+        this.load.audio("switchIn", "assets/sounds/switchIn.wav");
+        this.load.audio("switchOut", "assets/sounds/switchOut.wav");
     }
 
     /**
