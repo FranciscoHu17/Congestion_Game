@@ -396,7 +396,7 @@ export default class GameLevel extends Scene{
         this.flowIcons.position.set(this.flowIcons.size.x/2, this.flowIcons.size.y/2);
         this.flowIcons.visible = false;
 
-        this.playerHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(256,42), size: new Vec2(this.battleManager.getPlayer().health,18)});
+        this.playerHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(258,42), size: new Vec2(this.battleManager.getPlayer().health*2.5,18)});
         this.playerHealthBar.color = Color.GREEN;
         console.log(this.battleManager.getPlayer().health)
 

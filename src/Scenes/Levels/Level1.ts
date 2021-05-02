@@ -70,7 +70,11 @@ export default class Level1 extends GameLevel{
      */
 
     startScene(): void {
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level1", loop: true, holdReference: true});
+        //this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level1", loop: true, holdReference: true});
+        /** ^ TURN THIS BACK ON AFTER WE ARE DONE */
+
+
+
         // Add a background layer and set the background image on it
         // probably need to change position
         this.addParallaxLayer("bg", new Vec2(0.25, 0), -100);
