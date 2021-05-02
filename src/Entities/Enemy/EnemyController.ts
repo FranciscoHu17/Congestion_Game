@@ -62,7 +62,7 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         
         this.owner = owner;
         let damage = options.damage?  options.damage : 1;
-        this.health = options.health ? options.health : 1;
+        this.health = options.health ? options.health : 30;//TODO: change this later??
         this.key = options.basic_attack ? options.basic_attack : null
         this.basic_attack = []
         let ability = options.ability ? options.ability : null;
@@ -159,13 +159,13 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
     damage(damage: number): void {
         this.health -= damage;
         console.log("enemy health:", this.health)
-        /*
+        
         if(this.health <= 0){
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
             this.owner.visible = false;
             this.owner.disablePhysics()
-        }*/
+        }
     }
 
     getPlayerPosition(): Vec2 {

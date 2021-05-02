@@ -258,6 +258,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.health -= damage;
         console.log("player health:", this.health)
         if(this.health <= 0){
+            this.owner.disablePhysics();
             this.emitter.fireEvent(Game_Events.PLAYER_DYING);
         }
         else{

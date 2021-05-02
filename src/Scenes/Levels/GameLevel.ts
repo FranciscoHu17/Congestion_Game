@@ -191,10 +191,6 @@ export default class GameLevel extends Scene{
                         //this.respawnTimer.reset();   
                         this.respawnPlayer();
                         this.currPlayer.enablePhysics();
-                        //position: new Vec2(258,42), size: new Vec2(this.battleManager.getPlayer().health*2.5,18)
-                        (<PlayerController>this.players[0]._ai).health = this.playerMaxHealth;
-                        this.playerHealthBar.size = new Vec2(this.battleManager.getPlayer().health*2.5,18);
-                        this.playerHealthBar.position = new Vec2(258,42);
                         
                     }
                     break;
@@ -649,6 +645,21 @@ export default class GameLevel extends Scene{
      */
     protected respawnPlayer(): void {
         this.currPlayer.position.copy(this.playerSpawn);
+        //resets health
+        (<PlayerController>this.players[0]._ai).health = this.playerMaxHealth;
+        this.playerHealthBar.size = new Vec2(this.battleManager.getPlayer().health*2.5,18);
+        this.playerHealthBar.position = new Vec2(258,42);
+        //respawns enemies
+        for(var i = 0; i< this.enemies.length; i++){
+            // this.owner.setAIActive(false, {});
+            // this.owner.isCollidable = false;
+            // this.owner.visible = false;
+            // this.owner.disablePhysics()
+            this.enemies[i].setAIActive(true, {});
+            this.enemies[i].isCollidable = true;
+            this.enemies[i].visible = true;
+            this.enemies[i].enablePhysics();
+        }
     }
     
 }
