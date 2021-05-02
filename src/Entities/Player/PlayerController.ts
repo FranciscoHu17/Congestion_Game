@@ -257,6 +257,13 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     damage(damage: number): void {
         this.health -= damage;
         console.log("player health:", this.health)
+        if(this.health <= 0){
+            this.emitter.fireEvent(Game_Events.PLAYER_DYING);
+        }
+        else{
+            (<AnimatedSprite>this.owner).animation.play("Damaged", false);
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "playerDamaged", loop: false, holdReference: true});
+        }
         /*
         if(this.health <= 0){
             this.owner.setAIActive(false, {});

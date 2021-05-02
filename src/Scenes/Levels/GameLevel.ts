@@ -34,6 +34,7 @@ export default class GameLevel extends Scene{
     protected enemies: Array<AnimatedSprite>;//TODO: add all the enemies into this array
     protected currPlayer: AnimatedSprite;
     protected playerSpawn: Vec2;
+    protected playerMaxHealth: number = 100;//TODO: change this later?
     
     
     protected respawnTimer: Timer;
@@ -190,6 +191,10 @@ export default class GameLevel extends Scene{
                         //this.respawnTimer.reset();   
                         this.respawnPlayer();
                         this.currPlayer.enablePhysics();
+                        //position: new Vec2(258,42), size: new Vec2(this.battleManager.getPlayer().health*2.5,18)
+                        (<PlayerController>this.players[0]._ai).health = this.playerMaxHealth;
+                        this.playerHealthBar.size = new Vec2(this.battleManager.getPlayer().health*2.5,18);
+                        this.playerHealthBar.position = new Vec2(258,42);
                         
                     }
                     break;
@@ -625,9 +630,15 @@ export default class GameLevel extends Scene{
         let damage = deactivated[0].damage
 
         if((<PlayerController>this.players[0]._ai).owner == node){
+            //player is taking damage
             (<PlayerController>this.players[0]._ai).damage(damage);
+            var currentHealth = (<PlayerController>this.players[0]._ai).health;
+            var xposition = (this.playerHealthBar.position.x - (damage*2.5/2));
+            this.playerHealthBar.position = new Vec2((xposition), 42);
+            this.playerHealthBar.size = new Vec2(currentHealth * 2.5, 18);
         }
         else{
+            //enemy is taking damage(?)
             (<BattlerAI>node._ai).damage(damage)
         }
         
