@@ -34,7 +34,6 @@ import FlowE from "../../GameSystems/Abilities/FlowE";
 import Reno_E from "./PlayerStates/Reno_E";
 import Flow_Q from "./PlayerStates/Flow_Q";
 import UsingAbility from "./PlayerStates/UsingAbility";
-import BasicAttack from "../../GameSystems/Abilities/BasicAttack";
 import ProjectileManager from "../../GameSystems/ProjectileManager";
 
 //import Duck from "./PlayerStates/Duck";
@@ -94,7 +93,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     basicAttackCooldown: Timer;
     basicAttackCounter: number;
     health: number;//TODO: put in health and damage!!!!
-    damage: (damage: number) => void;//TODO: implement damage function...
 
     initializeAI(owner: GameNode, options: Record<string, any>){
         this.owner = owner;
@@ -108,6 +106,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.tilemap = this.owner.getScene().getTilemap(options.tilemap) as OrthogonalTilemap;
         this.players = options.players
         this.viewport = options.viewport
+        this.health = options.health ? options.health : 100
         this.basicAttackCounter = 0
 
         this.initializeAbilities();
@@ -246,6 +245,18 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         super.changeState(stateName);
     }
 
+    damage(damage: number): void {
+        this.health -= damage;
+        console.log("player health:", this.health)
+        /*
+        if(this.health <= 0){
+            this.owner.setAIActive(false, {});
+            this.owner.isCollidable = false;
+            this.owner.visible = false;
+            this.owner.disablePhysics()
+        }*/
+    }
+
     update(deltaT: number): void {
 		super.update(deltaT);
 
@@ -293,7 +304,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             if(this.projectileManager.getNumBasicShots() == 0){
                 (<AnimatedSprite>this.owner).animation.play("Basic Attack")
             }
-            this.projectileManager.fireProjectile(this.owner, "basic", this.owner.position.dirTo(Input.getGlobalMousePosition()), 20)
+            this.projectileManager.fireProjectileByKey(this.owner, "basic", this.owner.position.dirTo(Input.getGlobalMousePosition()), 20)
             if(this.projectileManager.getNumBasicShots() > 0){
                 this.basicAttackTimer.start()
             }

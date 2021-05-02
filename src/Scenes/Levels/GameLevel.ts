@@ -39,7 +39,6 @@ export default class GameLevel extends Scene{
     protected levelEndTimer: Timer;
 
     //Labels for UI
-    protected playerHealth: number = 100 * 2.55;
     protected playerHealthBar: Rect;
     protected bossHealth: number = 150;
     protected bossHealthBar: Rect;
@@ -120,7 +119,6 @@ export default class GameLevel extends Scene{
     updateScene(deltaT: number){
         while(this.receiver.hasNextEvent()){
             let event= this.receiver.getNextEvent()
-            console.log(event)
             
             switch(event.type){
                 case Game_Events.SWITCH_TO_FLOW:
@@ -393,8 +391,9 @@ export default class GameLevel extends Scene{
         this.flowIcons.position.set(this.flowIcons.size.x/2, this.flowIcons.size.y/2);
         this.flowIcons.visible = false;
 
-        this.playerHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(256,42), size: new Vec2(this.playerHealth,18)});
+        this.playerHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(256,42), size: new Vec2(this.battleManager.getPlayer().health,18)});
         this.playerHealthBar.color = Color.GREEN;
+        console.log(this.battleManager.getPlayer().health)
 
         this.bossHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "bossUI", {position: new Vec2(950,50), size: new Vec2(this.bossHealth*3,15)});
         this.bossHealthBar.color = Color.RED;
@@ -545,6 +544,7 @@ export default class GameLevel extends Scene{
         this.projectileManager.addPlayerProjectiles(this)
 
         this.currPlayer.addAI(PlayerController, {playerType: "platformer", tilemap: "maplevel1", players: this.players, viewport: this.viewport}); 
+        this.battleManager.setPlayer(<BattlerAI>this.currPlayer._ai);
 
         // Follow only the current player
         this.viewport.follow(this.currPlayer);
@@ -581,9 +581,9 @@ export default class GameLevel extends Scene{
         for(let i = 0; i < enemyData.numEnemies; i++){
             let enemy = enemyData.enemies[i]
             let position = new Vec2 (enemy.position[0], enemy.position[1])
-            this.addEnemy(enemy.key, position,{ability: enemy.ability, health: enemy.health, player: this.currPlayer})
+            this.addEnemy(enemy.key, position,{basic_attack: enemy.basic_attack, ability: enemy.ability,
+                          health: enemy.health, damage: enemy.damage, player: this.currPlayer})
         }
-
     }
 
     getBattleManager(): BattleManager{
@@ -619,19 +619,9 @@ export default class GameLevel extends Scene{
     }
 
     protected handleProjectileCollision(projectile: CanvasNode, node: AnimatedSprite) { 
-        let deactivated =this.projectileManager.deactivateProjectile(projectile)
-        console.log("damage dealt:", deactivated[0].damage)
-    }
-
-    /**
-     * TODO
-     * 
-     * Increments player health
-     * @param amt The amount to add to the player life
-     */
-    protected incPlayerhealth(amt: number): void {
-        this.playerHealth += amt;
-        //this.healthLabel.text = "Health: " + GameLevel.health;
+        let deactivated =this.projectileManager.deactivateProjectile(projectile);
+        (<BattlerAI>node._ai).damage(deactivated[0].damage)
+        
     }
 
     /**

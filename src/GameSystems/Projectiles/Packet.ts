@@ -10,7 +10,7 @@ import Projectile from "./Projectile"
 export default class Packet extends Projectile{
     /**
      * Initialize the Packet type for Projectiles
-     * @param options   Packet option {owner: Gamenode, key: string, speed: number, max_dist: number, size: Vec2}
+     * @param options   Packet option {owner: Gamenode, key: string, speed: number, max_dist: number, size: Vec2, target: string}
      */
     initialize(options: Record<string, any>): void{
         this.owner = options.owner
@@ -21,12 +21,13 @@ export default class Packet extends Projectile{
         this.velocity = Vec2.ZERO;
         this.active = false
         this.start = Vec2.ZERO
+        this.damage = 1
 
         
         this.owner.addPhysics(new AABB(Vec2.ZERO, this.size.scaled(.5,.5)))
         this.owner.isCollidable = false
         this.owner.setGroup("projectile")
-        this.owner.setTrigger("enemy", Game_Events.PROJECTILE_COLLISION, null)
+        this.owner.setTrigger(options.target, Game_Events.PROJECTILE_COLLISION, null)
     }
 
     /**

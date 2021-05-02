@@ -4,68 +4,79 @@
         {
             "key": "camera",
             "position": [19.5, 26.5],
+            "basic_attack": "",
             "ability": "",
             "health": 5
         },
         {
             "key": "camera",
             "position": [33.5, 22.5],
+            "basic_attack": "",
             "ability": "",
             "health": 5
         },
         {
             "key": "camera",
             "position": [65.5, 11.5],
+            "basic_attack": "",
             "ability": "",
             "health": 5
         },
         {
             "key": "circuit",
             "position": [67.5, 11.5],
+            "basic_attack": "",
             "ability": "",
             "health": 5
         },
         {
             "key": "circuit",
             "position": [65.5, 13.5],
+            "basic_attack": "",
             "ability": "",
             "health": 5
         },
         {
             "key": "circuit",
             "position": [67.5, 13.5],
+            "basic_attack": "",
             "ability": "",
             "health": 5
         },
         {
             "key": "circuit",
             "position": [65.5, 15.5],
+            "basic_attack": "",
             "ability": "",
-            "health": 5
+            "health": 50
         },
         {
             "key": "router",
             "position": [67.5, 15.5],
-            "ability": "",
-            "health": 5
+            "basic_attack": "enemy_basic",
+            "health": 50,
+            "damage": 10
         },
         {
             "key": "router",
             "position": [65.5, 28.5],
-            "ability": "",
-            "health": 5
+            "basic_attack": "enemy_basic",
+            "health": 50,
+            "damage": 10
         },
         {
             "key": "router",
             "position": [9.5, 28.5],
-            "ability": "",
-            "health": 5
+            "basic_attack": "enemy_basic",
+            "health": 50,
+            "damage": 10
         },
         {
             "key": "router",
             "position": [21.5, 23.5],
-            "ability": "",
-            "health": 5
+            "basic_attack": "enemy_basic",
+            "health": 50,
+            "damage": 10
         }
 
     ]

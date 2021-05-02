@@ -1,21 +1,28 @@
 import Ability from "../../GameSystems/Abilities/Ability";
 import AbilityType from "../../GameSystems/Abilities/AbilityType";
 import BattlerAI from "../../GameSystems/BattlerAI";
+import ProjectileManager from "../../GameSystems/ProjectileManager";
+import Projectile from "../../GameSystems/Projectiles/Projectile";
 import StateMachineAI from "../../Wolfie2D/AI/StateMachineAI";
 import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import State from "../../Wolfie2D/DataTypes/State/State";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import GameNode from "../../Wolfie2D/Nodes/GameNode";
+import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
+import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import Timer from "../../Wolfie2D/Timing/Timer";
+import Color from "../../Wolfie2D/Utils/Color";
 import Attack from "./EnemyStates/Attack";
 import Fall from "./EnemyStates/Fall";
 import Idle from "./EnemyStates/Idle";
 
 
 export default class EnemyController extends StateMachineAI implements BattlerAI {
+    projectileManager: ProjectileManager
+
     /** The owner of this AI */
     owner: AnimatedSprite;
 
@@ -33,6 +40,9 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
     /** Friction */
     friction: number = 0;
 
+    /** Projectile that belongs to this controller */
+    basic_attack: Projectile;
+
     /** The weapon this AI has */
     ability: Ability;
 
@@ -44,19 +54,22 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
     pollTimer: Timer;
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
+        this.projectileManager = ProjectileManager.getInstance()
+        
         this.owner = owner;
+        let damage = options.damage?  options.damage : 1;
+        this.health = options.health ? options.health : 1;
+        let basic_attack = options.basic_attack ? options.basic_attack : null
+        let ability = options.ability ? options.ability : null;
+        this.player = options.player ? options.player : null;
 
-        this.health = options.health;
-
-        this.ability = options.ability;
-
-        this.player = options.player;
-
+        console.log(options)
 
         this.exitTimer = new Timer(1000)
         this.pollTimer = new Timer(1000)
 
         this.initializeStates()
+        this.initializeBasicAttack(basic_attack, damage)
 
         // Subscribe to events
         //this.receiver.subscribe(hw3_Events.SHOT_FIRED);
@@ -81,12 +94,30 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         this.initialize(EnemyStates.IDLE)
     }
 
+    initializeBasicAttack(key: string, damage: number){
+        if(key){
+            let size = new Vec2(32,12)
+            let projectile = <Rect>this.owner.getScene().add.graphic(GraphicType.RECT, "primary", {position: new Vec2, size: size})
+            projectile.color = Color.CYAN
+            this.basic_attack = this.projectileManager.addPacket({owner: projectile, key: key, speed: 128*7,
+                                max_dist: 128*7, size: size, target:"player"})
+            this.basic_attack.damage = damage
+        }
+        else{
+            this.basic_attack = null
+        }
+    }
+
+    initializeAbilities(){
+
+    }
+
     activate(options: Record<string, any>): void {
     }
 
     damage(damage: number): void {
-        console.log("Took damage");
         this.health -= damage;
+        console.log("enemy health:", this.health)
         /*
         if(this.health <= 0){
             this.owner.setAIActive(false, {});

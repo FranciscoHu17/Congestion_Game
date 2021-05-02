@@ -4,6 +4,7 @@
         {
             "key": "camera",
             "position": [11.5, 2.5],
+            "basic_attack": "",
             "ability": "",
             "health": 5
         }

@@ -40,6 +40,7 @@ export default class Attack extends OnGround {
 
     update(deltaT: number): void {
         super.update(deltaT)
+
         if(this.parent.pollTimer.isStopped()){
             // Restart the timer
             this.parent.pollTimer.start();
@@ -55,16 +56,13 @@ export default class Attack extends OnGround {
         if(this.playerPos !== null){
             // Player is visible, restart the exitTimer
             this.parent.exitTimer.start();
+            let basic_attack = this.parent.basic_attack
 
-            /*
-            // Fire at player
+            // Fire at the player
             let dir = this.playerPos.clone().sub(this.owner.position).normalize();
-            dir.rotateCCW(Math.PI / 4 * Math.random() - Math.PI/8);
-            if(this.parent.ability.use(this.owner, "enemy", dir)){
-                // If we fired, face that direction
-                this.owner.rotation = Vec2.UP.angleToCCW(dir);
-            }*/
-
+           
+            this.parent.projectileManager.fireSpecificProjectile(this.owner, basic_attack, dir, basic_attack.damage)
+            
         }
         
         if(this.parent.exitTimer.isStopped()){

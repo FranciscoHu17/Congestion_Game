@@ -4,6 +4,7 @@ import GameNode from "../Wolfie2D/Nodes/GameNode";
 import { GraphicType } from "../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Rect from "../Wolfie2D/Nodes/Graphics/Rect";
 import AnimatedSprite from "../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import Sprite from "../Wolfie2D/Nodes/Sprites/Sprite";
 import Scene from "../Wolfie2D/Scene/Scene";
 import Timer from "../Wolfie2D/Timing/Timer";
 import Color from "../Wolfie2D/Utils/Color";
@@ -54,10 +55,12 @@ export default class ProjectileManager{
      * Adds Packet as a projectile
      * @param options Packet option {owner: Gamenode, key: string, speed: number, max_dist: number, size: Vec2}
      */
-    addPacket(options: Record<string, any>): void{
+    addPacket(options: Record<string, any>): Projectile{
         let packet = new Packet()
         packet.initialize(options)
         this.projectiles.push(packet)
+
+        return packet
     }
 
     /**
@@ -70,7 +73,7 @@ export default class ProjectileManager{
             let size = new Vec2(32,12)
             let projectile = <Rect>scene.add.graphic(GraphicType.RECT, "primary", {position: this.startPositon, size: size})
             projectile.color = Color.GREEN
-            this.addPacket({owner: projectile, key: "basic", speed: 128*7, max_dist: 128*7, size: size})
+            this.addPacket({owner: projectile, key: "basic", speed: 128*7, max_dist: 128*7, size: size, target: "enemy"})
         }
     }
     /**
@@ -82,10 +85,10 @@ export default class ProjectileManager{
      * @param damage    The damage the projectile will deal
      * @returns 
      */
-    fireProjectile(shooter: GameNode, key: string, direction: Vec2, damage: number): Projectile{
+    fireProjectileByKey(shooter: GameNode, key: string, direction: Vec2, damage: number): Projectile{
         for(let projectile of this.projectiles){
             if(projectile.key == key && !projectile.active){
-                projectile.owner.position = shooter.position.clone().add(this.startPositon)
+                projectile.owner.position = shooter.position.clone().add(this.startPositon.mult((<Sprite>shooter).direction))
                 projectile.velocity.set(direction.x*projectile.SPEED, direction.y*projectile.SPEED)             
                 projectile.owner.rotation = Math.atan(-1*direction.y/direction.x)
                 projectile.damage = damage
@@ -100,6 +103,20 @@ export default class ProjectileManager{
             }
         }
 
+        return null
+    }
+
+    fireSpecificProjectile(shooter: GameNode, projectile: Projectile, direction: Vec2, damage: number): Projectile{
+        if(projectile && !projectile.active){
+            projectile.owner.position = shooter.position.clone().add(this.startPositon.mult((<Sprite>shooter).direction))
+            projectile.velocity.set(direction.x*projectile.SPEED, direction.y*projectile.SPEED)             
+            projectile.owner.rotation = Math.atan(-1*direction.y/direction.x)
+            projectile.damage = damage
+            projectile.setActivity(true)
+            this.activeProjectiles.push(projectile)
+
+            return projectile;
+        }
         return null
     }
 
