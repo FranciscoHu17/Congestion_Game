@@ -16,6 +16,7 @@ export default class Jump extends InAir {
 	prevDirX: number;
 
 	onEnter(options: Record<string, any>): void {
+		this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "jump", loop: false, holdReference: true});
 		this.prevDirX = (<Sprite>this.parent.owner).direction.x;
 		this.owner.animation.play("Jump", false); //TODO: change the animation name
 		//TODO2: Add jump sound effect here.

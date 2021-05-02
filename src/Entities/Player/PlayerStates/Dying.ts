@@ -2,6 +2,7 @@ import { Game_Events } from "../../../Enums/GameEvents";
 import GameLevel from "../../../Scenes/Levels/GameLevel";
 import StateMachine from "../../../Wolfie2D/DataTypes/State/StateMachine";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
+import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import Input from "../../../Wolfie2D/Input/Input";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
@@ -20,6 +21,7 @@ export default class Dying extends PlayerState{
 
 	onEnter(options: Record<string, any>): void {
         this.owner.animation.play("Death", false, Game_Events.PLAYER_DEATH)
+		this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "playerDeath", loop: false, holdReference: true});
     }
 
 	handleInput(event: GameEvent): void {

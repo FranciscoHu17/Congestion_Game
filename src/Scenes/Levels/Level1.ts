@@ -36,6 +36,19 @@ export default class Level1 extends GameLevel{
 
         this.load.object("enemyData", "assets/spawns/level1_enemies.json");
         this.load.audio("level1", "assets/music/level1.mp3");
+        this.load.audio("basicAttack", "assets/sounds/basicAttack.wav");
+        this.load.audio("enemyAttack", "assets/sounds/enemyAttack.wav");
+        this.load.audio("enemyDamaged", "assets/sounds/enemyDamaged.wav");
+        this.load.audio("enemyDeath", "assets/sounds/enemyDeath.wav");
+        this.load.audio("flowE", "assets/sounds/flowE.wav");
+        this.load.audio("flowQ", "assets/sounds/flowQ.wav");
+        this.load.audio("jump", "assets/sounds/jump.wav");
+        this.load.audio("playerDamaged", "assets/sounds/playerDamaged.wav");
+        this.load.audio("playerDeath", "assets/sounds/playerDeath.wav");
+        this.load.audio("renoE", "assets/sounds/renoE.wav");
+        this.load.audio("renoQ", "assets/sounds/renoQ.wav");
+        this.load.audio("tahoeE", "assets/sounds/tahoeE.wav");
+        this.load.audio("tahoeQ", "assets/sounds/tahoeQ.wav");
     }
 
     /**
@@ -44,6 +57,7 @@ export default class Level1 extends GameLevel{
      * Keep resources
      */
     unloadScene(){
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level1"});
         this.load.keepSpritesheet("player1");
         this.load.keepSpritesheet("player2");
         this.load.keepSpritesheet("player3");
@@ -56,6 +70,7 @@ export default class Level1 extends GameLevel{
      */
 
     startScene(): void {
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level1", loop: true, holdReference: true});
         // Add a background layer and set the background image on it
         // probably need to change position
         this.addParallaxLayer("bg", new Vec2(0.25, 0), -100);

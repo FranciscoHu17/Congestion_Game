@@ -35,6 +35,7 @@ import Reno_E from "./PlayerStates/Reno_E";
 import Flow_Q from "./PlayerStates/Flow_Q";
 import UsingAbility from "./PlayerStates/UsingAbility";
 import ProjectileManager from "../../GameSystems/ProjectileManager";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
@@ -264,16 +265,19 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         if(Input.isJustPressed("ability1") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
             if(currentPlayer == "tahoe"){
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "tahoeQ", loop: false, holdReference: true});
                 super.changeState(PlayerStates.ABILITY)
                 this.currentAbility = this.abilities[0]
                 this.abilities[0].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[0].type.cooldown)
             }else if(currentPlayer == "reno"){
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "renoQ", loop: false, holdReference: true});
                 super.changeState(PlayerStates.ABILITY)
                 this.currentAbility = this.abilities[1]
                 this.abilities[1].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.abilitiesTimer.start(this.abilities[1].type.cooldown)
             }else if(currentPlayer == "flow"){
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "flowQ", loop: false, holdReference: true});
                 super.changeState(PlayerStates.ABILITY)
                 this.currentAbility = this.abilities[2]
                 this.abilities[2].use(this.owner, "player", (<Sprite>this.owner).direction);
@@ -284,16 +288,19 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             var currentPlayer = (<AnimatedSprite>this.owner).imageId;
 
             if(currentPlayer == "tahoe"){
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "tahoeE", loop: false, holdReference: true});
                 super.changeState(PlayerStates.ABILITY)
                 this.abilities[3].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.currentAbility = this.abilities[3]
                 this.abilitiesTimer.start(this.abilities[3].type.cooldown)
             }else if(currentPlayer == "reno"){
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "renoE", loop: false, holdReference: true});
                 super.changeState(PlayerStates.ABILITY)
                 this.abilities[4].use(this.owner, "player", (<Sprite>this.owner).direction);
                 this.currentAbility = this.abilities[4]
                 this.abilitiesTimer.start(this.abilities[4].type.cooldown)
             }else if(currentPlayer == "flow"){
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "flowE", loop: false, holdReference: true});
                 super.changeState(PlayerStates.ABILITY)
                 this.currentAbility = this.abilities[5]
                 this.abilities[5].use(this.owner, "player", (<Sprite>this.owner).direction);
@@ -302,7 +309,8 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         }else if(Input.isMouseJustPressed() && this.basicAttackCooldown.isStopped() && this.abilitiesTimer.isStopped()
                  && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
             if(this.projectileManager.getNumBasicShots() == 0){
-                (<AnimatedSprite>this.owner).animation.play("Basic Attack")
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "basicAttack", loop: false, holdReference: true});
+                (<AnimatedSprite>this.owner).animation.play("Basic Attack",false)
             }
             this.projectileManager.fireProjectileByKey(this.owner, "basic", this.owner.position.dirTo(Input.getGlobalMousePosition()), 20)
             if(this.projectileManager.getNumBasicShots() > 0){
