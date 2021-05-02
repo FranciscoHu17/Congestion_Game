@@ -26,6 +26,7 @@ import BattlerAI from "../../GameSystems/BattlerAI";
 import ProjectileManager from "../../GameSystems/ProjectileManager";
 import Projectile from "../../GameSystems/Projectiles/Projectile";
 import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
@@ -285,6 +286,10 @@ export default class GameLevel extends Scene{
                         this.setMenuLayerVisibility(event.type);
                     }
                     break;
+                case Game_Events.PLAYER_DYING:
+                    {
+                        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "playerDeath", loop: false, holdReference: true});
+                    }
             }
         }
         // If player falls into a pit, kill them off and reset their position
