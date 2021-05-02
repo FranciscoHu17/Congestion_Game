@@ -22,7 +22,7 @@ export default class ProjectileManager{
     private activeProjectiles: Array<Projectile> 
 
     /** Padding of the start position of projectile */
-    private startPositon: Vec2 = new Vec2(128*.5,0)
+    startPosition: Vec2 = new Vec2(128*.5,0)
 
     /** Number of active basic attacks */
     private basicShots: number = 0
@@ -47,7 +47,7 @@ export default class ProjectileManager{
     constructor(){
         this.projectiles = []
         this.activeProjectiles = []
-        this.startPositon = new Vec2(128*.5,0)
+        this.startPosition = new Vec2(128*.5,0)
         this.basicShots = 0
     }
 
@@ -71,7 +71,7 @@ export default class ProjectileManager{
         for(let i = 0; i < this.SHOTS_PER_ROUND; i++){
             //let projectile = scene.add.animatedSprite("basic","primary")
             let size = new Vec2(32,12)
-            let projectile = <Rect>scene.add.graphic(GraphicType.RECT, "primary", {position: this.startPositon, size: size})
+            let projectile = <Rect>scene.add.graphic(GraphicType.RECT, "primary", {position: this.startPosition, size: size})
             projectile.color = Color.GREEN
             this.addPacket({owner: projectile, key: "basic", speed: 128*7, max_dist: 128*7, size: size, target: "enemy"})
         }
@@ -88,7 +88,8 @@ export default class ProjectileManager{
     fireProjectileByKey(shooter: GameNode, key: string, direction: Vec2, damage: number): Projectile{
         for(let projectile of this.projectiles){
             if(projectile.key == key && !projectile.active){
-                projectile.owner.position = shooter.position.clone().add(this.startPositon.mult((<Sprite>shooter).direction))
+                this.startPosition.x *= (((<Sprite>shooter).direction.x<0) == (this.startPosition.x>0)) ? -1 : 1 ;
+                projectile.owner.position = shooter.position.clone().add(this.startPosition)
                 projectile.velocity.set(direction.x*projectile.SPEED, direction.y*projectile.SPEED)             
                 projectile.owner.rotation = Math.atan(-1*direction.y/direction.x)
                 projectile.damage = damage
@@ -108,7 +109,8 @@ export default class ProjectileManager{
 
     fireSpecificProjectile(shooter: GameNode, projectile: Projectile, direction: Vec2, damage: number): Projectile{
         if(projectile && !projectile.active){
-            projectile.owner.position = shooter.position.clone().add(this.startPositon.mult((<Sprite>shooter).direction))
+            this.startPosition.x *= (((<Sprite>shooter).direction.x<0) == (this.startPosition.x>0)) ? -1 : 1 ;
+            projectile.owner.position = shooter.position.clone().add(this.startPosition)   
             projectile.velocity.set(direction.x*projectile.SPEED, direction.y*projectile.SPEED)             
             projectile.owner.rotation = Math.atan(-1*direction.y/direction.x)
             projectile.damage = damage

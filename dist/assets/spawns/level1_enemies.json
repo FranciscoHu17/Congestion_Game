@@ -25,30 +25,30 @@
         {
             "key": "circuit",
             "position": [67.5, 11.5],
-            "basic_attack": "",
-            "ability": "",
-            "health": 5
+            "basic_attack": "enemy_around",
+            "health": 5,
+            "damage": 10
         },
         {
             "key": "circuit",
             "position": [65.5, 13.5],
-            "basic_attack": "",
-            "ability": "",
-            "health": 5
+            "basic_attack": "enemy_around",
+            "health": 5,
+            "damage": 10
         },
         {
             "key": "circuit",
             "position": [67.5, 13.5],
-            "basic_attack": "",
-            "ability": "",
-            "health": 5
+            "basic_attack": "enemy_around",
+            "health": 5,
+            "damage": 10
         },
         {
             "key": "circuit",
             "position": [65.5, 15.5],
-            "basic_attack": "",
-            "ability": "",
-            "health": 50
+            "basic_attack": "enemy_around",
+            "health": 50,
+            "damage": 10
         },
         {
             "key": "router",

@@ -50,6 +50,8 @@ export default class Attack extends OnGround {
             if(this.playerPos !== null){
                 // If we see a new player position, update the last position
                 this.lastPlayerPos = this.playerPos;
+                this.owner.direction.x = (this.playerPos.x - this.owner.position.x) > 0 ? 1 : -1
+                this.owner.direction.y = 0  
             }
         }
         
@@ -58,11 +60,10 @@ export default class Attack extends OnGround {
             this.parent.exitTimer.start();
             let basic_attack = this.parent.basic_attack
 
-            if(basic_attack){
+            if(basic_attack && this.parent.basicAttackTimer.isStopped()){
                 // Fire at the player
                 let dir = this.playerPos.clone().sub(this.owner.position).normalize();
-            
-                this.parent.projectileManager.fireSpecificProjectile(this.owner, basic_attack, dir, basic_attack.damage)
+                this.parent.fireBasicAttacks(this.owner, dir)
             }
             
         }

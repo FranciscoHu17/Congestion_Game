@@ -41,7 +41,10 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
     friction: number = 0;
 
     /** Projectile that belongs to this controller */
-    basic_attack: Projectile;
+    basic_attack: Array<Projectile>;
+
+    /** basic attack key of this enemy */
+    key: string
 
     /** The weapon this AI has */
     ability: Ability;
@@ -52,6 +55,7 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
     /** Timers */
     exitTimer: Timer;
     pollTimer: Timer;
+    basicAttackTimer: Timer;
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.projectileManager = ProjectileManager.getInstance()
@@ -59,7 +63,8 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         this.owner = owner;
         let damage = options.damage?  options.damage : 1;
         this.health = options.health ? options.health : 1;
-        let basic_attack = options.basic_attack ? options.basic_attack : null
+        this.key = options.basic_attack ? options.basic_attack : null
+        this.basic_attack = []
         let ability = options.ability ? options.ability : null;
         this.player = options.player ? options.player : null;
 
@@ -67,9 +72,10 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
 
         this.exitTimer = new Timer(1000)
         this.pollTimer = new Timer(1000)
+        this.basicAttackTimer = new Timer(1000)
 
         this.initializeStates()
-        this.initializeBasicAttack(basic_attack, damage)
+        this.initializeBasicAttack(damage)
 
         // Subscribe to events
         //this.receiver.subscribe(hw3_Events.SHOT_FIRED);
@@ -94,14 +100,26 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         this.initialize(EnemyStates.IDLE)
     }
 
-    initializeBasicAttack(key: string, damage: number){
-        if(key){
+    initializeBasicAttack(damage: number){
+        if(this.key == "enemy_basic"){
             let size = new Vec2(32,12)
             let projectile = <Rect>this.owner.getScene().add.graphic(GraphicType.RECT, "primary", {position: new Vec2, size: size})
             projectile.color = Color.CYAN
-            this.basic_attack = this.projectileManager.addPacket({owner: projectile, key: key, speed: 128*7,
+            let basic_attack = this.projectileManager.addPacket({owner: projectile, key: this.key, speed: 128*7,
+                                max_dist: 128*6, size: size, target:"player"})
+            basic_attack.damage = damage
+            this.basic_attack.push(basic_attack)
+        }
+        else if(this.key == "enemy_around"){
+            let size = new Vec2(32,12)
+            for(let i = 0; i < 6; i++){
+                let projectile = <Rect>this.owner.getScene().add.graphic(GraphicType.RECT, "primary", {position: new Vec2, size: size})
+                projectile.color = Color.MAGENTA
+                let basic_attack = this.projectileManager.addPacket({owner: projectile, key: this.key, speed: 128*7,
                                 max_dist: 128*7, size: size, target:"player"})
-            this.basic_attack.damage = damage
+                basic_attack.damage = damage
+                this.basic_attack.push(basic_attack)
+            }
         }
         else{
             this.basic_attack = null
@@ -110,6 +128,29 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
 
     initializeAbilities(){
 
+    }
+
+    fireBasicAttacks(shooter: GameNode, dir: Vec2){
+        if(this.key == "enemy_basic"){
+            let basic_attack = this.basic_attack[0]
+            this.projectileManager.fireSpecificProjectile(this.owner, basic_attack, dir, basic_attack.damage)
+            this.basicAttackTimer.start(1000)
+        }
+        else if(this.key == "enemy_around"){
+            let curr_dir = dir.set(1,0) 
+            let curr_angle = Math.PI/2
+            for(let basic_attack of this.basic_attack){
+                let prevX = this.projectileManager.startPosition.x
+                this.projectileManager.startPosition.x = 0
+                this.projectileManager.fireSpecificProjectile(this.owner, basic_attack, curr_dir, basic_attack.damage)
+                this.projectileManager.startPosition.x = prevX
+                curr_angle += Math.PI/(this.basic_attack.length-1)
+                curr_dir.x = Math.sin(curr_angle)
+                curr_dir.y = Math.cos(curr_angle)
+            }
+            this.basicAttackTimer.start(2000)
+        }
+        
     }
 
     activate(options: Record<string, any>): void {

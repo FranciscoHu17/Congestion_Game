@@ -10,7 +10,7 @@ import Projectile from "./Projectile"
 export default class Packet extends Projectile{
     /**
      * Initialize the Packet type for Projectiles
-     * @param options   Packet option {owner: Gamenode, key: string, speed: number, max_dist: number, size: Vec2, target: string}
+     * @param options   Packet option {owner: Gamenode, key: string, speed: number, max_dist: number, size: Vec2}
      */
     initialize(options: Record<string, any>): void{
         this.owner = options.owner
