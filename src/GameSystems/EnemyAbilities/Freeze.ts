@@ -70,14 +70,13 @@ export default class Freeze extends AbilityType {
     interact(ai: BattlerAI, hitbox: Rect): boolean {
         //return node.collisionShape.getBoundingRect().intersectSegment(line.start, line.end.clone().sub(line.start)) !== null;
         let overlap = ai.owner.collisionShape.getBoundingRect().overlaps(hitbox.boundary)
-        let dir = (this.owner.position.x < ai.owner.position.x) ? 1: -1
         
         if(overlap && (<PlayerController>ai).freezeTimer.isStopped()){
             let frozen = (<PlayerController>ai);
             frozen.owner.freeze();
             frozen.freezeTimer.start()
         }
-
-        return false
+        
+        return overlap
     }
 }

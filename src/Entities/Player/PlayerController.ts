@@ -143,7 +143,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.battleManager = BattleManager.getInstance();
 
         let tahoeq = new TahoeQ();
-        tahoeq.initialize({damage: 20, cooldown:1800, displayName: "TahoeQ", spriteKey: "tahoe", useVolume: 100});
+        tahoeq.initialize({damage: 10, cooldown:1800, displayName: "TahoeQ", spriteKey: "tahoe", useVolume: 100});
         let tahoeQ = new Ability(this.players[0], tahoeq, this.battleManager);
         this.abilities.push(tahoeQ);
 
@@ -158,7 +158,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.abilities.push(flowQ);
 
         let tahoee = new TahoeE();
-        tahoee.initialize({damage: 20, cooldown:1800, displayName: "TahoeE", spriteKey: "tahoe", useVolume: 100});
+        tahoee.initialize({damage: 10, cooldown:1800, displayName: "TahoeE", spriteKey: "tahoe", useVolume: 100});
         let tahoeE = new Ability(this.players[0], tahoee, this.battleManager);
         this.abilities.push(tahoeE);
 

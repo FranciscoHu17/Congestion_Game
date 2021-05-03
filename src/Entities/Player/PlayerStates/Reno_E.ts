@@ -42,7 +42,7 @@ export default class Reno_E extends PlayerState {
             if(closest != null){
                 let walls = <OrthogonalTilemap>this.owner.getScene().getLayer("bottom").getItems()[0];
                 let teleport = closest.owner.position.clone()
-                teleport.x += 128*3/4 * (<Sprite>closest.owner).direction.x
+                teleport.x += 128*3/4 * -1*(<Sprite>closest.owner).direction.x
                 let behind = walls.getTileAtWorldPosition(teleport)
 
                 if(behind == 0){

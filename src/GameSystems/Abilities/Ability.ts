@@ -83,8 +83,10 @@ export default class Ability {
             hitbox.position.x = position.x +128*2*direction.x;
             hitbox.position.y = position.y
             
-            if(this.type.damage > 0)
-                this.battleManager.handleInteraction(userType, this);
+            let prevDamage = this.type.damage
+            this.type.damage = 0
+            this.battleManager.handleInteraction(userType, this);
+            this.type.damage = prevDamage
         }
     }
 

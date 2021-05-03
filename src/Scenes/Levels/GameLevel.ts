@@ -625,20 +625,21 @@ export default class GameLevel extends Scene{
 
     protected handleProjectileCollision(projectile: CanvasNode, node: AnimatedSprite) { 
         let deactivated =this.projectileManager.deactivateProjectile(projectile);
-
-        let damage = deactivated[0].damage
-        
-        if((<PlayerController>this.players[0]._ai).owner == node){
-            //player is taking damage
-            (<PlayerController>this.players[0]._ai).damage(damage);
-            var currentHealth = (<PlayerController>this.players[0]._ai).health;
-            var xposition = (this.playerHealthBar.position.x - (damage*2.5/2));
-            this.playerHealthBar.position = new Vec2((xposition), 42);
-            this.playerHealthBar.size = new Vec2(currentHealth * 2.5, 18);
-        }
-        else{
-            //enemy is taking damage(?)
-            (<BattlerAI>node._ai).damage(damage)
+        if (deactivated){
+            let damage = deactivated[0].damage
+            
+            if((<PlayerController>this.players[0]._ai).owner == node){
+                //player is taking damage
+                (<PlayerController>this.players[0]._ai).damage(damage);
+                var currentHealth = (<PlayerController>this.players[0]._ai).health;
+                var xposition = (this.playerHealthBar.position.x - (damage*2.5/2));
+                this.playerHealthBar.position = new Vec2((xposition), 42);
+                this.playerHealthBar.size = new Vec2(currentHealth * 2.5, 18);
+            }
+            else{
+                //enemy is taking damage(?)
+                (<BattlerAI>node._ai).damage(damage)
+            }
         }
         
     }

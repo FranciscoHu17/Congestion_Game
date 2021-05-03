@@ -4,9 +4,9 @@
         {
             "key": "camera",
             "position": [11.5, 2.5],
-            "basic_attack": "",
-            "ability": "",
-            "health": 5
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
         }
 
     ]
