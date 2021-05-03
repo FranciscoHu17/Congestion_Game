@@ -33,6 +33,7 @@ export default class Level1 extends GameLevel{
         this.load.spritesheet("circuit", "assets/spritesheets/enemy/circuit.json");
         this.load.spritesheet("router", "assets/spritesheets/enemy/router.json");
 
+        this.load.spritesheet("generator", "assets/spritesheets/objects/generator.json");
 
         this.load.object("enemyData", "assets/spawns/level1_enemies.json");
         this.load.audio("level1", "assets/music/level1.mp3");
@@ -49,6 +50,8 @@ export default class Level1 extends GameLevel{
         this.load.audio("renoQ", "assets/sounds/renoQ.wav");
         this.load.audio("tahoeE", "assets/sounds/tahoeE.wav");
         this.load.audio("tahoeQ", "assets/sounds/tahoeQ.wav");
+        this.load.audio("switchIn", "assets/sounds/switchIn.wav");
+        this.load.audio("switchOut", "assets/sounds/switchOut.wav");
     }
 
     /**
@@ -76,10 +79,11 @@ export default class Level1 extends GameLevel{
 
 
         // Add a background layer and set the background image on it
-        // probably need to change position
         this.addParallaxLayer("bg", new Vec2(0.25, 0), -100);
         let bg = this.add.sprite("background", "bg");
-        bg.position.set(bg.size.x/2,bg.size.y/2);
+        bg.position.set(bg.size.x*2,bg.size.y);
+        bg.scale.x = 5;
+        bg.scale.y = 2
         
         // Add the level 1 tilemap
         this.add.tilemap("maplevel1", new Vec2(1, 1));
@@ -91,7 +95,6 @@ export default class Level1 extends GameLevel{
         // Generic GameLevel Scene setup
         super.startScene() 
 
-        // uhh might not be exact coordinates. On Tiled the top left is (112, 6)
         //this.addLevelEnd(new Vec2(112, 6), new Vec2(2, 2));
         this.addLevelEnd(new Vec2(114, 25), new Vec2(2*256,2*256)) /** USE THIS FOR NOW */
         //this.addLevelEnd(new Vec2(10, 29), new Vec2(2*256,2*256))

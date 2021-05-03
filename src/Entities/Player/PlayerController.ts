@@ -37,6 +37,9 @@ import UsingAbility from "./PlayerStates/UsingAbility";
 import ProjectileManager from "../../GameSystems/ProjectileManager";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import EnemyController from "../Enemy/EnemyController";
+import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
+import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
+import Color from "../../Wolfie2D/Utils/Color";
 
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
@@ -265,6 +268,14 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     damage(damage: number): void {
         this.health -= damage;
         console.log("player health:", this.health)
+        if(this.health <= 0){
+            this.owner.disablePhysics();
+            this.emitter.fireEvent(Game_Events.PLAYER_DYING);
+        }
+        else{
+            (<AnimatedSprite>this.owner).animation.play("Damaged", false, PlayerStates.IDLE);
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "playerDamaged", loop: false, holdReference: true});
+        }
         /*
         if(this.health <= 0){
             this.owner.setAIActive(false, {});
@@ -276,9 +287,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
     update(deltaT: number): void {
 		super.update(deltaT);
-
         if(this.freezeTimer.isStopped()){
-            
             //TODO: use a timer to make sure to only use one ability at a time
             if(Input.isJustPressed("ability1") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
                 var currentPlayer = (<AnimatedSprite>this.owner).imageId;
@@ -293,6 +302,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                     super.changeState(PlayerStates.ABILITY)
                     this.currentAbility = this.abilities[1]
                     this.abilities[1].use(this.owner, "player", (<Sprite>this.owner).direction);
+
                     this.abilitiesTimer.start(this.abilities[1].type.cooldown)
                 }else if(currentPlayer == "flow"){
                     this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "flowQ", loop: false, holdReference: true});

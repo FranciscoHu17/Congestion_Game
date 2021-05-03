@@ -34,6 +34,7 @@ export default class GameLevel extends Scene{
     protected enemies: Array<AnimatedSprite>;//TODO: add all the enemies into this array
     protected currPlayer: AnimatedSprite;
     protected playerSpawn: Vec2;
+    protected playerMaxHealth: number = 100;//TODO: change this later?
     
     
     protected respawnTimer: Timer;
@@ -590,8 +591,8 @@ export default class GameLevel extends Scene{
         }
     }
 
-    getBattleManager(): BattleManager{
-        return this.battleManager;
+    setPlayerSpawn(pos: Vec2): void{
+        this.playerSpawn = pos;
     }
     /**
      * TODO
@@ -624,16 +625,21 @@ export default class GameLevel extends Scene{
 
     protected handleProjectileCollision(projectile: CanvasNode, node: AnimatedSprite) { 
         let deactivated =this.projectileManager.deactivateProjectile(projectile);
-        if (deactivated){
-            let damage = deactivated[0].damage
 
-            if(((<PlayerController>this.players[0]._ai).owner == node)){
-                (<PlayerController>this.players[0]._ai).damage(damage);
-            }
-            else{
-                (<BattlerAI>node._ai).damage(damage)
-            }
-    }
+        let damage = deactivated[0].damage
+        
+        if((<PlayerController>this.players[0]._ai).owner == node){
+            //player is taking damage
+            (<PlayerController>this.players[0]._ai).damage(damage);
+            var currentHealth = (<PlayerController>this.players[0]._ai).health;
+            var xposition = (this.playerHealthBar.position.x - (damage*2.5/2));
+            this.playerHealthBar.position = new Vec2((xposition), 42);
+            this.playerHealthBar.size = new Vec2(currentHealth * 2.5, 18);
+        }
+        else{
+            //enemy is taking damage(?)
+            (<BattlerAI>node._ai).damage(damage)
+        }
         
     }
 
@@ -642,6 +648,21 @@ export default class GameLevel extends Scene{
      */
     protected respawnPlayer(): void {
         this.currPlayer.position.copy(this.playerSpawn);
+        //resets health
+        (<PlayerController>this.players[0]._ai).health = this.playerMaxHealth;
+        this.playerHealthBar.size = new Vec2(this.battleManager.getPlayer().health*2.5,18);
+        this.playerHealthBar.position = new Vec2(258,42);
+        //respawns enemies
+        for(var i = 0; i< this.enemies.length; i++){
+            // this.owner.setAIActive(false, {});
+            // this.owner.isCollidable = false;
+            // this.owner.visible = false;
+            // this.owner.disablePhysics()
+            this.enemies[i].setAIActive(true, {});
+            this.enemies[i].isCollidable = true;
+            this.enemies[i].visible = true;
+            this.enemies[i].enablePhysics();
+        }
     }
     
 }

@@ -32,6 +32,8 @@ export default class Level2 extends GameLevel{
         this.load.spritesheet("circuit", "assets/spritesheets/enemy/circuit.json");
         this.load.spritesheet("router", "assets/spritesheets/enemy/router.json");
         this.load.object("enemyData", "assets/spawns/level2_enemies.json");
+
+        this.load.spritesheet("generator", "assets/spritesheets/objects/generator.json");
         
     }
 
@@ -54,12 +56,13 @@ export default class Level2 extends GameLevel{
 
     startScene(): void {
         // Add a background layer and set the background image on it
-        // probably need to change position
-        this.addParallaxLayer("bg", new Vec2(0.1, 0), -100);
+        this.addParallaxLayer("bg", new Vec2(0.25, 0), -100);
         let bg = this.add.sprite("background", "bg");
-        bg.position.set(bg.size.x/2,bg.size.y/2);
+        bg.position.set(bg.size.x*2,bg.size.y);
+        bg.scale.x = 5;
+        bg.scale.y = 2
         
-        // Add the level 1 tilemap
+        // Add the level 2 tilemap
         this.add.tilemap("maplevel2", new Vec2(1, 1));
 
         this.viewport.setBounds(0, 0, 1000*128, 1000*128);
@@ -69,7 +72,6 @@ export default class Level2 extends GameLevel{
         // Generic GameLevel Scene setup
         super.startScene() 
 
-        // uhh might not be exact coordinates. On Tiled the top left is (112, 6)
         //this.addLevelEnd(new Vec2(112, 6), new Vec2(2, 2));
         this.addLevelEnd(new Vec2(114, 25), new Vec2(2*256,2*256)) /** USE THIS FOR NOW */
         //this.addLevelEnd(new Vec2(10, 29), new Vec2(2*256,2*256))
