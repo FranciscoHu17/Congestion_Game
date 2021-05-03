@@ -37,6 +37,9 @@ import UsingAbility from "./PlayerStates/UsingAbility";
 import ProjectileManager from "../../GameSystems/ProjectileManager";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import EnemyController from "../Enemy/EnemyController";
+import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
+import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
+import Color from "../../Wolfie2D/Utils/Color";
 
 //import Duck from "./PlayerStates/Duck";
 //We proooobably won't need the other states as classes since they are animations that only needs to
@@ -262,7 +265,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             this.emitter.fireEvent(Game_Events.PLAYER_DYING);
         }
         else{
-            (<AnimatedSprite>this.owner).animation.play("Damaged", false);
+            (<AnimatedSprite>this.owner).animation.play("Damaged", false, PlayerStates.IDLE);
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "playerDamaged", loop: false, holdReference: true});
         }
         /*
@@ -291,6 +294,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                 super.changeState(PlayerStates.ABILITY)
                 this.currentAbility = this.abilities[1]
                 this.abilities[1].use(this.owner, "player", (<Sprite>this.owner).direction);
+
                 this.abilitiesTimer.start(this.abilities[1].type.cooldown)
             }else if(currentPlayer == "flow"){
                 this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "flowQ", loop: false, holdReference: true});
