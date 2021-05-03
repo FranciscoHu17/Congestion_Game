@@ -589,8 +589,8 @@ export default class GameLevel extends Scene{
         }
     }
 
-    getBattleManager(): BattleManager{
-        return this.battleManager;
+    setPlayerSpawn(pos: Vec2): void{
+        this.playerSpawn = pos;
     }
     /**
      * TODO

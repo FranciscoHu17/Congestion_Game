@@ -32,6 +32,8 @@ export default class Level2 extends GameLevel{
         this.load.spritesheet("circuit", "assets/spritesheets/enemy/circuit.json");
         this.load.spritesheet("router", "assets/spritesheets/enemy/router.json");
         this.load.object("enemyData", "assets/spawns/level2_enemies.json");
+
+        this.load.spritesheet("generator", "assets/spritesheets/objects/generator.json");
         
     }
 

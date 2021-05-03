@@ -33,6 +33,7 @@ export default class Level1 extends GameLevel{
         this.load.spritesheet("circuit", "assets/spritesheets/enemy/circuit.json");
         this.load.spritesheet("router", "assets/spritesheets/enemy/router.json");
 
+        this.load.spritesheet("generator", "assets/spritesheets/objects/generator.json");
 
         this.load.object("enemyData", "assets/spawns/level1_enemies.json");
         this.load.audio("level1", "assets/music/level1.mp3");
