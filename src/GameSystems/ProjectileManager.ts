@@ -177,4 +177,16 @@ export default class ProjectileManager{
     getNumBasicShots(): number{
         return this.basicShots
     }
+
+    /**
+     * Delete every instance of Projectile
+     */
+    clearProjectiles(): void {
+        while (this.projectiles.length > 0){
+            this.projectiles.pop()
+        }
+        while (this.activeProjectiles.length > 0){
+            this.activeProjectiles.pop()
+        }
+    }
 }

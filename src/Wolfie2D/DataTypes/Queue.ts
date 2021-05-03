@@ -23,7 +23,7 @@ export default class Queue<T> implements Collection {
      * Constructs a new queue
      * @param maxElements The maximum size of the stack
      */
-    constructor(maxElements: number = 100){
+    constructor(maxElements: number = 200){
         this.MAX_ELEMENTS = maxElements;
         this.q = new Array(this.MAX_ELEMENTS);
         this.head = 0;

@@ -1,5 +1,5 @@
 {
-    "numEnemies": 1,
+    "numEnemies": 17,
     "enemies": [
         {
             "key": "camera",
@@ -7,7 +7,119 @@
             "basic_attack": "enemy_basic",
             "ability": "freeze",
             "health": 50
-        }
+        },
+        {
+            "key": "camera",
+            "position": [31.5, 5.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
+        },
+        {
+            "key": "router",
+            "position": [42.5, 4.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [45.5, 4.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "circuit",
+            "position": [50.5, 5.5],
+            "basic_attack": "enemy_around",
+            "health": 75,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [50.5, 9.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "circuit",
+            "position": [50.5, 15.5],
+            "basic_attack": "enemy_around",
+            "health": 75,
+            "damage": 10
+        },
+        {
+            "key": "camera",
+            "position": [57.5, 20.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
+        },
+        {
+            "key": "camera",
+            "position": [65.5, 20.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
+        },
+        {
+            "key": "router",
+            "position": [58.5, 13.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [58.5, 10.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [58.5, 7.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [58.5, 4.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [77.5, 4.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "circuit",
+            "position": [88.5, 8.5],
+            "basic_attack": "enemy_around",
+            "health": 75,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [88.5, 14.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "circuit",
+            "position": [88.5, 19.5],
+            "basic_attack": "enemy_around",
+            "health": 75,
+            "damage": 10
+        }  
 
     ]
 }

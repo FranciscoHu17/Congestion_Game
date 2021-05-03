@@ -60,6 +60,7 @@ export default class Level1 extends GameLevel{
      * Keep resources
      */
     unloadScene(){
+        this.projectileManager.clearProjectiles()
         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level1"});
         this.load.keepSpritesheet("player1");
         this.load.keepSpritesheet("player2");
