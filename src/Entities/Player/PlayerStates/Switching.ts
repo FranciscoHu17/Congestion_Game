@@ -2,6 +2,7 @@ import { Game_Events } from "../../../Enums/GameEvents";
 import GameLevel from "../../../Scenes/Levels/GameLevel";
 import StateMachine from "../../../Wolfie2D/DataTypes/State/StateMachine";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
+import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import Input from "../../../Wolfie2D/Input/Input";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
@@ -27,6 +28,7 @@ export default class Switching extends PlayerState{
 		this.newPlayer = options.player
 		if (this.newPlayer !=null){
 			this.owner.animation.play("Switch Out", false, Game_Events.SWITCHING)
+			this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "switchOut", loop: false, holdReference: true});
 			if(this.newPlayer == "tahoe"){
 				this.emitter.fireEvent(Game_Events.SWITCH_TO_TAHOE);
 			}
@@ -53,6 +55,7 @@ export default class Switching extends PlayerState{
 			(<Sprite>this.owner).direction = prevDir;
 			(<Sprite>this.owner).invertX = MathUtils.sign(this.owner.direction.x) < 0;
 			this.owner.animation.play("Switch In", false, Game_Events.SWITCHING_END)
+			this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "switchIn", loop: false, holdReference: true});
 
 		}
 		else if(event.type == Game_Events.SWITCHING_END){

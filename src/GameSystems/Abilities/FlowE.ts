@@ -1,5 +1,6 @@
 import { PlayerStates } from "../../Entities/Player/PlayerController";
 import { Game_Events } from "../../Enums/GameEvents";
+import GameLevel from "../../Scenes/Levels/GameLevel";
 import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import GameNode, { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
@@ -18,7 +19,8 @@ import AbilityType from "./AbilityType";
 export default class FlowE extends AbilityType {
     startDelay: any | number;
     attackDuration: any | number;
-    owner: GameNode
+    owner: GameNode;
+    checkpoint: AnimatedSprite;
 
     // color: Color;
 
@@ -37,7 +39,7 @@ export default class FlowE extends AbilityType {
 
     doAnimation(shooter: GameNode, direction: Vec2, hitbox: Rect): void {
         (<AnimatedSprite>shooter).animation.play("Ability 1", false, Game_Events.ABILITYFINISHED);
-        hitbox.position.x = hitbox.position.x + (256 * direction.x);
+        /*hitbox.position.x = hitbox.position.x + (256 * direction.x);
 
         let start = shooter.position.clone();
         let end = shooter.position.clone().add(direction.scaled(900));
@@ -79,11 +81,21 @@ export default class FlowE extends AbilityType {
         //TODO: where the hitbox starts and ends if it collides with a wall. change the size!!
         //line.start = start;
         // line.end = end;
-        hitbox.tweens.play("fade");
+        hitbox.tweens.play("fade");*/
     }
 
     createRequiredAssets(scene: Scene, user: Sprite): [Rect] {
-        let line = <Rect>scene.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(user.position.clone().x, 
+        if(this.checkpoint != undefined){
+            this.checkpoint.destroy();
+        }
+        this.checkpoint = scene.add.animatedSprite("generator", "primary");
+        this.checkpoint.animation.play("Idle");
+        this.checkpoint.position.set(user.position.clone().x, user.position.clone().y);
+
+        let level = <GameLevel>scene;
+        level.setPlayerSpawn(new Vec2(user.position.clone().x, user.position.clone().y));
+        
+        /*let line = <Rect>scene.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(user.position.clone().x, 
             user.position.clone().y), size: new Vec2 (384,128)});
         line.color = Color.GREEN;
         this.attackDuration = 1800;
@@ -100,13 +112,14 @@ export default class FlowE extends AbilityType {
                     ease: EaseFunctionType.OUT_SINE
                 }
             ]
-        });
+        });*/
 
-        return [line];
+        return [null];
     }
 
     interact(ai: BattlerAI, hitbox: Rect): boolean {
         //return node.collisionShape.getBoundingRect().intersectSegment(line.start, line.end.clone().sub(line.start)) !== null;
-        return ai.owner.collisionShape.getBoundingRect().overlaps(hitbox.boundary);
+        //return ai.owner.collisionShape.getBoundingRect().overlaps(hitbox.boundary);
+        return false;
     }
 }
