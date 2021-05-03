@@ -273,7 +273,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             this.emitter.fireEvent(Game_Events.PLAYER_DYING);
         }
         else{
-            (<AnimatedSprite>this.owner).animation.play("Damaged", false, PlayerStates.IDLE);
+            (<AnimatedSprite>this.owner).animation.play("Damaged", false, Game_Events.ABILITYFINISHED);
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "playerDamaged", loop: false, holdReference: true});
         }
         /*
