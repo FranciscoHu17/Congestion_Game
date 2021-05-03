@@ -535,6 +535,8 @@ export default class GameLevel extends Scene{
                 player.collisionShape.halfSize.x =60
                 player.collisionShape.halfSize.y =54
             }
+
+            //player.setTrigger("projectile", Game_Events.PROJECTILE_COLLISION, null)
             
 
             this.players.push(player)
@@ -620,16 +622,18 @@ export default class GameLevel extends Scene{
         this.emitter.fireEvent(Game_Events.PLAYER_DYING)
     }
 
-    protected handleProjectileCollision(projectile: CanvasNode, node: AnimatedSprite) {   
+    protected handleProjectileCollision(projectile: CanvasNode, node: AnimatedSprite) { 
         let deactivated =this.projectileManager.deactivateProjectile(projectile);
-        let damage = deactivated[0].damage
+        if (deactivated){
+            let damage = deactivated[0].damage
 
-        if((<PlayerController>this.players[0]._ai).owner == node){
-            (<PlayerController>this.players[0]._ai).damage(damage);
-        }
-        else{
-            (<BattlerAI>node._ai).damage(damage)
-        }
+            if(((<PlayerController>this.players[0]._ai).owner == node)){
+                (<PlayerController>this.players[0]._ai).damage(damage);
+            }
+            else{
+                (<BattlerAI>node._ai).damage(damage)
+            }
+    }
         
     }
 

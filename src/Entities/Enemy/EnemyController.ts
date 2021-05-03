@@ -1,6 +1,8 @@
 import Ability from "../../GameSystems/Abilities/Ability";
 import AbilityType from "../../GameSystems/Abilities/AbilityType";
+import BattleManager from "../../GameSystems/BattleManager";
 import BattlerAI from "../../GameSystems/BattlerAI";
+import Freeze from "../../GameSystems/EnemyAbilities/Freeze";
 import ProjectileManager from "../../GameSystems/ProjectileManager";
 import Projectile from "../../GameSystems/Projectiles/Projectile";
 import StateMachineAI from "../../Wolfie2D/AI/StateMachineAI";
@@ -21,6 +23,7 @@ import Idle from "./EnemyStates/Idle";
 
 
 export default class EnemyController extends StateMachineAI implements BattlerAI {
+    battleManager: BattleManager
     projectileManager: ProjectileManager
 
     /** The owner of this AI */
@@ -59,6 +62,7 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.projectileManager = ProjectileManager.getInstance()
+        this.battleManager = BattleManager.getInstance()
         
         this.owner = owner;
         let damage = options.damage?  options.damage : 1;
@@ -68,7 +72,6 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         let ability = options.ability ? options.ability : null;
         this.player = options.player ? options.player : null;
 
-        console.log(options)
 
         this.exitTimer = new Timer(1000)
         this.pollTimer = new Timer(1000)
@@ -76,6 +79,7 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
 
         this.initializeStates()
         this.initializeBasicAttack(damage)
+        this.initializeAbilities(ability)
 
         // Subscribe to events
         //this.receiver.subscribe(hw3_Events.SHOT_FIRED);
@@ -126,8 +130,12 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         }
     }
 
-    initializeAbilities(){
-
+    initializeAbilities(ability: string){
+        if(ability == "freeze"){
+            let freeze = new Freeze()
+            freeze.initialize({damage: 40, cooldown:3000, displayName: "Freeze", spriteKey: this.owner.imageId, useVolume: 100})
+            this.ability = new Ability(this.owner, freeze, this.battleManager)
+        }
     }
 
     fireBasicAttacks(shooter: GameNode, dir: Vec2){
@@ -151,6 +159,10 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
             this.basicAttackTimer.start(2000)
         }
         
+    }
+
+    useAbility(direction: Vec2){
+        this.ability.use(this.owner, "enemy", direction)
     }
 
     activate(options: Record<string, any>): void {

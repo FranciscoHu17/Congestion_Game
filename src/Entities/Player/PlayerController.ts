@@ -95,6 +95,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     abilitiesTimer: Timer;
     basicAttackTimer: Timer;
     basicAttackCooldown: Timer;
+    freezeTimer: Timer;
     basicAttackCounter: number;
     health: number;//TODO: put in health and damage!!!!
 
@@ -104,6 +105,12 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.abilitiesTimer = new Timer(1500)
         this.basicAttackTimer = new Timer(3000)
         this.basicAttackCooldown = new Timer(1000)
+        this.freezeTimer = new Timer(2000, () =>{
+            this.owner.unfreeze()
+            this.velocity.x = 0
+            this.velocity.y = 0
+        })
+
 
         this.initializePlatformer();
 
@@ -112,6 +119,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.viewport = options.viewport
         this.health = options.health ? options.health : 100
         this.basicAttackCounter = 0
+
 
         this.initializeAbilities();
         this.projectileManager = ProjectileManager.getInstance()
@@ -269,85 +277,88 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     update(deltaT: number): void {
 		super.update(deltaT);
 
-        //TODO: use a timer to make sure to only use one ability at a time
-        if(Input.isJustPressed("ability1") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
-            var currentPlayer = (<AnimatedSprite>this.owner).imageId;
-            if(currentPlayer == "tahoe"){
-                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "tahoeQ", loop: false, holdReference: true});
-                super.changeState(PlayerStates.ABILITY)
-                this.currentAbility = this.abilities[0]
-                this.abilities[0].use(this.owner, "player", (<Sprite>this.owner).direction);
-                this.abilitiesTimer.start(this.abilities[0].type.cooldown)
-            }else if(currentPlayer == "reno"){
-                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "renoQ", loop: false, holdReference: true});
-                super.changeState(PlayerStates.ABILITY)
-                this.currentAbility = this.abilities[1]
-                this.abilities[1].use(this.owner, "player", (<Sprite>this.owner).direction);
-                this.abilitiesTimer.start(this.abilities[1].type.cooldown)
-            }else if(currentPlayer == "flow"){
-                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "flowQ", loop: false, holdReference: true});
-                super.changeState(PlayerStates.ABILITY)
-                this.currentAbility = this.abilities[2]
-                this.abilities[2].use(this.owner, "player", (<Sprite>this.owner).direction);
-                this.abilitiesTimer.start(this.abilities[2].type.cooldown)
-            }
+        if(this.freezeTimer.isStopped()){
+            
+            //TODO: use a timer to make sure to only use one ability at a time
+            if(Input.isJustPressed("ability1") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
+                var currentPlayer = (<AnimatedSprite>this.owner).imageId;
+                if(currentPlayer == "tahoe"){
+                    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "tahoeQ", loop: false, holdReference: true});
+                    super.changeState(PlayerStates.ABILITY)
+                    this.currentAbility = this.abilities[0]
+                    this.abilities[0].use(this.owner, "player", (<Sprite>this.owner).direction);
+                    this.abilitiesTimer.start(this.abilities[0].type.cooldown)
+                }else if(currentPlayer == "reno"){
+                    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "renoQ", loop: false, holdReference: true});
+                    super.changeState(PlayerStates.ABILITY)
+                    this.currentAbility = this.abilities[1]
+                    this.abilities[1].use(this.owner, "player", (<Sprite>this.owner).direction);
+                    this.abilitiesTimer.start(this.abilities[1].type.cooldown)
+                }else if(currentPlayer == "flow"){
+                    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "flowQ", loop: false, holdReference: true});
+                    super.changeState(PlayerStates.ABILITY)
+                    this.currentAbility = this.abilities[2]
+                    this.abilities[2].use(this.owner, "player", (<Sprite>this.owner).direction);
+                    this.abilitiesTimer.start(this.abilities[2].type.cooldown)
+                }
 
-        }else if(Input.isJustPressed("ability2") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
-            var currentPlayer = (<AnimatedSprite>this.owner).imageId;
+            }else if(Input.isJustPressed("ability2") && this.abilitiesTimer.isStopped() && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
+                var currentPlayer = (<AnimatedSprite>this.owner).imageId;
 
-            if(currentPlayer == "tahoe"){
-                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "tahoeE", loop: false, holdReference: true});
-                super.changeState(PlayerStates.ABILITY)
-                this.abilities[3].use(this.owner, "player", (<Sprite>this.owner).direction);
-                this.currentAbility = this.abilities[3]
-                this.abilitiesTimer.start(this.abilities[3].type.cooldown)
-            }else if(currentPlayer == "reno"){
-                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "renoE", loop: false, holdReference: true});
-                super.changeState(PlayerStates.ABILITY)
-                this.abilities[4].use(this.owner, "player", (<Sprite>this.owner).direction);
-                this.currentAbility = this.abilities[4]
-                this.abilitiesTimer.start(this.abilities[4].type.cooldown)
-            }else if(currentPlayer == "flow"){
-                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "flowE", loop: false, holdReference: true});
-                super.changeState(PlayerStates.ABILITY)
-                this.currentAbility = this.abilities[5]
-                this.abilities[5].use(this.owner, "player", (<Sprite>this.owner).direction);
-                this.abilitiesTimer.start(this.abilities[5].type.cooldown)
-            }
-        }else if(Input.isMouseJustPressed() && this.basicAttackCooldown.isStopped() && this.abilitiesTimer.isStopped()
-                 && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
-            if(this.projectileManager.getNumBasicShots() == 0){
-                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "basicAttack", loop: false, holdReference: true});
-                (<AnimatedSprite>this.owner).animation.play("Basic Attack",false)
-            }
-            this.projectileManager.fireProjectileByKey(this.owner, "basic", this.owner.position.dirTo(Input.getGlobalMousePosition()), 20)
-            if(this.projectileManager.getNumBasicShots() > 0){
-                this.basicAttackTimer.start()
-            }
-            if(!this.basicAttackTimer.isStopped()){
-                this.basicAttackCounter += 1
-                if(this.basicAttackCounter == this.projectileManager.SHOTS_PER_ROUND){
-                    this.basicAttackCounter = 0
-                    this.basicAttackCooldown.start()
-                    console.log("cooldown start")
+                if(currentPlayer == "tahoe"){
+                    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "tahoeE", loop: false, holdReference: true});
+                    super.changeState(PlayerStates.ABILITY)
+                    this.abilities[3].use(this.owner, "player", (<Sprite>this.owner).direction);
+                    this.currentAbility = this.abilities[3]
+                    this.abilitiesTimer.start(this.abilities[3].type.cooldown)
+                }else if(currentPlayer == "reno"){
+                    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "renoE", loop: false, holdReference: true});
+                    super.changeState(PlayerStates.ABILITY)
+                    this.abilities[4].use(this.owner, "player", (<Sprite>this.owner).direction);
+                    this.currentAbility = this.abilities[4]
+                    this.abilitiesTimer.start(this.abilities[4].type.cooldown)
+                }else if(currentPlayer == "flow"){
+                    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "flowE", loop: false, holdReference: true});
+                    super.changeState(PlayerStates.ABILITY)
+                    this.currentAbility = this.abilities[5]
+                    this.abilities[5].use(this.owner, "player", (<Sprite>this.owner).direction);
+                    this.abilitiesTimer.start(this.abilities[5].type.cooldown)
+                }
+            }else if(Input.isMouseJustPressed() && this.basicAttackCooldown.isStopped() && this.abilitiesTimer.isStopped()
+                    && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
+                if(this.projectileManager.getNumBasicShots() == 0){
+                    this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "basicAttack", loop: false, holdReference: true});
+                    (<AnimatedSprite>this.owner).animation.play("Basic Attack",false)
+                }
+                this.projectileManager.fireProjectileByKey(this.owner, "basic", this.owner.position.dirTo(Input.getGlobalMousePosition()), 20)
+                if(this.projectileManager.getNumBasicShots() > 0){
+                    this.basicAttackTimer.start()
+                }
+                if(!this.basicAttackTimer.isStopped()){
+                    this.basicAttackCounter += 1
+                    if(this.basicAttackCounter == this.projectileManager.SHOTS_PER_ROUND){
+                        this.basicAttackCounter = 0
+                        this.basicAttackCooldown.start()
+                        console.log("cooldown start")
+                    }
                 }
             }
-        }
 
-        if(Input.isJustPressed("pause")){
-            this.emitter.fireEvent(Game_Events.GAME_PAUSED);
-        }
+            if(Input.isJustPressed("pause")){
+                this.emitter.fireEvent(Game_Events.GAME_PAUSED);
+            }
 
-        Debug.log("Direction", "Direction: "+ (<Sprite>this.owner).direction);
-        Debug.log("velocity", "Velocity: "+ this.velocity);
-		if(this.currentState instanceof Jump){
-			Debug.log("playerstate", "Player State: Jump");
-		} else if (this.currentState instanceof Walk){
-			Debug.log("playerstate", "Player State: Walk");
-		} else if (this.currentState instanceof Idle){
-			Debug.log("playerstate", "Player State: Idle");
-		} else if(this.currentState instanceof Fall){
-            Debug.log("playerstate", "Player State: Fall");
-        } 
-	}
+            Debug.log("Direction", "Direction: "+ (<Sprite>this.owner).direction);
+            Debug.log("velocity", "Velocity: "+ this.velocity);
+            if(this.currentState instanceof Jump){
+                Debug.log("playerstate", "Player State: Jump");
+            } else if (this.currentState instanceof Walk){
+                Debug.log("playerstate", "Player State: Walk");
+            } else if (this.currentState instanceof Idle){
+                Debug.log("playerstate", "Player State: Idle");
+            } else if(this.currentState instanceof Fall){
+                Debug.log("playerstate", "Player State: Fall");
+            } 
+        }
+    }
 }

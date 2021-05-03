@@ -8,6 +8,7 @@ import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 export default abstract class Projectile{
     owner: GameNode
     key: string
+    target: string
     velocity: Vec2
     size: Vec2
     start: Vec2

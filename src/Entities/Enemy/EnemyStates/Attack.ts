@@ -65,6 +65,9 @@ export default class Attack extends OnGround {
                 let dir = this.playerPos.clone().sub(this.owner.position).normalize();
                 this.parent.fireBasicAttacks(this.owner, dir)
             }
+            else if(this.parent.ability){
+                this.parent.useAbility(this.owner.direction)
+            }
             
         }
         

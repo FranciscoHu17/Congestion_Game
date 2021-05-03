@@ -1,24 +1,29 @@
 {
-    "numEnemies": 11,
+    "numEnemies": 12,
     "enemies": [
         {
             "key": "camera",
             "position": [19.5, 26.5],
-            "basic_attack": "",
-            "ability": "",
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 5
+        },
+        {
+            "key": "camera",
+            "position": [18.5, 23.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
             "health": 5
         },
         {
             "key": "camera",
             "position": [33.5, 22.5],
-            "basic_attack": "",
             "ability": "",
             "health": 5
         },
         {
             "key": "camera",
             "position": [65.5, 11.5],
-            "basic_attack": "",
             "ability": "",
             "health": 5
         },
