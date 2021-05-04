@@ -692,10 +692,13 @@ export default class GameLevel extends Scene{
             // this.owner.isCollidable = false;
             // this.owner.visible = false;
             // this.owner.disablePhysics()
-            this.enemies[i].setAIActive(true, {});
-            this.enemies[i].isCollidable = true;
-            this.enemies[i].visible = true;
-            this.enemies[i].enablePhysics();
+            if(this.enemies[i].isCollidable == false && this.enemies[i].visible == false){
+                this.enemies[i].setAIActive(true, {});
+                this.enemies[i].isCollidable = true;
+                this.enemies[i].visible = true;
+                this.enemies[i].enablePhysics();
+                (<EnemyController>this.enemies[i]._ai).health = (<EnemyController>this.enemies[i]._ai).MaxHealth / 2.0;
+            }
         }
     }
     
