@@ -28,7 +28,8 @@ export default class LevelSelect extends Scene{
         this.locked = this.levelManager.getLocked()
 
         this.locked[1] = false // UNLOCKS LEVEL 2, DELETE THIS WHEN DONE
-        
+        this.locked[2] = false // UNLOCKS LEVEL 3, DELETE THIS WHEN DONE
+
         this.levelSelectLayers = []
         this.initLayers()
 

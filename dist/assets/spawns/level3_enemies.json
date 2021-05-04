@@ -1,0 +1,230 @@
+{
+    "numEnemies": 32,
+    "enemies": [
+        {
+            "key": "camera",
+            "position": [11.5, 2.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
+        },
+        {
+            "key": "camera",
+            "position": [4.5, 7.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
+        },
+        {
+            "key": "camera",
+            "position": [12.5, 15.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
+        },
+        {
+            "key": "circuit",
+            "position": [11.5, 22.5],
+            "basic_attack": "enemy_around",
+            "health": 75,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [12.5, 25.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [10.5, 25.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "circuit",
+            "position": [13.5, 29.5],
+            "basic_attack": "enemy_around",
+            "health": 75,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [23.5, 24.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [23.5, 19.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [23.5, 14.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [44.5, 24.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [44.5, 19.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [44.5, 14.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "camera",
+            "position": [53.5, 8.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
+        },
+        {
+            "key": "camera",
+            "position": [58.5, 8.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
+        },
+        {
+            "key": "camera",
+            "position": [69.5, 8.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
+        },
+        {
+            "key": "camera",
+            "position": [74.5, 8.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
+        },
+        {
+            "key": "camera",
+            "position": [85.5, 8.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
+        },
+        {
+            "key": "camera",
+            "position": [90.5, 8.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
+        },
+        {
+            "key": "router",
+            "position": [59.5, 16.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [68.5, 16.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [75.5, 16.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [84.5, 16.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "circuit",
+            "position": [90.5, 20.5],
+            "basic_attack": "enemy_around",
+            "health": 75,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [100.5, 16.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [101.5, 12.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [100.5, 8.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "camera",
+            "position": [119.5, 20.5],
+            "basic_attack": "enemy_basic",
+            "ability": "freeze",
+            "health": 50
+        },
+        {
+            "key": "circuit",
+            "position": [104.5, 26.5],
+            "basic_attack": "enemy_around",
+            "health": 75,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [84.5, 26.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [76.5, 26.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "router",
+            "position": [68.5, 26.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        }
+
+    ]
+}

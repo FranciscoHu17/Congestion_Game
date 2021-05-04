@@ -95,6 +95,8 @@ export default class GameLevel extends Scene{
         // Create the battle manager
         this.battleManager = BattleManager.getInstance();
         this.projectileManager = ProjectileManager.getInstance()
+        this.projectileManager.clearProjectiles()
+
         this.originalViewportPosX = this.viewport.getCenter().x
         this.originalViewportPosY = this.viewport.getCenter().y
 
