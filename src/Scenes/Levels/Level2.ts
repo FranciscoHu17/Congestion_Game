@@ -34,6 +34,23 @@ export default class Level2 extends GameLevel{
         this.load.object("enemyData", "assets/spawns/level2_enemies.json");
 
         this.load.spritesheet("generator", "assets/spritesheets/objects/generator.json");
+        this.load.audio("level2", "assets/music/boss1.mp3");
+
+        this.load.audio("basicAttack", "assets/sounds/basicAttack.wav");
+        this.load.audio("enemyAttack", "assets/sounds/enemyAttack.wav");
+        this.load.audio("enemyDamaged", "assets/sounds/enemyDamaged.wav");
+        this.load.audio("enemyDeath", "assets/sounds/enemyDeath.wav");
+        this.load.audio("flowE", "assets/sounds/flowE.wav");
+        this.load.audio("flowQ", "assets/sounds/flowQ.wav");
+        this.load.audio("jump", "assets/sounds/jump.wav");
+        this.load.audio("playerDamaged", "assets/sounds/playerDamaged.wav");
+        this.load.audio("playerDeath", "assets/sounds/playerDeath.wav");
+        this.load.audio("renoE", "assets/sounds/renoE.wav");
+        this.load.audio("renoQ", "assets/sounds/renoQ.wav");
+        this.load.audio("tahoeE", "assets/sounds/tahoeE.wav");
+        this.load.audio("tahoeQ", "assets/sounds/tahoeQ.wav");
+        this.load.audio("switchIn", "assets/sounds/switchIn.wav");
+        this.load.audio("switchOut", "assets/sounds/switchOut.wav");
         
     }
 
@@ -43,6 +60,7 @@ export default class Level2 extends GameLevel{
      * Keep resources
      */
     unloadScene(){
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level2"});
         this.load.keepSpritesheet("player1");
         this.load.keepSpritesheet("player2");
         this.load.keepSpritesheet("player3");
@@ -55,6 +73,8 @@ export default class Level2 extends GameLevel{
      */
 
     startScene(): void {
+        //this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level2", loop: true, holdReference: true});
+        /** ^ TURN THIS BACK ON AFTER WE ARE DONE */
         // Add a background layer and set the background image on it
         this.addParallaxLayer("bg", new Vec2(0.25, 0), -100);
         let bg = this.add.sprite("background", "bg");
