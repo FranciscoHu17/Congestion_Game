@@ -289,7 +289,6 @@ export default class GameLevel extends Scene{
                     break;
                 case Game_Events.INVINCIBLE:
                     {
-                        console.log(this.players);
                         if(this.invincible === false){
                             console.log("making invincible");
                             for(i = 0; i < this.players.length; i++){
@@ -306,7 +305,6 @@ export default class GameLevel extends Scene{
                             }
                             this.invincible = false;
                         }
-                        console.log(this.players)
                     }
                     break;
                 case Game_Events.PLAYER_DYING:
@@ -517,7 +515,7 @@ export default class GameLevel extends Scene{
             "menu",
             "level1",
             "level2",
-            //"level3",
+            "level3",
             Game_Events.INVINCIBLE,
             Game_Events.GAME_RESUMED
         ]);

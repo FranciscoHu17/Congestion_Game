@@ -73,8 +73,10 @@ export default class Freeze extends AbilityType {
         
         if(overlap && (<PlayerController>ai).freezeTimer.isStopped()){
             let frozen = (<PlayerController>ai);
-            frozen.owner.freeze();
-            frozen.freezeTimer.start()
+            if(frozen.owner.isCollidable === true){
+                frozen.owner.freeze();
+                frozen.freezeTimer.start()
+            }
         }
         
         return overlap

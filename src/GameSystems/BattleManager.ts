@@ -25,7 +25,7 @@ export default class BattleManager {
 
 
     handleInteraction(attackerType: string, weapon: Ability){
-        if(attackerType === "player" && this.player.owner.isCollidable === true){
+        if(attackerType === "player"){
             // Check for collisions with enemies
             for(let enemy of this.enemies){
                 if(weapon.interact(enemy)){
@@ -34,10 +34,8 @@ export default class BattleManager {
             }
         } else {
             // Check for collision with player
-            if(weapon.interact(this.player) && this.player.owner.isCollidable === true){
+            if(weapon.interact(this.player)){
                 this.player.damage(weapon.type.damage);
-            }
-            else{
             }
         }
     }
