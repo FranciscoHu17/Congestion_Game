@@ -43,7 +43,7 @@ export default class MainMenu extends Scene{
         this.receiver.subscribe("help4")
         this.receiver.subscribe("level1")
         this.receiver.subscribe("level2")
-        //this.receiver.subscribe("level3")
+        this.receiver.subscribe("level3")
         this.receiver.subscribe("invincible")
     }
 
@@ -54,7 +54,7 @@ export default class MainMenu extends Scene{
             if(event.type === "start"){
                 this.sceneManager.changeToScene(LevelSelect);
             }
-            else if(event.type === "level1" || event.type === "level2"){
+            else if(event.type === "level1" || event.type === "level2" || event.type === "level3"){
                 let level= this.levelManager.findLevel(event.type)
 
                 let sceneOptions = {
