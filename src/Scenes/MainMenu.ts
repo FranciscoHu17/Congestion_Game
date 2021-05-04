@@ -9,6 +9,8 @@ import LayerHelper from "./LayerHelper";
 import LevelSelect from "./LevelSelect";
 import GameLevel from "./Levels/GameLevel";
 import Game from "../Wolfie2D/Loop/Game";
+import { GameEventType } from "../Wolfie2D/Events/GameEventType";
+import AudioManager, { AudioChannelType } from "../Wolfie2D/Sound/AudioManager";
 
 export default class MainMenu extends Scene{
     protected titleShadow: Layer
@@ -23,9 +25,13 @@ export default class MainMenu extends Scene{
 
     loadScene(): void {
         this.load.image("main_menu","assets/sprites/main_menu.png") 
+        this.load.audio("menumusic", "assets/music/boss1.mp3");
     }
     
     startScene(): void {
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "menumusic"});
+        this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "menumusic", loop: true, holdReference: true});
+        AudioManager.setVolume(AudioChannelType.MUSIC, .30)
         this.initLayers()
         this.viewport.setFocus(this.viewport.getHalfSize())
         console.log("adding this here for a commit check, please delete this if there are no troubles")
@@ -56,6 +62,7 @@ export default class MainMenu extends Scene{
                 this.sceneManager.changeToScene(LevelSelect);
             }
             else if(event.type === "level1" || event.type === "level2" || event.type === "level3"|| event.type === "tutorial"){
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "menumusic"});
                 let level= this.levelManager.findLevel(event.type)
 
                 let sceneOptions = {

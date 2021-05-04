@@ -1,4 +1,5 @@
 import Vec2 from "../Wolfie2D/DataTypes/Vec2";
+import { GameEventType } from "../Wolfie2D/Events/GameEventType";
 import LevelManager from "../Wolfie2D/LevelManager/LevelManager";
 import Button from "../Wolfie2D/Nodes/UIElements/Button";
 import Label from "../Wolfie2D/Nodes/UIElements/Label";
@@ -54,7 +55,7 @@ export default class LevelSelect extends Scene{
                 this.setLayerVisibility(event.type)
             }
             else{
-                
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "menumusic"});
                 let level= this.levelManager.findLevel(event.type)
 
                 let sceneOptions = {
