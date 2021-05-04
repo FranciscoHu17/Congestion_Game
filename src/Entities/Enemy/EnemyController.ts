@@ -10,6 +10,7 @@ import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import State from "../../Wolfie2D/DataTypes/State/State";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import GameNode from "../../Wolfie2D/Nodes/GameNode";
 import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
@@ -31,6 +32,7 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
 
     /** The amount of health this entity has */
     health: number;
+    MaxHealth: number;
 
     direction: Vec2 = Vec2.ZERO;
 
@@ -67,6 +69,7 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         this.owner = owner;
         let damage = options.damage?  options.damage : 1;
         this.health = options.health ? options.health : 30;//TODO: change this later??
+        this.MaxHealth = options.health ? options.health : 30;//TODO: change this later??
         this.key = options.basic_attack ? options.basic_attack : null
         this.basic_attack = []
         let ability = options.ability ? options.ability : null;
@@ -139,6 +142,7 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
     }
 
     fireBasicAttacks(shooter: GameNode, dir: Vec2){
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyAttack", loop: false, holdReference: true});
         if(this.key == "enemy_basic"){
             let basic_attack = this.basic_attack[0]
             this.projectileManager.fireSpecificProjectile(this.owner, basic_attack, dir, basic_attack.damage)
@@ -173,10 +177,14 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         console.log("enemy health:", this.health)
         
         if(this.health <= 0){
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyDeath", loop: false, holdReference: true});
             this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
             this.owner.visible = false;
             this.owner.disablePhysics()
+        }else
+        {
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyDamaged", loop: false, holdReference: true});
         }
     }
 
