@@ -87,6 +87,7 @@ export default class GameLevel extends Scene{
     protected projectileManager: ProjectileManager
 
     protected invincible: boolean = false;
+    protected paused: boolean = false; 
 
     /**
      * TODO
@@ -201,31 +202,38 @@ export default class GameLevel extends Scene{
                     break;
                 case Game_Events.GAME_PAUSED:
                     {
-                        // Layers visibility set
-                        this.controls.setHidden(true);
-                        this.help1.setHidden(true);
-                        this.help2.setHidden(true);
-                        this.help3.setHidden(true);
-                        this.help4.setHidden(true);
+                        if(!this.paused){
+                            this.paused = true
+                            // Layers visibility set
+                            this.controls.setHidden(true);
+                            this.help1.setHidden(true);
+                            this.help2.setHidden(true);
+                            this.help3.setHidden(true);
+                            this.help4.setHidden(true);
 
-                        // Shadow layers visibility set
-                        this.controlsShadow.setHidden(true);
-                        this.helpShadow.setHidden(true);
+                            // Shadow layers visibility set
+                            this.controlsShadow.setHidden(true);
+                            this.helpShadow.setHidden(true);
 
-                        this.currPlayer.disablePhysics();
-                        this.currPlayer.freeze();
-                        if(this.enemies != null){
-                            for(var i = 0; i< this.enemies.length; i++){
-                                this.enemies[i].disablePhysics();
-                                this.enemies[i].freeze();
+                            this.currPlayer.disablePhysics();
+                            this.currPlayer.freeze();
+                            if(this.enemies != null){
+                                for(var i = 0; i< this.enemies.length; i++){
+                                    this.enemies[i].disablePhysics();
+                                    this.enemies[i].freeze();
+                                }
                             }
+                            //In game menu pop up
+                            this.showInGameMenu();
                         }
-                        //In game menu pop up
-                        this.showInGameMenu();
+                        else{
+                            this.emitter.fireEvent(Game_Events.GAME_RESUMED)
+                        }
                     }
                     break;    
                 case Game_Events.GAME_RESUMED:
                     {
+                        this.paused = false
                         this.hideInGameMenu();
                         this.currPlayer.enablePhysics();
                         this.currPlayer.unfreeze();
