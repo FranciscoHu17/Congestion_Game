@@ -27,6 +27,7 @@ import ProjectileManager from "../../GameSystems/ProjectileManager";
 import Projectile from "../../GameSystems/Projectiles/Projectile";
 import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import LevelManager from "../../Wolfie2D/LevelManager/LevelManager";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
@@ -84,6 +85,8 @@ export default class GameLevel extends Scene{
     protected battleManager: BattleManager;
 
     protected projectileManager: ProjectileManager
+
+    protected invincible: boolean = false;
 
     /**
      * TODO
@@ -280,6 +283,28 @@ export default class GameLevel extends Scene{
                 case "help4":
                     {
                         this.setMenuLayerVisibility(event.type);
+                    }
+                    break;
+                case Game_Events.INVINCIBLE:
+                    {
+                        console.log(this.players);
+                        if(this.invincible === false){
+                            console.log("making invincible");
+                            for(i = 0; i < this.players.length; i++){
+                                this.players[i].disablePhysics();
+                                this.players[i].isCollidable = false;
+                            }
+                            this.invincible = true;
+                        }
+                        else{
+                            console.log("enabling physics");
+                            for(i = 0; i < this.players.length; i++){
+                                this.players[i].enablePhysics();
+                                this.players[i].isCollidable = true;
+                            }
+                            this.invincible = false;
+                        }
+                        console.log(this.players)
                     }
                     break;
                 case Game_Events.PLAYER_DYING:
@@ -488,6 +513,10 @@ export default class GameLevel extends Scene{
             "help3",
             "help4",
             "menu",
+            "level1",
+            "level2",
+            //"level3",
+            Game_Events.INVINCIBLE,
             Game_Events.GAME_RESUMED
         ]);
     }
@@ -618,9 +647,11 @@ export default class GameLevel extends Scene{
      * @param enemy 
      */
     protected handlePlayerEnemyCollision(player: AnimatedSprite, enemy: AnimatedSprite) {   
-        this.currPlayer.disablePhysics();
         //this.currPlayer.animation.play("Death", false, Game_Events.PLAYER_DEATH);
-        this.emitter.fireEvent(Game_Events.PLAYER_DYING)
+        if(this.currPlayer.isCollidable === true){
+            this.currPlayer.disablePhysics();
+            this.emitter.fireEvent(Game_Events.PLAYER_DYING)
+        }
     }
 
     protected handleProjectileCollision(projectile: CanvasNode, node: AnimatedSprite) { 
@@ -632,9 +663,11 @@ export default class GameLevel extends Scene{
                 //player is taking damage
                 (<PlayerController>this.players[0]._ai).damage(damage);
                 var currentHealth = (<PlayerController>this.players[0]._ai).health;
-                var xposition = (this.playerHealthBar.position.x - (damage*2.5/2));
-                this.playerHealthBar.position = new Vec2((xposition), 42);
-                this.playerHealthBar.size = new Vec2(currentHealth * 2.5, 18);
+                if(this.currPlayer.isCollidable === true){
+                    var xposition = (this.playerHealthBar.position.x - (damage*2.5/2));
+                    this.playerHealthBar.position = new Vec2((xposition), 42);
+                    this.playerHealthBar.size = new Vec2(currentHealth * 2.5, 18);
+                }
             }
             else{
                 //enemy is taking damage(?)

@@ -7,8 +7,10 @@ import Scene from "../Wolfie2D/Scene/Scene";
 import Color from "../Wolfie2D/Utils/Color";
 import LayerHelper from "./LayerHelper";
 import LevelSelect from "./LevelSelect";
+import GameLevel from "./Levels/GameLevel";
+import Game from "../Wolfie2D/Loop/Game";
 
-export default class SplashScreen extends Scene{
+export default class MainMenu extends Scene{
     protected titleShadow: Layer
     protected controlsShadow: Layer
     protected helpShadow: Layer
@@ -41,6 +43,8 @@ export default class SplashScreen extends Scene{
         this.receiver.subscribe("help4")
         this.receiver.subscribe("level1")
         this.receiver.subscribe("level2")
+        //this.receiver.subscribe("level3")
+        this.receiver.subscribe("invincible")
     }
 
     updateScene(){
@@ -65,6 +69,10 @@ export default class SplashScreen extends Scene{
                     }
                 }
                 this.sceneManager.changeToScene(level, {}, sceneOptions)
+            }
+            else if(event.type === "invincible"){
+                //let currLevel = <GameLevel>this.getScene();
+
             }
             else{
                 this.setLayerVisibility(event.type)
