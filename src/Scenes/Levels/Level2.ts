@@ -73,7 +73,7 @@ export default class Level2 extends GameLevel{
         super.startScene() 
 
         //this.addLevelEnd(new Vec2(112, 6), new Vec2(2, 2));
-        this.addLevelEnd(new Vec2(114, 25), new Vec2(2*256,2*256)) /** USE THIS FOR NOW */
+        this.addLevelEnd(new Vec2(78, 23), new Vec2(2*128,2*128)) /** USE THIS FOR NOW */
         //this.addLevelEnd(new Vec2(10, 29), new Vec2(2*256,2*256))
 
         // only one level for now
