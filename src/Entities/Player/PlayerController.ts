@@ -136,6 +136,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.receiver.subscribe(Game_Events.RENO_ABILITY2)
         this.receiver.subscribe(Game_Events.FLOW_ABILITY1)
         this.receiver.subscribe(Game_Events.ABILITYFINISHED)
+        this.receiver.subscribe(Game_Events.INVINCIBLE)
     }
 
     //TODO: change all the stats later
@@ -266,11 +267,17 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     }
 
     damage(damage: number): void {
+        if(this.owner.isCollidable === false){
+            damage = 0;
+        }
         this.health -= damage;
         console.log("player health:", this.health)
         if(this.health <= 0){
             this.owner.disablePhysics();
             this.emitter.fireEvent(Game_Events.PLAYER_DYING);
+        }
+        else if(this.owner.isCollidable === false){
+
         }
         else{
             (<AnimatedSprite>this.owner).animation.play("Damaged", false, Game_Events.ABILITYFINISHED);

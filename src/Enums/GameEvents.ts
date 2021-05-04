@@ -23,5 +23,6 @@ export enum Game_Events {
     GAME_PAUSED = "Paused",
     GAME_RESUMED = "Resume",
     ABILITYUSED = "Ability Used",
-    ABILITYFINISHED = "Ability Finished"
+    ABILITYFINISHED = "Ability Finished",
+    INVINCIBLE = "Invincible"
 }

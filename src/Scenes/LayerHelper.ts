@@ -1,3 +1,4 @@
+import { Game_Events } from "../Enums/GameEvents";
 import Vec2 from "../Wolfie2D/DataTypes/Vec2";
 import Button from "../Wolfie2D/Nodes/UIElements/Button";
 import Label from "../Wolfie2D/Nodes/UIElements/Label";
@@ -228,7 +229,7 @@ export default class LayerHelper{
 
         // Abilities
         abilityText = " Ability 1: Teleport in the direction that Flow is facing \n" +
-                      " Ability 2: Arrow jump when near an object called a Generator \n" 
+                      " Ability 2: Creates a checkpoint in Flow's current position \n" 
         this.addParagraphLabel(mainScene, new Vec2(size.x/2,size.y/2-37), "help3", abilityText)
 
         // Passive Ability
@@ -247,7 +248,7 @@ export default class LayerHelper{
         bodyOutline.borderWidth = 5
         bodyOutline.borderColor = purple
 
-        // Ability 2 Explanation
+       /* // Ability 2 Explanation
         abilityText = " The direction and velocity of Ability 2 will be shown by an \n"+
                       " arrow near Flow. The arrow will follow the mouse cursor \n"+
                       " on the screen to show the trajectory of Flow’s jump when the \n"+
@@ -260,7 +261,7 @@ export default class LayerHelper{
         bodyOutline.size = new Vec2(1020,158)
         bodyOutline.borderRadius = 0
         bodyOutline.borderWidth = 5
-        bodyOutline.borderColor = purple
+        bodyOutline.borderColor = purple */
 
         // Prev, Next, Exit Buttons
         this.addButtons(mainScene, size, purple, cyan, "help3", "help2", "help4", exit, "Exit")
@@ -279,6 +280,9 @@ export default class LayerHelper{
 
         this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2-70), purple, green, "help4", "Go to Level 1", "level1")
         this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2+20), purple, green, "help4", "Go to Level 2", "level2")
+        this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2+110), purple, green, "help4", "Go to Level 3", "level3")
+
+        this.addCheatButton(mainScene, new Vec2(size.x/2,size.y/2+200), purple, green, "help4", "Make Player Invincible", Game_Events.INVINCIBLE)
 
         // Prev, Next, Exit Buttons
         this.addButtons(mainScene, size, purple, cyan, "help4", "help3", "help1", exit, "Exit")
