@@ -283,7 +283,7 @@ export default class LayerHelper{
         this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2+110), purple, green, "help4", "Go to Level 3", "level2")
         this.addCheatButton(mainScene, new Vec2(size.x/2+240,size.y/2-70), purple, green, "help4", "Go to Level 4", "level3")
 
-        this.addCheatButton(mainScene, new Vec2(size.x/2,size.y/2+200), purple, green, "help4", "Make Player Invincible", Game_Events.INVINCIBLE)
+        this.addCheatButton(mainScene, new Vec2(size.x/2,size.y/2+200), purple, green, "help4", "Press this button or I for invincibility", Game_Events.INVINCIBLE)
 
         // Prev, Next, Exit Buttons
         this.addButtons(mainScene, size, purple, cyan, "help4", "help3", "help1", exit, "Exit")

@@ -20,6 +20,19 @@ export default class Idle extends OnGround {
 	update(deltaT: number): void {
 		super.update(deltaT);
 
+		if(Input.isJustPressed("invincible")){
+			if(this.owner.isCollidable === true){
+				for(let i = 0; i < this.parent.players.length; i++){
+					this.parent.players[i].isCollidable = false;
+				}
+			}
+			else{
+				for(let i = 0; i < this.parent.players.length; i++){
+					this.parent.players[i].isCollidable = true;
+				}
+			}
+		}
+
 		if(Input.isPressed("tahoe") && this.owner.imageId !== "tahoe" && this.parent.switchTimer.isStopped()){
 			this.retObj = {player: "tahoe"}
 			this.finished(PlayerStates.SWITCHING)
@@ -33,7 +46,6 @@ export default class Idle extends OnGround {
 			this.finished(PlayerStates.SWITCHING)
 		}
 		else{
-			
 			let dir = this.getInputDirection();
 
 			if(!dir.isZero() && dir.y === 0){

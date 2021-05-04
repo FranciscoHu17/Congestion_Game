@@ -34,6 +34,19 @@ export default class Jump extends InAir {
 			this.owner.direction.x = this.prevDirX
 		}
 
+		if(Input.isJustPressed("invincible")){
+			if(this.owner.isCollidable === true){
+				for(let i = 0; i < this.parent.players.length; i++){
+					this.parent.players[i].isCollidable = false;
+				}
+			}
+			else{
+				for(let i = 0; i < this.parent.players.length; i++){
+					this.parent.players[i].isCollidable = true;
+				}
+			}
+		}
+
 		if(Input.isPressed("tahoe") && this.owner.imageId !== "tahoe" && this.parent.switchTimer.isStopped()){
 			this.retObj = {player: "tahoe"}
 			this.finished(PlayerStates.SWITCHING)
