@@ -278,9 +278,10 @@ export default class LayerHelper{
         // Subheader
         this.addSubHeader(mainScene, subHeaderPos, cyan, "help4", "Cheats")
 
-        this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2-70), purple, green, "help4", "Go to Level 1", "level1")
-        this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2+20), purple, green, "help4", "Go to Level 2", "level2")
-        this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2+110), purple, green, "help4", "Go to Level 3", "level3")
+        this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2-70), purple, green, "help4", "Go to Level 1", "tutorial")
+        this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2+20), purple, green, "help4", "Go to Level 2", "level1")
+        this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2+110), purple, green, "help4", "Go to Level 3", "level2")
+        this.addCheatButton(mainScene, new Vec2(size.x/2+240,size.y/2-70), purple, green, "help4", "Go to Level 4", "level3")
 
         this.addCheatButton(mainScene, new Vec2(size.x/2,size.y/2+200), purple, green, "help4", "Make Player Invincible", Game_Events.INVINCIBLE)
 

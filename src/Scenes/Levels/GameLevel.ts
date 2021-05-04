@@ -287,6 +287,26 @@ export default class GameLevel extends Scene{
                         this.setMenuLayerVisibility(event.type);
                     }
                     break;
+                case "tutorial":
+                    {
+                        this.goToLevel(event.type);
+                    }
+                    break;
+                case "level1":
+                    {
+                        this.goToLevel(event.type);
+                    }
+                    break;
+                case "level2":
+                    {
+                        this.goToLevel(event.type);
+                    }
+                    break;
+                case "level3":
+                    {
+                        this.goToLevel(event.type);
+                    }
+                    break;
                 case Game_Events.INVINCIBLE:
                     {
                         if(this.invincible === false){
@@ -334,6 +354,23 @@ export default class GameLevel extends Scene{
         this.helpButton.visible = false;
         this.mainMenuButton.visible = false;
         this.resumeButton.visible = false;
+    }
+
+    goToLevel(selectedlevel : string): void{
+        let level= this.levelManager.findLevel(selectedlevel)
+        let sceneOptions = {
+            physics: {
+                groupNames: ["ground", "player","enemy","projectile"],
+                collisions:
+                        [
+                            [0, 1, 1, 1],
+                            [1, 0, 0, 0],
+                            [1, 0, 0, 0],
+                            [1, 0, 0, 0]
+                        ]
+            }
+        }
+        this.sceneManager.changeToScene(level, {}, sceneOptions)
     }
 
     setMenuLayerVisibility(layer: string): void {
@@ -513,6 +550,7 @@ export default class GameLevel extends Scene{
             "help3",
             "help4",
             "menu",
+            "tutorial",
             "level1",
             "level2",
             "level3",
