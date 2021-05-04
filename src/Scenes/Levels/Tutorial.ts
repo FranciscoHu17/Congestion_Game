@@ -4,6 +4,7 @@ import Debug from "../../Wolfie2D/Debug/Debug";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import AudioManager, { AudioChannelType } from "../../Wolfie2D/Sound/AudioManager";
 import Color from "../../Wolfie2D/Utils/Color";
 import GameLevel from "./GameLevel";
 
@@ -39,7 +40,7 @@ export default class Tutorial extends GameLevel{
 
         this.load.object("enemyData", "assets/spawns/tutorial_enemies.json");
 
-        //this.load.audio("level1", "assets/music/level1.mp3");
+        this.load.audio("tutorial", "assets/music/tutorial.mp3");
 
         this.load.audio("basicAttack", "assets/sounds/basicAttack.wav");
         this.load.audio("enemyAttack", "assets/sounds/enemyAttack.wav");
@@ -64,7 +65,7 @@ export default class Tutorial extends GameLevel{
      * Keep resources
      */
     unloadScene(){
-        //this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level1"});
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "tutorial"});
         this.load.keepSpritesheet("player1");
         this.load.keepSpritesheet("player2");
         this.load.keepSpritesheet("player3");
@@ -77,7 +78,8 @@ export default class Tutorial extends GameLevel{
      */
 
     startScene(): void {
-        //this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level1", loop: true, holdReference: true});
+        this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "tutorial", loop: true, holdReference: true});
+        AudioManager.setVolume(AudioChannelType.MUSIC, .30)
         /** ^ TURN THIS BACK ON AFTER WE ARE DONE */
 
 
