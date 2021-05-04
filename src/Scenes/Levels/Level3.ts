@@ -2,6 +2,7 @@ import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import Debug from "../../Wolfie2D/Debug/Debug";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import AudioManager, { AudioChannelType } from "../../Wolfie2D/Sound/AudioManager";
 import GameLevel from "./GameLevel";
 
 export default class Level3 extends GameLevel{
@@ -35,6 +36,7 @@ export default class Level3 extends GameLevel{
 
         this.load.spritesheet("generator", "assets/spritesheets/objects/generator.json");
 
+        this.load.audio("level3", "assets/music/boss1.mp3");
         this.load.audio("basicAttack", "assets/sounds/basicAttack.wav");
         this.load.audio("enemyAttack", "assets/sounds/enemyAttack.wav");
         this.load.audio("enemyDamaged", "assets/sounds/enemyDamaged.wav");
@@ -59,6 +61,7 @@ export default class Level3 extends GameLevel{
      * Keep resources
      */
     unloadScene(){
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level3"});
         this.load.keepSpritesheet("player1");
         this.load.keepSpritesheet("player2");
         this.load.keepSpritesheet("player3");
@@ -71,6 +74,8 @@ export default class Level3 extends GameLevel{
      */
 
     startScene(): void {
+        this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "level3", loop: true, holdReference: true});
+        AudioManager.setVolume(AudioChannelType.MUSIC, .30)
         // Add a background layer and set the background image on it
         this.addParallaxLayer("bg", new Vec2(0.25, 0), -100);
         let bg = this.add.sprite("background", "bg");
