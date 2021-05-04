@@ -686,6 +686,11 @@ export default class GameLevel extends Scene{
         this.currPlayer.position.copy(this.playerSpawn);
         //resets health
         (<PlayerController>this.players[0]._ai).health = this.playerMaxHealth;
+        (<PlayerController>this.players[0]._ai).velocity.set(0,0);
+        // I was thinking of switching to flow on death if there is a checkpoint
+        /*this.currPlayer = this.players[2];
+        (<PlayerController>this.players[0]._ai).switchOwner("flow")
+        this.currPlayer.animation.play("Ability 2 Out")*/
         this.playerHealthBar.size = new Vec2(this.battleManager.getPlayer().health*2.5,18);
         this.playerHealthBar.position = new Vec2(258,42);
         //respawns enemies

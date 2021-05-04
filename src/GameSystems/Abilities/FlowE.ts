@@ -38,7 +38,7 @@ export default class FlowE extends AbilityType {
     }
 
     doAnimation(shooter: GameNode, direction: Vec2, hitbox: Rect): void {
-        (<AnimatedSprite>shooter).animation.play("Ability 1", false, Game_Events.ABILITYFINISHED);
+        (<AnimatedSprite>shooter).animation.play("Ability 2 In", false, Game_Events.ABILITYFINISHED);
         /*hitbox.position.x = hitbox.position.x + (256 * direction.x);
 
         let start = shooter.position.clone();
