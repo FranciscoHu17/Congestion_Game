@@ -1,0 +1,41 @@
+{
+    "numEnemies": 5,
+    "enemies": [
+        {
+            "key": "router",
+            "position": [25.5, 53.5],
+            "basic_attack": "enemy_basic",
+            "health": 100,
+            "damage": 10
+        },
+        {
+            "key": "circuit",
+            "position": [42.5, 53.5],
+            "basic_attack": "enemy_around",
+            "health": 75,
+            "damage": 10
+        },
+        {
+            "key": "circuit",
+            "position": [43.5, 53.5],
+            "basic_attack": "enemy_around",
+            "health": 75,
+            "damage": 10
+        },
+        {
+            "key": "circuit",
+            "position": [44.5, 53.5],
+            "basic_attack": "enemy_around",
+            "health": 75,
+            "damage": 10
+        },
+        {
+            "key": "circuit",
+            "position": [45.5, 53.5],
+            "basic_attack": "enemy_around",
+            "health": 75,
+            "damage": 10
+        }
+
+    ]
+}

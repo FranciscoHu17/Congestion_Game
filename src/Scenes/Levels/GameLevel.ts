@@ -313,10 +313,10 @@ export default class GameLevel extends Scene{
                     }
             }
         }
-        // If player falls into a pit, kill them off and reset their position
-        if(this.currPlayer.position.y > 32*128){
-            this.respawnPlayer();
-        }
+        // // If player falls into a pit, kill them off and reset their position
+        // if(this.currPlayer.position.y > 32*128){
+        //     this.respawnPlayer();
+        // }
 
         this.projectileManager.update(deltaT)
     }
@@ -702,7 +702,7 @@ export default class GameLevel extends Scene{
                 this.enemies[i].isCollidable = true;
                 this.enemies[i].visible = true;
                 this.enemies[i].enablePhysics();
-                (<EnemyController>this.enemies[i]._ai).health = (<EnemyController>this.enemies[i]._ai).MaxHealth / 2.0;
+                (<EnemyController>this.enemies[i]._ai).health = ((<EnemyController>this.enemies[i]._ai).getMaxHealth()) / 2.0;
             }
         }
     }

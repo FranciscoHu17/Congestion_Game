@@ -18,7 +18,7 @@ export default class Tutorial extends GameLevel{
         this.load.image("reno_info", "assets/sprites/reno_info.png");
         this.load.image("flow_info", "assets/sprites/flow_info.png");
         this.load.image("ingame_menu", "assets/sprites/ingame_menu.png");
-        this.load.tilemap("maplevel1", "assets/tilemaps/level1.json");
+        this.load.tilemap("mapleveltutorial", "assets/tilemaps/tutorial.json");
 
         // Player Sprites
         
@@ -35,8 +35,10 @@ export default class Tutorial extends GameLevel{
 
         this.load.spritesheet("generator", "assets/spritesheets/objects/generator.json");
 
-        this.load.object("enemyData", "assets/spawns/level1_enemies.json");
-        this.load.audio("level1", "assets/music/level1.mp3");
+        this.load.object("enemyData", "assets/spawns/tutorial_enemies.json");
+
+        //this.load.audio("level1", "assets/music/level1.mp3");
+
         this.load.audio("basicAttack", "assets/sounds/basicAttack.wav");
         this.load.audio("enemyAttack", "assets/sounds/enemyAttack.wav");
         this.load.audio("enemyDamaged", "assets/sounds/enemyDamaged.wav");
@@ -60,7 +62,7 @@ export default class Tutorial extends GameLevel{
      * Keep resources
      */
     unloadScene(){
-        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level1"});
+        //this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level1"});
         this.load.keepSpritesheet("player1");
         this.load.keepSpritesheet("player2");
         this.load.keepSpritesheet("player3");
@@ -86,17 +88,18 @@ export default class Tutorial extends GameLevel{
         bg.scale.y = 2
         
         // Add the level 1 tilemap
-        this.add.tilemap("maplevel1", new Vec2(1, 1));
+        this.add.tilemap("mapleveltutorial", new Vec2(1, 1));
+        
 
         this.viewport.setBounds(0, 0, 1000*128, 1000*128);
 
-        this.playerSpawn = new Vec2(6*128, 27*128);
+        this.playerSpawn = new Vec2(5*128, 55*128);
 
         // Generic GameLevel Scene setup
         super.startScene() 
 
         //this.addLevelEnd(new Vec2(112, 6), new Vec2(2, 2));
-        this.addLevelEnd(new Vec2(114, 25), new Vec2(2*256,2*256)) /** USE THIS FOR NOW */
+        this.addLevelEnd(new Vec2(60, 56), new Vec2(2*256,2*256)) /** USE THIS FOR NOW */
         //this.addLevelEnd(new Vec2(10, 29), new Vec2(2*256,2*256))
 
         // only one level for now
@@ -113,5 +116,9 @@ export default class Tutorial extends GameLevel{
      */
     updateScene(deltaT: number): void {
         super.updateScene(deltaT);
+        // If player falls into a pit, kill them off and reset their position
+        if(this.currPlayer.position.y > 64*128){
+            this.respawnPlayer();
+        }
     }
 }

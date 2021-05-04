@@ -32,7 +32,7 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
 
     /** The amount of health this entity has */
     health: number;
-    MaxHealth: number;
+    maxHealth: number;
 
     direction: Vec2 = Vec2.ZERO;
 
@@ -69,7 +69,7 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         this.owner = owner;
         let damage = options.damage?  options.damage : 1;
         this.health = options.health ? options.health : 30;//TODO: change this later??
-        this.MaxHealth = options.health ? options.health : 30;//TODO: change this later??
+        this.maxHealth = this.health;
         this.key = options.basic_attack ? options.basic_attack : null
         this.basic_attack = []
         let ability = options.ability ? options.ability : null;
@@ -92,6 +92,10 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         //this.initialize(EnemyStates.DEFAULT);
 
         this.getPlayerPosition();
+    }
+
+    getMaxHealth() :number{
+        return this.maxHealth;
     }
 
     initializeStates(){
