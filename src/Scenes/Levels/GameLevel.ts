@@ -89,6 +89,9 @@ export default class GameLevel extends Scene{
     protected invincible: boolean = false;
     protected paused: boolean = false; 
 
+    protected checkpoint: AnimatedSprite;
+    protected originalSpawn: Vec2;
+
     /**
      * TODO
      * 
@@ -104,6 +107,7 @@ export default class GameLevel extends Scene{
         this.originalViewportPosX = this.viewport.getCenter().x
         this.originalViewportPosY = this.viewport.getCenter().y
 
+        this.originalSpawn = this.playerSpawn;
         // Game level standard initializations
         this.initLayers();
         this.initViewport();
@@ -666,8 +670,9 @@ export default class GameLevel extends Scene{
         }
     }
 
-    setPlayerSpawn(pos: Vec2): void{
+    setPlayerSpawn(pos: Vec2, cp: AnimatedSprite): void{
         this.playerSpawn = pos;
+        this.checkpoint = cp;
     }
     /**
      * TODO
@@ -727,11 +732,17 @@ export default class GameLevel extends Scene{
      * Returns the player to spawn
      */
     protected respawnPlayer(): void {
+        if(this.checkpoint.visible === true){ // if there is a checkpoint
+            this.checkpoint.visible = false;
+        }
+        else{ // there is no checkpoint, so spawn is reset to original spawn
+            this.playerSpawn = this.originalSpawn;
+        }
         this.currPlayer.position.copy(this.playerSpawn);
         //resets health
         (<PlayerController>this.players[0]._ai).health = this.playerMaxHealth;
         (<PlayerController>this.players[0]._ai).velocity.set(0,0);
-        // I was thinking of switching to flow on death if there is a checkpoint
+        // I was thinking of switching to flow on death if there is a checkpoint <- it messes up the UI if this happens
         /*this.currPlayer = this.players[2];
         (<PlayerController>this.players[0]._ai).switchOwner("flow")
         this.currPlayer.animation.play("Ability 2 Out")*/

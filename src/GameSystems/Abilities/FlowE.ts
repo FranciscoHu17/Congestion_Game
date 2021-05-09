@@ -63,7 +63,10 @@ export default class FlowE extends AbilityType {
             }
             else{
                 if(this.owner.onGround === true){
-                    if(this.checkpoint != undefined){
+                    if(this.checkpoint === undefined){
+                        
+                    }
+                    else{
                         this.checkpoint.destroy();
                     }
                     this.checkpoint = scene.add.animatedSprite("generator", "primary");
@@ -71,7 +74,7 @@ export default class FlowE extends AbilityType {
                     this.checkpoint.position.set(user.position.clone().x, user.position.clone().y);
             
                     let level = <GameLevel>scene;
-                    level.setPlayerSpawn(new Vec2(user.position.clone().x, user.position.clone().y));
+                    level.setPlayerSpawn(new Vec2(user.position.clone().x, user.position.clone().y), this.checkpoint);
                 }
             }
         }
