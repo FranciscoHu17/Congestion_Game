@@ -334,7 +334,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                     this.abilities[4].use(this.owner, "player", (<Sprite>this.owner).direction);
                     this.currentAbility = this.abilities[4]
                     this.abilitiesTimer.start(this.abilities[4].type.cooldown)
-                }else if(currentPlayer == "flow"){
+                }else if(currentPlayer == "flow" && ((this.currentState instanceof Walk) || (this.currentState instanceof Idle))){
                     this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "flowE", loop: false, holdReference: true});
                     super.changeState(PlayerStates.ABILITY)
                     this.currentAbility = this.abilities[5]
