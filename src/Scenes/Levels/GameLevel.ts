@@ -712,7 +712,7 @@ export default class GameLevel extends Scene{
      * Returns the player to spawn
      */
     protected respawnPlayer(): void {
-        if(this.checkpoint.visible === true){ // if there is a checkpoint
+        if(this.checkpoint != undefined && this.checkpoint.visible === true){ // if there is a checkpoint
             this.checkpoint.visible = false;
         }
         else{ // there is no checkpoint, so spawn is reset to original spawn
