@@ -224,6 +224,7 @@ export default class GameLevel extends Scene{
                                 for(var i = 0; i< this.enemies.length; i++){
                                     this.enemies[i].disablePhysics();
                                     this.enemies[i].freeze();
+                                    this.enemies[i].animation.pause();
                                 }
                             }
                             //In game menu pop up
@@ -244,6 +245,7 @@ export default class GameLevel extends Scene{
                             for(var i = 0; i< this.enemies.length; i++){
                                 this.enemies[i].enablePhysics();
                                 this.enemies[i].unfreeze();
+                                this.enemies[i].animation.resume();
                             }
                         }
                     }

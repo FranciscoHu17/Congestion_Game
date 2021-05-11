@@ -341,7 +341,8 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                     this.abilitiesTimer.start(this.abilities[5].type.cooldown)
                 }
             }else if(Input.isMouseJustPressed() && this.basicAttackCooldown.isStopped() && this.abilitiesTimer.isStopped()
-                    && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
+                    && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying) 
+                    && this.players[0].frozen === false && this.players[1].frozen === false && this.players[2].frozen === false){
                 if(this.projectileManager.getNumBasicShots() == 0){
                     this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "basicAttack", loop: false, holdReference: true});
                     (<AnimatedSprite>this.owner).animation.play("Basic Attack",false)
