@@ -34,6 +34,18 @@ export default class Walk extends OnGround {
 			this.finished(PlayerStates.SWITCHING)
 		}
 		
+		if(Input.isJustPressed("invincible")){
+			if(this.owner.isCollidable === true){
+				for(let i = 0; i < this.parent.players.length; i++){
+					this.parent.players[i].isCollidable = false;
+				}
+			}
+			else{
+				for(let i = 0; i < this.parent.players.length; i++){
+					this.parent.players[i].isCollidable = true;
+				}
+			}
+		}
 		let dir = this.getInputDirection();
 		this.owner.colliderOffset.x = (this.owner.colliderOffset.x<0) == (this.owner.direction.x>0) ? this.owner.colliderOffset.x : -1*this.owner.colliderOffset.x;
 

@@ -86,8 +86,10 @@ export default class GameLevel extends Scene{
 
     protected projectileManager: ProjectileManager
 
-    protected invincible: boolean = false;
     protected paused: boolean = false; 
+
+    protected checkpoint: AnimatedSprite;
+    protected originalSpawn: Vec2;
 
     /**
      * TODO
@@ -104,6 +106,7 @@ export default class GameLevel extends Scene{
         this.originalViewportPosX = this.viewport.getCenter().x
         this.originalViewportPosY = this.viewport.getCenter().y
 
+        this.originalSpawn = this.playerSpawn;
         // Game level standard initializations
         this.initLayers();
         this.initViewport();
@@ -203,7 +206,7 @@ export default class GameLevel extends Scene{
                 case Game_Events.GAME_PAUSED:
                     {
                         if(!this.paused){
-                            this.paused = true
+                            //this.paused = true <- this causes the pause menu bug
                             // Layers visibility set
                             this.controls.setHidden(true);
                             this.help1.setHidden(true);
@@ -221,6 +224,7 @@ export default class GameLevel extends Scene{
                                 for(var i = 0; i< this.enemies.length; i++){
                                     this.enemies[i].disablePhysics();
                                     this.enemies[i].freeze();
+                                    this.enemies[i].animation.pause();
                                 }
                             }
                             //In game menu pop up
@@ -241,6 +245,7 @@ export default class GameLevel extends Scene{
                             for(var i = 0; i< this.enemies.length; i++){
                                 this.enemies[i].enablePhysics();
                                 this.enemies[i].unfreeze();
+                                this.enemies[i].animation.resume();
                             }
                         }
                     }
@@ -313,26 +318,6 @@ export default class GameLevel extends Scene{
                 case "level3":
                     {
                         this.goToLevel(event.type);
-                    }
-                    break;
-                case Game_Events.INVINCIBLE:
-                    {
-                        if(this.invincible === false){
-                            console.log("making invincible");
-                            for(i = 0; i < this.players.length; i++){
-                                this.players[i].disablePhysics();
-                                this.players[i].isCollidable = false;
-                            }
-                            this.invincible = true;
-                        }
-                        else{
-                            console.log("enabling physics");
-                            for(i = 0; i < this.players.length; i++){
-                                this.players[i].enablePhysics();
-                                this.players[i].isCollidable = true;
-                            }
-                            this.invincible = false;
-                        }
                     }
                     break;
                 case Game_Events.PLAYER_DYING:
@@ -562,7 +547,6 @@ export default class GameLevel extends Scene{
             "level1",
             "level2",
             "level3",
-            Game_Events.INVINCIBLE,
             Game_Events.GAME_RESUMED
         ]);
     }
@@ -666,8 +650,9 @@ export default class GameLevel extends Scene{
         }
     }
 
-    setPlayerSpawn(pos: Vec2): void{
+    setPlayerSpawn(pos: Vec2, cp: AnimatedSprite): void{
         this.playerSpawn = pos;
+        this.checkpoint = cp;
     }
     /**
      * TODO
@@ -727,11 +712,17 @@ export default class GameLevel extends Scene{
      * Returns the player to spawn
      */
     protected respawnPlayer(): void {
+        if(this.checkpoint != undefined && this.checkpoint.visible === true){ // if there is a checkpoint
+            this.checkpoint.visible = false;
+        }
+        else{ // there is no checkpoint, so spawn is reset to original spawn
+            this.playerSpawn = this.originalSpawn;
+        }
         this.currPlayer.position.copy(this.playerSpawn);
         //resets health
         (<PlayerController>this.players[0]._ai).health = this.playerMaxHealth;
         (<PlayerController>this.players[0]._ai).velocity.set(0,0);
-        // I was thinking of switching to flow on death if there is a checkpoint
+        // I was thinking of switching to flow on death if there is a checkpoint <- it messes up the UI if this happens
         /*this.currPlayer = this.players[2];
         (<PlayerController>this.players[0]._ai).switchOwner("flow")
         this.currPlayer.animation.play("Ability 2 Out")*/

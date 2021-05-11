@@ -39,7 +39,7 @@ export default class Reno_E extends PlayerState {
                 }
             }
 
-            if(closest != null){
+            if(closest != null && closest.health > 0){
                 let walls = <OrthogonalTilemap>this.owner.getScene().getLayer("bottom").getItems()[0];
                 let teleport = closest.owner.position.clone()
                 teleport.x += 128*3/4 * -1*(<Sprite>closest.owner).direction.x

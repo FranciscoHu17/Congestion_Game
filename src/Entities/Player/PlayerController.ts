@@ -136,7 +136,6 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.receiver.subscribe(Game_Events.RENO_ABILITY2)
         this.receiver.subscribe(Game_Events.FLOW_ABILITY1)
         this.receiver.subscribe(Game_Events.ABILITYFINISHED)
-        this.receiver.subscribe(Game_Events.INVINCIBLE)
     }
 
     //TODO: change all the stats later
@@ -339,7 +338,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                     this.abilities[4].use(this.owner, "player", (<Sprite>this.owner).direction);
                     this.currentAbility = this.abilities[4]
                     this.abilitiesTimer.start(this.abilities[4].type.cooldown)
-                }else if(currentPlayer == "flow"){
+                }else if(currentPlayer == "flow" && ((this.currentState instanceof Walk) || (this.currentState instanceof Idle))){
                     this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "flowE", loop: false, holdReference: true});
                     super.changeState(PlayerStates.ABILITY)
                     this.currentAbility = this.abilities[5]
@@ -347,7 +346,8 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                     this.abilitiesTimer.start(this.abilities[5].type.cooldown)
                 }
             }else if(Input.isMouseJustPressed() && this.basicAttackCooldown.isStopped() && this.abilitiesTimer.isStopped()
-                    && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying)){
+                    && !(this.currentState instanceof Switching) && !(this.currentState instanceof Dying) 
+                    && this.players[0].frozen === false && this.players[1].frozen === false && this.players[2].frozen === false){
                 if(this.projectileManager.getNumBasicShots() == 0){
                     this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "basicAttack", loop: false, holdReference: true});
                     (<AnimatedSprite>this.owner).animation.play("Basic Attack",false)

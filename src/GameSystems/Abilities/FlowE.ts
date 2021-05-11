@@ -13,6 +13,7 @@ import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
+import BattleManager from "../BattleManager";
 import BattlerAI from "../BattlerAI";
 import AbilityType from "./AbilityType";
 
@@ -38,88 +39,51 @@ export default class FlowE extends AbilityType {
     }
 
     doAnimation(shooter: GameNode, direction: Vec2, hitbox: Rect): void {
-        (<AnimatedSprite>shooter).animation.play("Ability 2 In", false, Game_Events.ABILITYFINISHED);
-        /*hitbox.position.x = hitbox.position.x + (256 * direction.x);
-
-        let start = shooter.position.clone();
-        let end = shooter.position.clone().add(direction.scaled(900));
-        let delta = end.clone().sub(start);
-
-        // Iterate through the tilemap region until we find a collision
-        let minX = Math.min(start.x, end.x);
-        let maxX = Math.max(start.x, end.x);
-        let minY = Math.min(start.y, end.y);
-        let maxY = Math.max(start.y, end.y);
-
-        // Get the wall tilemap
-        let walls = <OrthogonalTilemap>shooter.getScene().getLayer("bottom").getItems()[0];
-
-        let minIndex = walls.getColRowAt(new Vec2(minX, minY));
-		let maxIndex = walls.getColRowAt(new Vec2(maxX, maxY));
-
-        let tileSize = walls.getTileSize();
-
-        for(let col = minIndex.x; col <= maxIndex.x; col++){
-            for(let row = minIndex.y; row <= maxIndex.y; row++){
-                if(walls.isTileCollidable(col, row)){
-                    // Get the position of this tile
-                    let tilePos = new Vec2(col * tileSize.x + tileSize.x/2, row * tileSize.y + tileSize.y/2);
-
-                    // Create a collider for this tile
-                    let collider = new AABB(tilePos, tileSize.scaled(1/2));
-
-                    let hit = collider.intersectSegment(start, delta, Vec2.ZERO);
-
-                    if(hit !== null && start.distanceSqTo(hit.pos) < start.distanceSqTo(end)){
-                        console.log("Found hit");
-                        end = hit.pos;
-                    }
-                }
-            }
+        if(this.owner.onGround === true){
+            (<AnimatedSprite>shooter).animation.play("Ability 2 In", false, Game_Events.ABILITYFINISHED);
         }
-
-        //TODO: where the hitbox starts and ends if it collides with a wall. change the size!!
-        //line.start = start;
-        // line.end = end;
-        hitbox.tweens.play("fade");*/
     }
 
     createRequiredAssets(scene: Scene, user: Sprite): [Rect] {
-        if(this.checkpoint != undefined){
-            this.checkpoint.destroy();
-        }
-        this.checkpoint = scene.add.animatedSprite("generator", "primary");
-        this.checkpoint.animation.play("Idle");
-        this.checkpoint.position.set(user.position.clone().x, user.position.clone().y);
-
-        let level = <GameLevel>scene;
-        level.setPlayerSpawn(new Vec2(user.position.clone().x, user.position.clone().y));
-        
-        /*let line = <Rect>scene.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(user.position.clone().x, 
-            user.position.clone().y), size: new Vec2 (384,128)});
-        line.color = Color.GREEN;
-        this.attackDuration = 1800;
-        this.startDelay = 500;
-
-        line.tweens.add("fade", {
-            startDelay: this.startDelay,
-            duration: this.attackDuration,
-            effects: [
-                {
-                    property: TweenableProperties.alpha,
-                    start: 1,
-                    end: 0,
-                    ease: EaseFunctionType.OUT_SINE
+        let limit = 128*2;
+		let enemies = BattleManager.getInstance().getEnemies();
+        if (enemies.length > 0){
+            let dist = enemies[0].owner.position.distanceTo(this.owner.position) < limit ? enemies[0].owner.position.distanceTo(this.owner.position) : limit
+            let closest = dist < limit ? enemies[0] : null
+            
+            for(let i = 1; i < enemies.length; i++){
+                let curr_dist = enemies[i].owner.position.distanceTo(this.owner.position)
+                if (curr_dist < dist){
+                    closest = enemies[i]
+                    dist = curr_dist
                 }
-            ]
-        });*/
+            }
+            
+            if(closest != null && closest.health > 0){
+            }
+            else{
+                if(this.owner.onGround === true){
+                    if(this.checkpoint === undefined){
+                        
+                    }
+                    else{
+                        this.checkpoint.destroy();
+                    }
+                    this.checkpoint = scene.add.animatedSprite("generator", "primary");
+                    this.checkpoint.animation.play("Idle");
+                    this.checkpoint.position.set(user.position.clone().x, user.position.clone().y);
+            
+                    let level = <GameLevel>scene;
+                    level.setPlayerSpawn(new Vec2(user.position.clone().x, user.position.clone().y), this.checkpoint);
+                }
+            }
+        }
+        
 
         return [null];
     }
 
     interact(ai: BattlerAI, hitbox: Rect): boolean {
-        //return node.collisionShape.getBoundingRect().intersectSegment(line.start, line.end.clone().sub(line.start)) !== null;
-        //return ai.owner.collisionShape.getBoundingRect().overlaps(hitbox.boundary);
         return false;
     }
 }

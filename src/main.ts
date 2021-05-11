@@ -34,6 +34,7 @@ import Tutorial from "./Scenes/Levels/Tutorial";
             {name: "reno", keys: ["2"]},
             {name: "flow", keys: ["3"]},
             {name: "pause", keys: ["escape"]},
+            {name: "invincible", keys: ["i"]},
         ]
     }
 
