@@ -248,20 +248,18 @@ export default class LayerHelper{
         bodyOutline.borderWidth = 5
         bodyOutline.borderColor = purple
 
-       /* // Ability 2 Explanation
-        abilityText = " The direction and velocity of Ability 2 will be shown by an \n"+
-                      " arrow near Flow. The arrow will follow the mouse cursor \n"+
-                      " on the screen to show the trajectory of Flow’s jump when the \n"+
-                      " key for the ability is held. When this key is let go, then \n"+
-                      " Flow will be launched with a high velocity in that direction."
-        this.addParagraphLabel(mainScene, new Vec2(size.x/2,size.y/2 + 90), "help3", abilityText)
+        // Ability 2 Explanation
+        abilityText = " Note: Flow's checkpoint cannot be created while Flow is\n"+
+                      " in the air, or when Flow is too close to any enemies. \n"+
+                      " The checkpoint will be destroyed after it is used once."
+        this.addParagraphLabel(mainScene, new Vec2(size.x/2,size.y/2 + 100), "help3", abilityText)
 
         // Outline around character info
-        bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help3", {position: new Vec2(size.x/2,size.y/2 + 150), text: ""});
-        bodyOutline.size = new Vec2(1020,158)
+        bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help3", {position: new Vec2(size.x/2,size.y/2 + 130), text: ""});
+        bodyOutline.size = new Vec2(1020,100)
         bodyOutline.borderRadius = 0
         bodyOutline.borderWidth = 5
-        bodyOutline.borderColor = purple */
+        bodyOutline.borderColor = purple 
 
         // Prev, Next, Exit Buttons
         this.addButtons(mainScene, size, purple, cyan, "help3", "help2", "help4", exit, "Exit")
@@ -283,7 +281,7 @@ export default class LayerHelper{
         this.addCheatButton(mainScene, new Vec2(size.x/4+40,size.y/2+110), purple, green, "help4", "Go to Level 3", "level2")
         this.addCheatButton(mainScene, new Vec2(size.x/2+240,size.y/2-70), purple, green, "help4", "Go to Level 4", "level3")
 
-        this.addCheatButton(mainScene, new Vec2(size.x/2,size.y/2+200), purple, green, "help4", "Press this button or I for invincibility", Game_Events.INVINCIBLE)
+        this.addCheatButton(mainScene, new Vec2(size.x/2,size.y/2+200), purple, green, "help4", "Press I for invincibility", "invincible")
 
         // Prev, Next, Exit Buttons
         this.addButtons(mainScene, size, purple, cyan, "help4", "help3", "help1", exit, "Exit")

@@ -86,7 +86,6 @@ export default class GameLevel extends Scene{
 
     protected projectileManager: ProjectileManager
 
-    protected invincible: boolean = false;
     protected paused: boolean = false; 
 
     protected checkpoint: AnimatedSprite;
@@ -207,7 +206,7 @@ export default class GameLevel extends Scene{
                 case Game_Events.GAME_PAUSED:
                     {
                         if(!this.paused){
-                            this.paused = true
+                            //this.paused = true <- this causes the pause menu bug
                             // Layers visibility set
                             this.controls.setHidden(true);
                             this.help1.setHidden(true);
@@ -317,26 +316,6 @@ export default class GameLevel extends Scene{
                 case "level3":
                     {
                         this.goToLevel(event.type);
-                    }
-                    break;
-                case Game_Events.INVINCIBLE:
-                    {
-                        if(this.invincible === false){
-                            console.log("making invincible");
-                            for(i = 0; i < this.players.length; i++){
-                                this.players[i].disablePhysics();
-                                this.players[i].isCollidable = false;
-                            }
-                            this.invincible = true;
-                        }
-                        else{
-                            console.log("enabling physics");
-                            for(i = 0; i < this.players.length; i++){
-                                this.players[i].enablePhysics();
-                                this.players[i].isCollidable = true;
-                            }
-                            this.invincible = false;
-                        }
                     }
                     break;
                 case Game_Events.PLAYER_DYING:
@@ -566,7 +545,6 @@ export default class GameLevel extends Scene{
             "level1",
             "level2",
             "level3",
-            Game_Events.INVINCIBLE,
             Game_Events.GAME_RESUMED
         ]);
     }
