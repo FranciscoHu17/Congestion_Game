@@ -117,7 +117,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
         this.initializePlatformer();
 
-        this.tilemap = this.owner.getScene().getTilemap(options.tilemap) as OrthogonalTilemap;
+        this.tilemap = this.owner.getScene().getTilemap("bottom") as OrthogonalTilemap;
         this.players = options.players
         this.viewport = options.viewport
         this.health = options.health ? options.health : 100
@@ -178,16 +178,21 @@ export default class PlayerController extends StateMachineAI implements BattlerA
 
 
     switchOwner(newOwner: string){
-        let centerX = this.owner.position.x
+        let leftBound = this.owner.collisionShape.left;
+        let rightBound = this.owner.collisionShape.right;
         let bottomBound = this.owner.collisionShape.bottom;
 
         for(let i = 0; i< 3; i++){
             if(this.players[i].imageId === newOwner){
                 this.owner = this.players[i]
 
-
-                this.owner.position.x = centerX
+                if(this.tilemap.getTileAtWorldPosition((<Sprite>this.owner).boundary.topLeft))
+                    this.owner.position.x = leftBound + this.owner.collisionShape.halfSize.x   
+                else
+                    this.owner.position.x = rightBound - this.owner.collisionShape.halfSize.x
                 this.owner.position.y = bottomBound - this.owner.collisionShape.halfSize.y - this.owner.colliderOffset.y
+
+                console.log()
 
                 this.players[i].enablePhysics()
                 this.players[i].visible = true

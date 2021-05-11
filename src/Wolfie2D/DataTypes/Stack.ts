@@ -29,6 +29,7 @@ export default class Stack<T> implements Collection {
      */
     push(item: T): void {
         if(this.head + 1 === this.MAX_ELEMENTS){
+            console.log(this.stack)
             throw "Stack full - cannot add element";
         }
         this.head += 1;

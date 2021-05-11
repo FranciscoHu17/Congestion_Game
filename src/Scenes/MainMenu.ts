@@ -29,8 +29,8 @@ export default class MainMenu extends Scene{
     }
     
     startScene(): void {
-        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "menumusic"});
-        this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "menumusic", loop: true, holdReference: true});
+        //this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "menumusic"});
+        //this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "menumusic", loop: true, holdReference: true});
         AudioManager.setVolume(AudioChannelType.MUSIC, .30)
         this.initLayers()
         this.viewport.setFocus(this.viewport.getHalfSize())
