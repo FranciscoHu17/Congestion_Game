@@ -185,10 +185,10 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             if(this.players[i].imageId === newOwner){
                 this.owner = this.players[i]
 
-                if(this.tilemap.getTileAtWorldPosition((<Sprite>this.owner).boundary.topLeft))
-                    this.owner.position.x = leftBound + this.owner.collisionShape.halfSize.x   
-                else
-                    this.owner.position.x = rightBound - this.owner.collisionShape.halfSize.x
+                this.owner.position.x = rightBound - this.owner.collisionShape.halfSize.x
+                if(this.tilemap.getTileAtWorldPosition((<Sprite>this.owner).boundary.topLeft)){
+                    this.owner.position.x = leftBound + this.owner.collisionShape.halfSize.x  
+                }
                 this.owner.position.y = bottomBound - this.owner.collisionShape.halfSize.y - this.owner.colliderOffset.y
 
                 console.log()
