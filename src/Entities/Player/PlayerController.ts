@@ -350,7 +350,13 @@ export default class PlayerController extends StateMachineAI implements BattlerA
                     && this.players[0].frozen === false && this.players[1].frozen === false && this.players[2].frozen === false){
                 if(this.projectileManager.getNumBasicShots() == 0){
                     this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "basicAttack", loop: false, holdReference: true});
-                    (<AnimatedSprite>this.owner).animation.play("Basic Attack",false)
+                    (<AnimatedSprite>this.owner).animation.play("Basic Attack", false);
+                    if(this.currentState instanceof Walk){
+                        (<AnimatedSprite>this.owner).animation.queue("Walk", true);
+                    }
+                    else{
+                        (<AnimatedSprite>this.owner).animation.queue("Idle", true);
+                    }
                 }
                 this.projectileManager.fireProjectileByKey(this.owner, "basic", this.owner.position.dirTo(Input.getGlobalMousePosition()), 20)
                 if(this.projectileManager.getNumBasicShots() > 0){
