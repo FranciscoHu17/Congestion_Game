@@ -32,8 +32,20 @@ export default class Stack<T> implements Collection {
             console.log(this.stack)
             throw "Stack full - cannot add element";
         }
-        this.head += 1;
-        this.stack[this.head] = item;
+
+        // Cheesing the stack full problem. Fix it later if we can
+        if(this.head != -1 && item === this.stack[this.head]){
+            this.stack[this.head] = item;
+        }
+        else if(this.head > this.MAX_ELEMENTS/2){
+            this.head = this.MAX_ELEMENTS/10
+            this.stack[this.head] = item
+        }
+        else{
+            this.head += 1;
+            this.stack[this.head] = item;
+        }
+        // End of cheese
     }
 
     /**

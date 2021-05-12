@@ -38,6 +38,7 @@ export default class OnGround extends PlayerState {
 
 		//TODO: we would have to add Duck here if we wish to implement it.
 		if(Input.isJustPressed("jump")){ //TODO: might have to change input name
+			console.log("jump")
 			this.finished("jump");
 			this.parent.velocity.y = -128*8;
 			// if(this.parent.velocity.x !== 0){
