@@ -1,3 +1,4 @@
+import { Game_Events } from "../../Enums/GameEvents";
 import Ability from "../../GameSystems/Abilities/Ability";
 import AbilityType from "../../GameSystems/Abilities/AbilityType";
 import BattleManager from "../../GameSystems/BattleManager";
@@ -85,6 +86,7 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         this.initializeAbilities(ability)
 
         // Subscribe to events
+        this.receiver.subscribe(Game_Events.ENEMY_DIED);
         //this.receiver.subscribe(hw3_Events.SHOT_FIRED);
         console.log("Subscribed to event");
 
@@ -181,13 +183,15 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         console.log("enemy health:", this.health)
         
         if(this.health <= 0){
+            this.owner.animation.play("Death", false, Game_Events.ENEMY_DIED);
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyDeath", loop: false, holdReference: true});
-            this.owner.setAIActive(false, {});
+            /*this.owner.setAIActive(false, {});
             this.owner.isCollidable = false;
             this.owner.visible = false;
-            this.owner.disablePhysics()
+            this.owner.disablePhysics()*/ // <- this is done in an event defined in GameLevel
         }else
         {
+            this.owner.animation.play("Taking Damage", false);
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyDamaged", loop: false, holdReference: true});
         }
     }

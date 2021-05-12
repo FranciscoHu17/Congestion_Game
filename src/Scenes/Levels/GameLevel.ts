@@ -188,9 +188,12 @@ export default class GameLevel extends Scene{
                         break;
                 case Game_Events.ENEMY_DIED:
                     {
-                        // An enemy finished its dying animation, destroy it
+                        // An enemy finished its dying animation, hide it
                         let node = this.sceneGraph.getNode(event.data.get("owner"));
-                        node.destroy();
+                        node.setAIActive(false, {});
+                        node.isCollidable = false;
+                        node.visible = false;
+                        node.disablePhysics();
                     }
                 break;
                 

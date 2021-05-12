@@ -59,7 +59,7 @@ export default class FlowE extends AbilityType {
                 }
             }
             
-            if(closest != null && closest.health > 0){
+            if(closest != null){ // to prevent spawning a checkpoint where enemies spawn
             }
             else{
                 if(this.owner.onGround === true){

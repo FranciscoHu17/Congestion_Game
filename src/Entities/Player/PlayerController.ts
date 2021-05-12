@@ -136,6 +136,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.receiver.subscribe(Game_Events.RENO_ABILITY2)
         this.receiver.subscribe(Game_Events.FLOW_ABILITY1)
         this.receiver.subscribe(Game_Events.ABILITYFINISHED)
+        this.receiver.subscribe(Game_Events.ENEMY_DIED)
     }
 
     //TODO: change all the stats later
