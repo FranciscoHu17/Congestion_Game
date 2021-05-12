@@ -193,6 +193,12 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         {
             this.owner.animation.play("Taking Damage", false);
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyDamaged", loop: false, holdReference: true});
+            if(this.currentState instanceof Attack){
+                (<AnimatedSprite>this.owner).animation.queue("Attack", true);
+            }
+            else{
+                (<AnimatedSprite>this.owner).animation.queue("Idle", true);
+            }
         }
     }
 
