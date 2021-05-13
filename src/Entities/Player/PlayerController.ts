@@ -99,6 +99,7 @@ export default class PlayerController extends StateMachineAI implements BattlerA
     basicAttackTimer: Timer;
     basicAttackCooldown: Timer;
     freezeTimer: Timer;
+    slowDownTimer: Timer;
     basicAttackCounter: number;
     health: number;//TODO: put in health and damage!!!!
 
@@ -110,6 +111,10 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         this.basicAttackCooldown = new Timer(1000)
         this.freezeTimer = new Timer(2000, () =>{
             this.owner.unfreeze()
+            this.velocity.x = 0
+            this.velocity.y = 0
+        })
+        this.slowDownTimer = new Timer(10000, () => {
             this.velocity.x = 0
             this.velocity.y = 0
         })
