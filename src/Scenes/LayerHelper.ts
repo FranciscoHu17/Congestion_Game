@@ -30,8 +30,8 @@ export default class LayerHelper{
 
         this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 48), line_size, green, "controls", "W/Space - Jump")
         this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 88), line_size, green, "controls", "A - Move Left")
-        this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 128), line_size, green, "controls", "S - Duck")
-        this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 168), line_size, green, "controls", "D - Move Right")
+        //this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 128), line_size, green, "controls", "S - Duck")
+        this.addLabel(mainScene, new Vec2(size.x/4+75,size.y/4 + 128), line_size, green, "controls", "D - Move Right")
 
         this.addLabel(mainScene, new Vec2(3*size.x/4-75,size.y/4 + 48), line_size, green, "controls", "Q - Ability 1")
         this.addLabel(mainScene, new Vec2(3*size.x/4-75,size.y/4 + 88), line_size, green, "controls", "E - Ability 2")
@@ -43,8 +43,8 @@ export default class LayerHelper{
         this.addLabel(mainScene, new Vec2(size.x/2,size.y/2+170), line_size, green, "controls", "3 - Switch to Flow")
 
         // Outline around controls
-        let bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "controls", {position: new Vec2(size.x/4+75,size.y/2-70), text: ""});
-        bodyOutline.size = new Vec2(400,162)
+        let bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "controls", {position: new Vec2(size.x/4+75,size.y/2-90), text: ""});
+        bodyOutline.size = new Vec2(400,122)
         bodyOutline.borderRadius = 0
         bodyOutline.borderWidth = 5
         bodyOutline.borderColor = cyan
@@ -138,7 +138,7 @@ export default class LayerHelper{
         //#####################################################        TAHOE        ##################################################################
 
         // Character Name
-        let characterName = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2-5,size.y/2-70), text: " Tahoe - Crowd Control"});
+        let characterName = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/2-70), text: " Tahoe - Crowd Control"});
         characterName.textColor = green
         characterName.backgroundColor = Color.BLACK
         characterName.font = "Consola"
@@ -152,17 +152,17 @@ export default class LayerHelper{
         this.addParagraphLabel(mainScene, new Vec2(size.x/2,size.y/2-37), "help2", abilityText)
 
         // Passive Ability
-        let passive = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/2+25), text: " Passive: Enemies hit move 20% slower"});
+        /*let passive = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/2+25), text: " Passive: Enemies hit move 20% slower"});
         passive.textColor = purple
         passive.backgroundColor = Color.BLACK
         passive.font = "Consola"
         passive.fontSize = 30
         passive.size = new Vec2(1020,35)
-        passive.setHAlign("left")
+        passive.setHAlign("left") */
         
         // Outline around character info
-        bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/2 - 25), text: ""});
-        bodyOutline.size = new Vec2(1020,135)
+        bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/2 - 40), text: ""});
+        bodyOutline.size = new Vec2(1020,105)
         bodyOutline.borderRadius = 0
         bodyOutline.borderWidth = 5
         bodyOutline.borderColor = purple
@@ -170,7 +170,7 @@ export default class LayerHelper{
         //#####################################################        RENO        ##################################################################
 
         // Character Name
-        characterName = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2-4,size.y/2 + 90), text: " Reno - Damage Dealer"});
+        characterName = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/2 + 90), text: " Reno - Damage Dealer"});
         characterName.textColor = green
         characterName.borderRadius = 0
         characterName.backgroundColor = Color.BLACK
@@ -185,17 +185,17 @@ export default class LayerHelper{
         this.addParagraphLabel(mainScene, new Vec2(size.x/2,size.y/2+123), "help2", abilityText)
 
         // Passive Ability
-        passive = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/2+185), text: " Passive: 2x damage when behind enemy"});
+        /*passive = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/2+185), text: " Passive: 2x damage when behind enemy"});
         passive.textColor = purple
         passive.backgroundColor = Color.BLACK
         passive.font = "Consola"
         passive.fontSize = 30
         passive.size = new Vec2(1020,35)
-        passive.setHAlign("left")
+        passive.setHAlign("left") */
 
         // Outline around character info
-        bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/2 + 135), text: ""});
-        bodyOutline.size = new Vec2(1020,135)
+        bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help2", {position: new Vec2(size.x/2,size.y/2 + 120), text: ""});
+        bodyOutline.size = new Vec2(1020,105)
         bodyOutline.borderRadius = 0
         bodyOutline.borderWidth = 5
         bodyOutline.borderColor = purple
@@ -218,7 +218,7 @@ export default class LayerHelper{
         //#####################################################        FLOW       ##################################################################
 
         // Character Name
-        characterName = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help3", {position: new Vec2(size.x/2-5,size.y/2-70), text: " Flow - Mobility"});
+        characterName = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help3", {position: new Vec2(size.x/2,size.y/2-70), text: " Flow - Mobility"});
         characterName.textColor = green
         characterName.borderRadius = 0
         characterName.backgroundColor = Color.BLACK
@@ -233,13 +233,13 @@ export default class LayerHelper{
         this.addParagraphLabel(mainScene, new Vec2(size.x/2,size.y/2-37), "help3", abilityText)
 
         // Passive Ability
-        passive = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help3", {position: new Vec2(size.x/2,size.y/2+25), text: " Passive: 20% faster movement speed"});
+        /*passive = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help3", {position: new Vec2(size.x/2,size.y/2+25), text: " Passive: 20% faster movement speed"});
         passive.textColor = purple
         passive.backgroundColor = Color.BLACK
         passive.font = "Consola"
         passive.fontSize = 30
         passive.size = new Vec2(1020,35)
-        passive.setHAlign("left")
+        passive.setHAlign("left")*/
 
         // Outline around character info
         bodyOutline = <Label>mainScene.add.uiElement(UIElementType.LABEL, "help3", {position: new Vec2(size.x/2,size.y/2 - 25), text: ""});
