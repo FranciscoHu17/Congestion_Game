@@ -85,7 +85,7 @@ export default class Boss1 extends GameLevel{
 
         this.viewport.setBounds(0, 0, 1000*128, 1000*128);
 
-        this.playerSpawn = new Vec2(2*128, 4*128);
+        this.playerSpawn = new Vec2(6*128, 4*128);
 
         // Generic GameLevel Scene setup
         super.startScene() 

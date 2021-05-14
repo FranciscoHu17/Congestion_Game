@@ -326,17 +326,22 @@ export default class GameLevel extends Scene{
                         this.goToLevel(event.type);
                     }
                     break;
+                /*case "level3":
+                    {
+                        this.goToLevel(event.type);
+                    }
+                    break;*/
+                case "level5":
+                    {
+                        this.goToLevel(event.type);
+                    }
+                    break;
                 case Game_Events.PLAYER_DYING:
                     {
                         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "playerDeath", loop: false, holdReference: true});
                     }
             }
         }
-        // // If player falls into a pit, kill them off and reset their position
-        // if(this.currPlayer.position.y > 32*128){
-        //     this.respawnPlayer();
-        // }
-
         this.projectileManager.update(deltaT)
     }
     showInGameMenu(): void {
@@ -553,6 +558,8 @@ export default class GameLevel extends Scene{
             "level1",
             "level2",
             "level3",
+            "level4",
+            "level5",
             Game_Events.GAME_RESUMED
         ]);
     }

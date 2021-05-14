@@ -12,18 +12,17 @@ export default class Walk extends OnGround {
 			(<AnimatedSprite>this.owner).invertX = true;
 		}
 
-		(<AnimatedSprite>this.owner).animation.play("WALK", true);
+		(<AnimatedSprite>this.owner).animation.play("Walk", true);
 
 		this.time = Date.now();
 	}
 
 	update(deltaT: number): void {
 		super.update(deltaT);
-
 		if(Date.now() - this.time > 500){
-			this.finished(BossStates.IDLE);
 			this.parent.velocity.x = 0;
-		}
+			this.finished(BossStates.IDLE);
+		} 
 
 		this.parent.velocity.x = this.parent.direction.x * this.parent.speed;
 

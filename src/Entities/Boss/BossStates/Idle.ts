@@ -30,7 +30,10 @@ export default class Idle extends OnGround{
 
 		this.owner.move(this.parent.velocity.scaled(deltaT));
         if(this.parent.getPlayerPosition() !== null){
-            //this.finished(BossStates.ATTACK)
+            this.finished(BossStates.ATTACK)
         }
+		else{
+			this.finished(BossStates.WALK)
+		}
 	}
 }

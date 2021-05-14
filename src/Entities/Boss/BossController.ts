@@ -90,6 +90,8 @@ export default class BossController extends StateMachineAI implements BattlerAI 
 
         // Subscribe to events
         this.receiver.subscribe(Game_Events.ENEMY_DIED);
+        this.receiver.subscribe(Game_Events.GAME_PAUSED);
+        this.receiver.subscribe(Game_Events.GAME_RESUMED);
 
         // Initialize to the default state
         //this.initialize(EnemyStates.DEFAULT);
@@ -118,25 +120,14 @@ export default class BossController extends StateMachineAI implements BattlerAI 
     }
 
     initializeBasicAttack(damage: number){
-        if(this.key == "enemy_basic"){
+        if(this.key == "boss_basic"){
             let size = new Vec2(32,12)
             let projectile = <Rect>this.owner.getScene().add.graphic(GraphicType.RECT, "primary", {position: new Vec2, size: size})
-            projectile.color = Color.CYAN
+            projectile.color = Color.RED
             let basic_attack = this.projectileManager.addPacket({owner: projectile, key: this.key, speed: 128*7,
                                 max_dist: 128*6, size: size, target:"player"})
             basic_attack.damage = damage
             this.basic_attack.push(basic_attack)
-        }
-        else if(this.key == "enemy_around"){
-            let size = new Vec2(32,12)
-            for(let i = 0; i < 6; i++){
-                let projectile = <Rect>this.owner.getScene().add.graphic(GraphicType.RECT, "primary", {position: new Vec2, size: size})
-                projectile.color = Color.MAGENTA
-                let basic_attack = this.projectileManager.addPacket({owner: projectile, key: this.key, speed: 128*7,
-                                max_dist: 128*7, size: size, target:"player"})
-                basic_attack.damage = damage
-                this.basic_attack.push(basic_attack)
-            }
         }
         else{
             this.basic_attack = null
@@ -163,26 +154,11 @@ export default class BossController extends StateMachineAI implements BattlerAI 
 
     fireBasicAttacks(shooter: GameNode, dir: Vec2){
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyAttack", loop: false, holdReference: true});
-        if(this.key == "enemy_basic"){
+        if(this.key == "boss_basic"){
             let basic_attack = this.basic_attack[0]
             this.projectileManager.fireSpecificProjectile(this.owner, basic_attack, dir, basic_attack.damage)
             this.basicAttackTimer.start(1000)
         }
-        else if(this.key == "enemy_around"){
-            let curr_dir = dir.set(1,0) 
-            let curr_angle = Math.PI/2
-            for(let basic_attack of this.basic_attack){
-                let prevX = this.projectileManager.startPosition.x
-                this.projectileManager.startPosition.x = 0
-                this.projectileManager.fireSpecificProjectile(this.owner, basic_attack, curr_dir, basic_attack.damage)
-                this.projectileManager.startPosition.x = prevX
-                curr_angle += Math.PI/(this.basic_attack.length-1)
-                curr_dir.x = Math.sin(curr_angle)
-                curr_dir.y = Math.cos(curr_angle)
-            }
-            this.basicAttackTimer.start(2000)
-        }
-        
     }
 
     useAbility(direction: Vec2){
@@ -202,7 +178,7 @@ export default class BossController extends StateMachineAI implements BattlerAI 
         }
         else
         {
-            this.owner.animation.play("Taking Damage", false);
+            this.owner.animation.play("Damaged", false);
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyDamaged", loop: false, holdReference: true});
             if(this.currentState instanceof Attack){
                 this.owner.animation.queue("Attack", true);

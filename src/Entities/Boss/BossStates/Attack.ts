@@ -23,8 +23,7 @@ export default class Attack extends OnGround {
 
 
     onEnter(options: Record<string, any>): void {
-        console.log("now attacking")
-        this.owner.animation.play("Attack", true)
+        this.owner.animation.play("Ability 1", true)
         
         this.lastPlayerPos = this.parent.getPlayerPosition();
         
@@ -51,7 +50,7 @@ export default class Attack extends OnGround {
             }
         }
         
-        if(this.playerPos !== null){
+        if(this.playerPos !== null && this.owner.frozen === false){
             // Player is visible, restart the exitTimer
             this.parent.exitTimer.start();
             let basic_attack = this.parent.basic_attack
@@ -73,7 +72,7 @@ export default class Attack extends OnGround {
                 this.retObj = {target: this.lastPlayerPos}
                 this.finished(BossStates.IDLE);
             } else {
-                this.finished(BossStates.IDLE);
+                this.finished(BossStates.WALK);
             }
         }
 

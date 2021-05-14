@@ -51,6 +51,8 @@ export default class MainMenu extends Scene{
         this.receiver.subscribe("level1")
         this.receiver.subscribe("level2")
         this.receiver.subscribe("level3")
+        //this.receiver.subscribe("level4")
+        this.receiver.subscribe("level5")
         this.receiver.subscribe("invincible")
     }
 
@@ -61,7 +63,7 @@ export default class MainMenu extends Scene{
             if(event.type === "start"){
                 this.sceneManager.changeToScene(LevelSelect);
             }
-            else if(event.type === "level1" || event.type === "level2" || event.type === "level3"|| event.type === "tutorial"){
+            else if(event.type === "level1" || event.type === "level2" || event.type === "level3"|| event.type === "tutorial" || event.type === "level5"){
                 this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "menumusic"});
                 let level= this.levelManager.findLevel(event.type)
 

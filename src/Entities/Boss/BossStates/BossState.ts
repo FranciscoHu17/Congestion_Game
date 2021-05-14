@@ -25,7 +25,9 @@ export default abstract class BossState extends State {
 
 		
 		if(this.owner.onWall){
-			this.parent.velocity.x = 0
+			// Flip around
+			this.parent.direction.x *= -1;
+			(<AnimatedSprite>this.owner).invertX = !(<AnimatedSprite>this.owner).invertX;
 		}
 	}
 }
