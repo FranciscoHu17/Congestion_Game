@@ -28,11 +28,13 @@ import Projectile from "../../GameSystems/Projectiles/Projectile";
 import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import LevelManager from "../../Wolfie2D/LevelManager/LevelManager";
+import BossController from "../../Entities/Boss/BossController";
 
 export default class GameLevel extends Scene{
     // Each level will have player sprites, spawn coords, respawn timer
     protected players: Array<AnimatedSprite>;
     protected enemies: Array<AnimatedSprite>;//TODO: add all the enemies into this array
+    protected boss: AnimatedSprite
     protected currPlayer: AnimatedSprite;
     protected playerSpawn: Vec2;
     protected playerMaxHealth: number = 100;//TODO: change this later?
@@ -97,6 +99,7 @@ export default class GameLevel extends Scene{
      * Generic GameLevel Scene setup
      */
     startScene():void {
+        this.boss = null
         this.enemies = []
         // Create the battle manager
         this.battleManager = BattleManager.getInstance();
@@ -651,6 +654,21 @@ export default class GameLevel extends Scene{
             this.addEnemy(enemy.key, position,{basic_attack: enemy.basic_attack, ability: enemy.ability,
                           health: enemy.health, damage: enemy.damage, player: this.currPlayer})
         }
+    }
+
+    protected initializeBoss(spriteKey: string, tilePos: Vec2, collisionHalfSize: Vec2, aiOptions: Record<string, any>){
+        let boss = this.add.animatedSprite(spriteKey, "primary");
+        boss.position.set(tilePos.x*128, tilePos.y*128);
+        boss.addPhysics();
+        boss.addAI(BossController, aiOptions);
+        boss.setGroup("enemy");
+        boss.animation.play("Idle", true);
+        boss.setTrigger("player", Game_Events.PLAYER_HIT_ENEMY, null);
+        boss.collisionShape.halfSize.set(collisionHalfSize.x, collisionHalfSize.y)
+        this.enemies.push(boss);
+        
+        this.battleManager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai))
+        this.boss = boss
     }
 
     setPlayerSpawn(pos: Vec2, cp: AnimatedSprite): void{

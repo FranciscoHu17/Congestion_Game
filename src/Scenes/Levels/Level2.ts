@@ -105,7 +105,6 @@ export default class Level2 extends GameLevel{
         // Add enemies of various types
         // The coordinates are the positions in Tiled BUT ADD 0.5 TO X AND 0.5 TO Y
         this.initializeEnemies("enemyData")
-        console.log(this.enemies)
     }
 
     /**

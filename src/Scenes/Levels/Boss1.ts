@@ -5,7 +5,7 @@ import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import AudioManager, { AudioChannelType } from "../../Wolfie2D/Sound/AudioManager";
 import GameLevel from "./GameLevel";
 
-export default class Level3 extends GameLevel{
+export default class Boss1 extends GameLevel{
 
     /**
      * TODO
@@ -19,7 +19,7 @@ export default class Level3 extends GameLevel{
         this.load.image("reno_info", "assets/sprites/reno_info.png");
         this.load.image("flow_info", "assets/sprites/flow_info.png");
         this.load.image("ingame_menu", "assets/sprites/ingame_menu.png");
-        this.load.tilemap("maplevel3", "assets/tilemaps/level3.json");
+        this.load.tilemap("bosslevel1", "assets/tilemaps/bosslevel1.json");
         
         // Player
         this.load.spritesheet("player1", "assets/spritesheets/player/tahoe.json");
@@ -28,15 +28,12 @@ export default class Level3 extends GameLevel{
         this.load.spritesheet("generator", "assets/spritesheets/objects/generator.json");
 
         // Enemy
-        this.load.spritesheet("enemy", "assets/spritesheets/enemy/enemy.json");
-        this.load.spritesheet("camera", "assets/spritesheets/enemy/camera.json");
-        this.load.spritesheet("circuit", "assets/spritesheets/enemy/circuit.json");
-        this.load.spritesheet("router", "assets/spritesheets/enemy/router.json");
+        this.load.spritesheet("boss1", "assets/spritesheets/boss/boss.json");
         this.load.object("enemyData", "assets/spawns/level3_enemies.json");
 
         this.load.spritesheet("generator", "assets/spritesheets/objects/generator.json");
 
-        this.load.audio("level3", "assets/music/boss1.mp3");
+        this.load.audio("boss_music", "assets/music/boss1.mp3");
         this.load.audio("basicAttack", "assets/sounds/basicAttack.wav");
         this.load.audio("enemyAttack", "assets/sounds/enemyAttack.wav");
         this.load.audio("enemyDamaged", "assets/sounds/enemyDamaged.wav");
@@ -74,7 +71,7 @@ export default class Level3 extends GameLevel{
      */
 
     startScene(): void {
-        //this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "level3", loop: true, holdReference: true});
+        //this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "boss_music", loop: true, holdReference: true});
         //AudioManager.setVolume(AudioChannelType.MUSIC, .30)
         // Add a background layer and set the background image on it
         this.addParallaxLayer("bg", new Vec2(0.25, 0), -100);
@@ -84,7 +81,7 @@ export default class Level3 extends GameLevel{
         bg.scale.y = 2
         
         // Add the level 3 tilemap
-        this.add.tilemap("maplevel3", new Vec2(1, 1));
+        this.add.tilemap("bosslevel1", new Vec2(1, 1));
 
         this.viewport.setBounds(0, 0, 1000*128, 1000*128);
 
@@ -100,9 +97,12 @@ export default class Level3 extends GameLevel{
         // only one level for now
         //this.nextLevel = Level2;
 
+        this.initializeBoss("boss1", new Vec2(10.5,7.8), new Vec2(384,60), {basic_attack: "boss_basic", ability: [],
+            health: 200, damage: 20, player: this.currPlayer})
+        this.boss.colliderOffset.set(0,70)
         // Add enemies of various types
         // The coordinates are the positions in Tiled BUT ADD 0.5 TO X AND 0.5 TO Y
-        this.initializeEnemies("enemyData")
+        //this.initializeEnemies("enemyData")
     }
 
     /**

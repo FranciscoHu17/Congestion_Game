@@ -5,6 +5,7 @@ import Level1 from "./Scenes/Levels/Level1";
 import Level2 from "./Scenes/Levels/Level2";
 import Level3 from "./Scenes/Levels/Level3";
 import Tutorial from "./Scenes/Levels/Tutorial";
+import Boss1 from "./Scenes/Levels/Boss1";
 
 // The main function is your entrypoint into Wolfie2D. Specify your first scene and any options here.
 (function main(){
@@ -21,7 +22,7 @@ import Tutorial from "./Scenes/Levels/Tutorial";
             {name: "level2", level: Level2, finished: false},
             {name: "level3", level: Level3, finished: false},
             {name: "level4", level: Level1, finished: false},
-            {name: "level5", level: Level1, finished: false}
+            {name: "level5", level: Boss1, finished: false}
         ],
         inputs: [
             {name: "jump", keys: ["w","space"]},

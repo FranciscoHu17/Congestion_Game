@@ -1,0 +1,104 @@
+{
+	"name": "boss",
+	"spriteSheetImage": "boss.png",
+	"spriteWidth": 768,
+	"spriteHeight": 256,
+	"leftBuffer": 0,
+	"rightBuffer": 0,
+	"topBuffer": 0,
+	"bottomBuffer": 0,
+	"columns": 4,
+	"rows": 8,
+	"animations": [
+		{
+			"name": "Idle",
+			"repeat": true,
+			"frames": [
+				{ "index": 0, "duration": 8 },
+                { "index": 1, "duration": 8 },
+                { "index": 0, "duration": 8 },
+                { "index": 2, "duration": 8 }
+			]
+		},
+        {
+			"name": "Walk",
+			"repeat": true,
+			"frames": [
+				{ "index": 0, "duration": 6 },
+                { "index": 4, "duration": 6 },
+                { "index": 5, "duration": 6 },
+                { "index": 4, "duration": 6 },
+                { "index": 0, "duration": 6 },
+                { "index": 6, "duration": 6 },
+                { "index": 7, "duration": 6 },
+                { "index": 6, "duration": 6 } 
+			]
+		},
+        {
+			"name": "Ability 1",
+			"repeat": false,
+			"frames": [
+				{ "index": 8, "duration": 8 },
+                { "index": 9, "duration": 8 },
+                { "index": 10, "duration": 8 }
+
+			]
+		},
+        {
+			"name": "Ability 2",
+			"repeat": false,
+			"frames": [
+				{ "index": 12, "duration": 12 },
+                { "index": 13, "duration": 12 },
+                { "index": 14, "duration": 12 },
+                { "index": 15, "duration": 12 }
+
+			]
+		},
+        {
+			"name": "Ability 3",
+			"repeat": true,
+			"frames": [
+				{ "index": 16, "duration": 8 },
+                { "index": 17, "duration": 8 },
+                { "index": 18, "duration": 8 },
+                { "index": 19, "duration": 8 },
+                { "index": 18, "duration": 8 },
+                { "index": 17, "duration": 8 }
+
+			]
+		},
+        {
+			"name": "Ability 4",
+			"repeat": false,
+			"frames": [
+				{ "index": 20, "duration": 8 },
+				{ "index": 21, "duration": 8 },
+				{ "index": 22, "duration": 8 }
+
+			]
+		},
+        {
+			"name": "Damaged",
+			"repeat": false,
+			"frames": [
+				{ "index": 24, "duration": 8 },
+				{ "index": 25, "duration": 8 },
+				{ "index": 26, "duration": 8 },
+				{ "index": 27, "duration": 8 }
+
+			]
+		},
+        {
+			"name": "Death",
+			"repeat": false,
+			"frames": [
+				{ "index": 28, "duration": 6 },
+				{ "index": 29, "duration": 6 },
+				{ "index": 30, "duration": 6 },
+				{ "index": 31, "duration": 6 }
+
+			]
+		}
+	]
+}
