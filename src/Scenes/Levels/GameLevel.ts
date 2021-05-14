@@ -228,6 +228,7 @@ export default class GameLevel extends Scene{
                             this.currPlayer.freeze();
                             if(this.enemies != null){
                                 for(var i = 0; i< this.enemies.length; i++){
+                                    this.enemies[i].aiActive = false;
                                     this.enemies[i].disablePhysics();
                                     this.enemies[i].freeze();
                                     this.enemies[i].animation.pause();
@@ -249,6 +250,7 @@ export default class GameLevel extends Scene{
                         this.currPlayer.unfreeze();
                         if(this.enemies != null){
                             for(var i = 0; i< this.enemies.length; i++){
+                                this.enemies[i].aiActive = true;
                                 this.enemies[i].enablePhysics();
                                 this.enemies[i].unfreeze();
                                 this.enemies[i].animation.resume();

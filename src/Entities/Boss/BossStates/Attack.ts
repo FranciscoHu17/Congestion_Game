@@ -50,7 +50,7 @@ export default class Attack extends OnGround {
             }
         }
         
-        if(this.playerPos !== null && this.owner.frozen === false){
+        if(this.playerPos !== null){
             // Player is visible, restart the exitTimer
             this.parent.exitTimer.start();
             let basic_attack = this.parent.basic_attack
