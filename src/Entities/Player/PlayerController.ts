@@ -114,9 +114,9 @@ export default class PlayerController extends StateMachineAI implements BattlerA
             this.velocity.x = 0
             this.velocity.y = 0
         })
-        this.slowDownTimer = new Timer(10000, () => {
-            this.velocity.x = 0
-            this.velocity.y = 0
+        this.slowDownTimer = new Timer(5000, () => {
+            this.MIN_SPEED = 128 * 4;
+            this.MAX_SPEED = 10000;
         })
 
 
@@ -284,14 +284,17 @@ export default class PlayerController extends StateMachineAI implements BattlerA
         console.log("player health:", this.health)
         if(this.health <= 0){
             this.owner.disablePhysics();
+            this.MIN_SPEED = 128 * 4
+            this.MAX_SPEED = 10000
             this.emitter.fireEvent(Game_Events.PLAYER_DYING);
         }
         else if(this.owner.isCollidable === false){
-
         }
         else{
-            (<AnimatedSprite>this.owner).animation.play("Damaged", false, Game_Events.ABILITYFINISHED);
-            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "playerDamaged", loop: false, holdReference: true});
+            if(this.slowDownTimer.isStopped()){
+                (<AnimatedSprite>this.owner).animation.play("Damaged", false, Game_Events.ABILITYFINISHED);
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "playerDamaged", loop: false, holdReference: true});
+            }
         }
         /*
         if(this.health <= 0){

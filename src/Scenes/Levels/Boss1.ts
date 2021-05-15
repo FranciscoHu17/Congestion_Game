@@ -97,7 +97,7 @@ export default class Boss1 extends GameLevel{
         // only one level for now
         //this.nextLevel = Level2;
 
-        this.initializeBoss("boss1", new Vec2(10.5,7.8), new Vec2(384,60), {basic_attack: "boss_basic", ability: [],
+        this.initializeBoss("boss1", new Vec2(10.5,7.8), new Vec2(384,60), {basic_attack: "boss_basic", ability: ["slowDown"],
             health: 200, damage: 20, player: this.currPlayer})
         this.boss.colliderOffset.set(0,70)
         // Add enemies of various types

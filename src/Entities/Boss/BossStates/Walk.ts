@@ -24,7 +24,7 @@ export default class Walk extends OnGround {
 			this.finished(BossStates.IDLE);
 		} 
 
-		this.parent.velocity.x = this.parent.direction.x * this.parent.speed;
+		this.parent.velocity.x = this.parent.direction.x * this.parent.speed * 3;
 
 		this.owner.move(this.parent.velocity.scaled(deltaT));
 	}

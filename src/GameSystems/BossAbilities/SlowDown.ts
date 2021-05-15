@@ -43,7 +43,7 @@ export default class SlowDown extends AbilityType {
 
     createRequiredAssets(scene: Scene, user: Sprite): [Rect] {
         let line = <Rect>scene.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(user.position.clone().x, 
-            user.position.clone().y), size: new Vec2 (128*1.5,128*3)});
+            user.position.clone().y), size: new Vec2 (128*10,128*10)});
         line.color = Color.YELLOW;
         this.attackDuration = 1800;
         this.startDelay = 500;
@@ -66,13 +66,11 @@ export default class SlowDown extends AbilityType {
 
     interact(ai: BattlerAI, hitbox: Rect): boolean {
         let overlap = ai.owner.collisionShape.getBoundingRect().overlaps(hitbox.boundary)
-        
         if(overlap && (<PlayerController>ai).slowDownTimer.isStopped()){
             let slowed = (<PlayerController>ai);
-            let originalVelocity = slowed.velocity;
-            if(slowed.owner.isCollidable === true){
-                slowed.owner._velocity.x = originalVelocity.x/2;
-                slowed.owner._velocity.y = originalVelocity.y/2;
+            if(slowed.owner.isCollidable === true && slowed.health > 0){
+                slowed.MIN_SPEED = slowed.MIN_SPEED/2;
+                slowed.MAX_SPEED = slowed.MAX_SPEED/2;
                 slowed.slowDownTimer.start();
             }
         }
