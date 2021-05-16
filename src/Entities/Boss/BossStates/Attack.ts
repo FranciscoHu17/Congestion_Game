@@ -23,6 +23,7 @@ export default class Attack extends OnGround {
 
 
     onEnter(options: Record<string, any>): void {
+        console.log("attack")
         this.owner.animation.play("Ability 1", true)
         
         this.lastPlayerPos = this.parent.getPlayerPosition();
@@ -47,6 +48,7 @@ export default class Attack extends OnGround {
                 this.lastPlayerPos = this.playerPos;
                 this.owner.direction.x = (this.playerPos.x - this.owner.position.x) > 0 ? 1 : -1
                 this.owner.direction.y = 0  
+                //console.log(this.owner.direction.x)
             }
         }
         
@@ -57,7 +59,12 @@ export default class Attack extends OnGround {
 
             if(basic_attack && this.parent.basicAttackTimer.isStopped()){
                 // Fire at the player
-                let dir = this.playerPos.clone().sub(this.owner.position).normalize();
+                let pad = (this.parent.player.position.x - this.parent.owner.position.x) > 0  ? -3*128: 3*128
+                let pos = this.playerPos.clone()
+                pos.x +=pad
+                let dir = pos.sub(this.owner.position).normalize();
+                //console.log(dir.x)
+                //console.log(dir.y)
                 this.parent.fireBasicAttacks(this.owner, dir)
             }
             else if(this.parent.ability){
@@ -77,7 +84,7 @@ export default class Attack extends OnGround {
         }
 
         
-        this.owner.move(this.parent.velocity.scaled(deltaT));
+        //this.owner.move(this.parent.velocity.scaled(deltaT));
     }
 
     onExit(): Record<string, any> {

@@ -16,7 +16,7 @@ export default class OnGround extends BossState {
 		}
 		super.update(deltaT);
 
-		(<Sprite>this.owner).invertX = MathUtils.sign((<Sprite>this.owner).direction.x) < 0;
+		(<Sprite>this.owner).invertX = MathUtils.sign((<Sprite>this.owner).direction.x) > 0;
 
         /*if(!this.owner.onGround){
             this.finished(EnemyStates.FALL)

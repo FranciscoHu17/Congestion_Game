@@ -43,7 +43,7 @@ export default class SlowDown extends AbilityType {
 
     createRequiredAssets(scene: Scene, user: Sprite): [Rect] {
         let line = <Rect>scene.add.graphic(GraphicType.RECT, "primary", {position: new Vec2(user.position.clone().x, 
-            user.position.clone().y), size: new Vec2 (128*10,128*10)});
+            user.position.clone().y), size: new Vec2 (128*10,128*5)});
         line.color = Color.YELLOW;
         this.attackDuration = 1800;
         this.startDelay = 500;
