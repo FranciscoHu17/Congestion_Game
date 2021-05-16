@@ -183,6 +183,7 @@ export default class EnemyController extends StateMachineAI implements BattlerAI
         console.log("enemy health:", this.health)
         
         if(this.health <= 0){
+            this.owner.disablePhysics()
             this.owner.animation.play("Death", false, Game_Events.ENEMY_DIED);
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyDeath", loop: false, holdReference: true});
             /*this.owner.setAIActive(false, {});

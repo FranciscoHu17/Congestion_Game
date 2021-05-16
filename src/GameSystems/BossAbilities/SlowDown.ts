@@ -36,6 +36,7 @@ export default class SlowDown extends AbilityType {
     }
 
     doAnimation(shooter: GameNode, direction: Vec2, hitbox: Rect): void {
+        (<AnimatedSprite>shooter).animation.play("Ability 2", false); 
         hitbox.position.x = hitbox.position.x + (128*1.5 * direction.x);
         hitbox.position.y = hitbox.position.y - 128*0;
         hitbox.tweens.play("fade");

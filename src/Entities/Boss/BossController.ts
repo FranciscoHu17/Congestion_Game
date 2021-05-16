@@ -65,6 +65,8 @@ export default class BossController extends StateMachineAI implements BattlerAI 
     exitTimer: Timer;
     pollTimer: Timer;
     basicAttackTimer: Timer;
+    endLagTimer: Timer;
+    absorbTimer: Timer;
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.projectileManager = ProjectileManager.getInstance()
@@ -83,6 +85,7 @@ export default class BossController extends StateMachineAI implements BattlerAI 
         this.exitTimer = new Timer(1000)
         this.pollTimer = new Timer(1000)
         this.basicAttackTimer = new Timer(1000)
+        this.endLagTimer = new Timer(500)
 
         this.initializeStates()
         this.initializeBasicAttack(damage)
@@ -137,7 +140,7 @@ export default class BossController extends StateMachineAI implements BattlerAI 
     initializeAbilities(ability: string){
         if(ability == "slowDown"){
             let slowDown = new SlowDown()
-            slowDown.initialize({damage: 1, cooldown:5000, displayName: "SlowDown", spriteKey: this.owner.imageId, useVolume: 100})
+            slowDown.initialize({damage: 1, cooldown:15000, displayName: "SlowDown", spriteKey: this.owner.imageId, useVolume: 100})
             this.ability = new Ability(this.owner, slowDown, this.battleManager)
         }
         if(ability == "absorb"){
@@ -155,20 +158,22 @@ export default class BossController extends StateMachineAI implements BattlerAI 
     fireBasicAttacks(shooter: GameNode, dir: Vec2){
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyAttack", loop: false, holdReference: true});
         if(this.key == "boss_basic"){
+            (<AnimatedSprite>shooter).animation.play("Ability 1", false);
             let basic_attack = this.basic_attack[0]
             let prevX = this.projectileManager.startPosition.x
-            let prevY = this.projectileManager.startPosition.y
+            //let prevY = this.projectileManager.startPosition.y
             this.projectileManager.startPosition.x = 128*3
-            this.projectileManager.startPosition.y = 128*.5
+            //this.projectileManager.startPosition.y = 128*.5
             this.projectileManager.fireSpecificProjectile(this.owner, basic_attack, dir, basic_attack.damage)
             this.projectileManager.startPosition.x = prevX
-            this.projectileManager.startPosition.y = prevY
+            //this.projectileManager.startPosition.y = prevY
             this.basicAttackTimer.start(1000)
         }
     }
 
     useAbility(direction: Vec2){
-        this.ability.use(this.owner, "enemy", direction)
+        //this.endLagTimer.start()
+        //this.ability.use(this.owner, "enemy", direction)
     }
 
     activate(options: Record<string, any>): void {
@@ -179,6 +184,7 @@ export default class BossController extends StateMachineAI implements BattlerAI 
         console.log("boss health:", this.health)
         
         if(this.health <= 0){
+            this.owner.disablePhysics()
             this.owner.animation.play("Death", false, Game_Events.ENEMY_DIED);
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyDeath", loop: false, holdReference: true});
         }

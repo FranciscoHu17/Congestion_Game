@@ -27,7 +27,7 @@ export default class Attack extends OnGround {
         this.owner.animation.play("Ability 1", true)
         
         this.lastPlayerPos = this.parent.getPlayerPosition();
-        
+        this.parent.velocity.x = 1
         // Reset the return object
         this.retObj = {};
     }
@@ -56,8 +56,8 @@ export default class Attack extends OnGround {
             // Player is visible, restart the exitTimer
             this.parent.exitTimer.start();
             let basic_attack = this.parent.basic_attack
-
-            if(basic_attack && this.parent.basicAttackTimer.isStopped()){
+            
+            if(basic_attack && this.parent.basicAttackTimer.isStopped() && this.parent.endLagTimer.isStopped()){
                 // Fire at the player
                 let pad = (this.parent.player.position.x - this.parent.owner.position.x) > 0  ? -3*128: 3*128
                 let pos = this.playerPos.clone()
@@ -66,6 +66,7 @@ export default class Attack extends OnGround {
                 //console.log(dir.x)
                 //console.log(dir.y)
                 this.parent.fireBasicAttacks(this.owner, dir)
+                //this.owner.animation.queue("Idle", true)
             }
             else if(this.parent.ability){
                 this.parent.useAbility(this.owner.direction)
@@ -84,7 +85,7 @@ export default class Attack extends OnGround {
         }
 
         
-        //this.owner.move(this.parent.velocity.scaled(deltaT));
+        this.owner.move(this.parent.velocity.scaled(deltaT));
     }
 
     onExit(): Record<string, any> {

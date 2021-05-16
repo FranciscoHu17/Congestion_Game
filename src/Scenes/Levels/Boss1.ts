@@ -98,7 +98,7 @@ export default class Boss1 extends GameLevel{
         //this.nextLevel = Level2;
 
         this.initializeBoss("boss1", new Vec2(10.5,7.8), new Vec2(384,60), {basic_attack: "boss_basic", ability: ["slowDown"],
-            health: 200, damage: 20, player: this.currPlayer})
+            health: 1000, damage: 20, player: this.currPlayer})
         this.boss.colliderOffset.set(0,70)
         // Add enemies of various types
         // The coordinates are the positions in Tiled BUT ADD 0.5 TO X AND 0.5 TO Y
