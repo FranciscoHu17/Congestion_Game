@@ -81,6 +81,7 @@ export default class Tutorial extends GameLevel{
         //this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "tutorial", loop: true, holdReference: true});
         //AudioManager.setVolume(AudioChannelType.MUSIC, .30)
         /** ^ TURN THIS BACK ON AFTER WE ARE DONE */
+        this.currentLevelIndex = 0;
 
 
 

@@ -38,6 +38,7 @@ export default class GameLevel extends Scene{
     protected currPlayer: AnimatedSprite;
     protected playerSpawn: Vec2;
     protected playerMaxHealth: number = 100;//TODO: change this later?
+    protected currentLevelIndex: number;
     
     
     protected respawnTimer: Timer;
@@ -197,6 +198,10 @@ export default class GameLevel extends Scene{
                         node.isCollidable = false;
                         node.visible = false;
                         node.disablePhysics();
+                        if(this.boss != null){
+                            this.bossUI.setHidden(true);
+                            this.emitter.fireEvent(Game_Events.PLAYER_ENTERED_LEVEL_END);
+                        }
                     }
                 break;
                 
@@ -271,7 +276,7 @@ export default class GameLevel extends Scene{
                     break; 
                 case Game_Events.LEVEL_END:
                     {
-                        this.levelManager.finishLevel(0)
+                        this.levelManager.finishLevel(this.currentLevelIndex)
                         // Go to level select
                         this.viewport.follow(null)
                         this.sceneManager.changeToScene(LevelSelect);

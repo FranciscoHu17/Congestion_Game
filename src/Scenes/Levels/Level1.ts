@@ -77,7 +77,7 @@ export default class Level1 extends GameLevel{
         //this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "level1", loop: true, holdReference: true});
         //AudioManager.setVolume(AudioChannelType.MUSIC, .30)
         /** ^ TURN THIS BACK ON AFTER WE ARE DONE */
-        
+        this.currentLevelIndex = 1;
 
 
         // Add a background layer and set the background image on it

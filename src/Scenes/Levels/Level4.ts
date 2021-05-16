@@ -81,7 +81,7 @@ export default class Level4 extends GameLevel{
         //AudioManager.setVolume(AudioChannelType.MUSIC, .30)
         /** ^ TURN THIS BACK ON AFTER WE ARE DONE */
         
-
+        this.currentLevelIndex = 4;
 
         // Add a background layer and set the background image on it
         this.addParallaxLayer("bg", new Vec2(0.25, 0), -100);
