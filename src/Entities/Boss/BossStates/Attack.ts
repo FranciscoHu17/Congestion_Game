@@ -6,6 +6,7 @@ import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import OrthogonalTilemap from "../../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import BossAI, { BossStates } from "../BossController";
+import Absorb from "./Absorb";
 import BossState from "./BossState";
 import OnGround from "./OnGround";
 
@@ -48,7 +49,7 @@ export default class Attack extends OnGround {
                 this.lastPlayerPos = this.playerPos;
                 this.owner.direction.x = (this.playerPos.x - this.owner.position.x) > 0 ? 1 : -1
                 this.owner.direction.y = 0  
-                //console.log(this.owner.direction.x)
+                this.parent.velocity.x = this.parent.owner.direction.x * this.parent.speed*.7 * 3;
             }
         }
         
@@ -67,6 +68,9 @@ export default class Attack extends OnGround {
                 //console.log(dir.y)
                 this.parent.fireBasicAttacks(this.owner, dir)
                 //this.owner.animation.queue("Idle", true)
+            }
+            else if(this.parent.endLagTimer.isStopped() && this.parent.absorbTimer.isStopped()){
+                this.finished(BossStates.ABSORB)
             }
             else if(this.parent.ability){
                 this.parent.useAbility(this.owner.direction)
