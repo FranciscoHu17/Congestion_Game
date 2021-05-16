@@ -11,7 +11,7 @@ export default class Absorb extends OnGround{
         this.parent.velocity.y = 0
 		this.owner.animation.play("Ability 3", true);
         this.parent.absorbDuration.start()
-        this.parent.damageFactor = 0.25
+        this.parent.damageFactor = .25
 	}
 
 	onExit(): Record<string, any> {
