@@ -4,7 +4,6 @@ import AbilityType from "../../GameSystems/Abilities/AbilityType";
 import BattleManager from "../../GameSystems/BattleManager";
 import BattlerAI from "../../GameSystems/BattlerAI";
 import SlowDown from "../../GameSystems/BossAbilities/SlowDown";
-import Absorb from "../../GameSystems/BossAbilities/Absorb";
 import TripleAck from "../../GameSystems/BossAbilities/TripleAck";
 import ProjectileManager from "../../GameSystems/ProjectileManager";
 import Projectile from "../../GameSystems/Projectiles/Projectile";
@@ -25,6 +24,7 @@ import Attack from "./BossStates/Attack";
 import Walk from "./BossStates/Walk";
 //import Fall from "./BossStates/Fall";
 import Idle from "./BossStates/Idle";
+import Absorb from "./BossStates/Absorb";
 
 
 export default class BossController extends StateMachineAI implements BattlerAI {
@@ -49,6 +49,9 @@ export default class BossController extends StateMachineAI implements BattlerAI 
     /** Friction */
     friction: number = 0;
 
+    /** Damage Factor */
+    damageFactor: number = 1
+
     /** Projectile that belongs to this controller */
     basic_attack: Array<Projectile>;
 
@@ -61,11 +64,14 @@ export default class BossController extends StateMachineAI implements BattlerAI 
     /** A reference to the player object */
     player: GameNode;
 
+    
+
     /** Timers */
     exitTimer: Timer;
     pollTimer: Timer;
     basicAttackTimer: Timer;
     endLagTimer: Timer;
+    absorbDuration: Timer;
     absorbTimer: Timer;
 
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
@@ -86,6 +92,10 @@ export default class BossController extends StateMachineAI implements BattlerAI 
         this.pollTimer = new Timer(1000)
         this.basicAttackTimer = new Timer(1000)
         this.endLagTimer = new Timer(500)
+        this.absorbTimer = new Timer(15000)
+        this.absorbDuration = new Timer(5000)
+
+        //this.absorbTimer.start()
 
         this.initializeStates()
         this.initializeBasicAttack(damage)
@@ -116,6 +126,9 @@ export default class BossController extends StateMachineAI implements BattlerAI 
         let walk = new Walk(this, this.owner);
         this.addState(BossStates.WALK, walk);
 
+        let absorb = new Absorb(this, this.owner);
+        this.addState(BossStates.ABSORB, absorb)
+
         /*let fall = new Fall(this, this.owner)
         this.addState(EnemyStates.FALL,fall)*/
 
@@ -144,9 +157,9 @@ export default class BossController extends StateMachineAI implements BattlerAI 
             this.ability = new Ability(this.owner, slowDown, this.battleManager)
         }
         if(ability == "absorb"){
-            let absorb = new Absorb()
-            absorb.initialize({damage: 0, cooldown:5000, displayName: "Absorb", spriteKey: this.owner.imageId, useVolume: 100})
-            this.ability = new Ability(this.owner, absorb, this.battleManager)
+            //let absorb = new Absorb()
+            //absorb.initialize({damage: 0, cooldown:5000, displayName: "Absorb", spriteKey: this.owner.imageId, useVolume: 100})
+            //this.ability = new Ability(this.owner, absorb, this.battleManager)
         }
         if(ability == "tripleAck"){
             let tripleAck = new TripleAck()
@@ -180,7 +193,7 @@ export default class BossController extends StateMachineAI implements BattlerAI 
     }
 
     damage(damage: number): void {
-        this.health -= damage;
+        this.health -= damage * this.damageFactor;
         console.log("boss health:", this.health)
         
         if(this.health <= 0){
@@ -189,9 +202,11 @@ export default class BossController extends StateMachineAI implements BattlerAI 
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyDeath", loop: false, holdReference: true});
         }
         else
-        {
-            this.owner.animation.play("Damaged", false);
-            this.emitter.fireEvent(Game_Events.BOSS_DAMAGED, {dmg: damage});
+        {   
+            if(!(this.currentState instanceof Absorb)){
+                this.owner.animation.play("Damaged", false);
+            }
+            this.emitter.fireEvent(Game_Events.BOSS_DAMAGED, {dmg: damage*this.damageFactor});
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyDamaged", loop: false, holdReference: true});
             if(this.currentState instanceof Attack){
                 this.owner.animation.queue("Ability 1", true);
@@ -223,6 +238,7 @@ export enum BossStates {
     ALERT = "alert",
     ATTACK = "attack",
     PREVIOUS = "previous",
-    WALK = "walk"
+    WALK = "walk",
+    ABSORB = "absorb"
     //FALL = "fall"
 }
