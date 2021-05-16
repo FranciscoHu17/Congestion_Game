@@ -285,6 +285,8 @@ export default class LayerHelper{
 
         this.addCheatButton(mainScene, new Vec2(size.x/2,size.y/2+200), purple, green, "help4", "Press I for invincibility", "invincible")
 
+        let names = "Developed By: Francisco Hu, Qiting Wu, and Maggie Chen"
+        this.addCheatButton(mainScene, new Vec2(size.x/2,size.y/2+300), purple, cyan, "help4", names, "invincible")
         // Prev, Next, Exit Buttons
         this.addButtons(mainScene, size, purple, cyan, "help4", "help3", "help1", exit, "Exit")
         

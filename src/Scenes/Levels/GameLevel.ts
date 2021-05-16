@@ -333,11 +333,11 @@ export default class GameLevel extends Scene{
                         this.goToLevel(event.type);
                     }
                     break;
-                /*case "level4":
+                case "level4":
                     {
                         this.goToLevel(event.type);
                     }
-                    break;*/
+                    break;
                 case "level5":
                     {
                         this.goToLevel(event.type);
