@@ -66,7 +66,7 @@ export default class Attack extends OnGround {
                 let dir = pos.sub(this.owner.position).normalize();
                 //console.log(dir.x)
                 //console.log(dir.y)
-                this.parent.fireBasicAttacks(this.owner, dir)
+                this.parent.fireBasicAttacks(this.owner, dir, this.parent.key)
                 //this.owner.animation.queue("Idle", true)
             }
             else if(this.parent.endLagTimer.isStopped() && this.parent.absorbTimer.isStopped()){

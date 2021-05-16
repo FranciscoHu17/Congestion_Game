@@ -52,6 +52,9 @@ export default class BossController extends StateMachineAI implements BattlerAI 
     /** Damage Factor */
     damageFactor: number = 1
 
+    /** Number of Triple Acks to send */
+    numTripleAcks: number = 0
+
     /** Projectile that belongs to this controller */
     basic_attack: Array<Projectile>;
 
@@ -70,6 +73,7 @@ export default class BossController extends StateMachineAI implements BattlerAI 
     exitTimer: Timer;
     pollTimer: Timer;
     basicAttackTimer: Timer;
+    tripleAckTimer: Timer;
     endLagTimer: Timer;
     absorbDuration: Timer;
     absorbTimer: Timer;
@@ -94,6 +98,7 @@ export default class BossController extends StateMachineAI implements BattlerAI 
         this.endLagTimer = new Timer(500)
         this.absorbTimer = new Timer(15000)
         this.absorbDuration = new Timer(5000)
+        this.tripleAckTimer = new Timer(1000)
 
         //this.absorbTimer.start()
 
@@ -137,13 +142,26 @@ export default class BossController extends StateMachineAI implements BattlerAI 
 
     initializeBasicAttack(damage: number){
         if(this.key == "boss_basic"){
-            let size = new Vec2(32,12)
-            let projectile = <Rect>this.owner.getScene().add.graphic(GraphicType.RECT, "primary", {position: new Vec2, size: size})
-            projectile.color = Color.RED
-            let basic_attack = this.projectileManager.addPacket({owner: projectile, key: this.key, speed: 128*7,
-                                max_dist: 128*10, size: size, target:"player"})
-            basic_attack.damage = damage
-            this.basic_attack.push(basic_attack)
+            for(let i = 0; i < 4; i++){
+                let size = new Vec2(32,12)
+                let projectile = <Rect>this.owner.getScene().add.graphic(GraphicType.RECT, "primary", {position: new Vec2, size: size})
+
+                let curr_key = "tripleack" 
+                if(i==0){
+                    curr_key = this.key
+                    projectile.color = Color.RED
+                }
+                else{
+                    projectile.color = Color.BLUE
+                }
+                
+                let basic_attack = this.projectileManager.addPacket({owner: projectile, key: curr_key, speed: 128*7,
+                                    max_dist: 128*10, size: size, target:"player"})
+                basic_attack.damage = damage
+                this.basic_attack.push(basic_attack)
+            }
+
+
         }
         else{
             this.basic_attack = null
@@ -168,9 +186,9 @@ export default class BossController extends StateMachineAI implements BattlerAI 
         }
     }
 
-    fireBasicAttacks(shooter: GameNode, dir: Vec2){
+    fireBasicAttacks(shooter: GameNode, dir: Vec2, key: string){
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyAttack", loop: false, holdReference: true});
-        if(this.key == "boss_basic"){
+        if(key == "boss_basic"){
             (<AnimatedSprite>shooter).animation.play("Ability 1", false);
             let basic_attack = this.basic_attack[0]
             let prevX = this.projectileManager.startPosition.x
@@ -181,6 +199,32 @@ export default class BossController extends StateMachineAI implements BattlerAI 
             this.projectileManager.startPosition.x = prevX
             //this.projectileManager.startPosition.y = prevY
             this.basicAttackTimer.start(1000)
+        }
+        else if(key == "tripleack"){
+            (<AnimatedSprite>shooter).animation.play("Ability 4", false);
+            let spread = Math.PI/8
+            let curr_angle = -1*Math.atan(dir.y/dir.x) - spread
+            if((<AnimatedSprite>shooter).direction.x < 0){
+                curr_angle -= Math.PI/2
+            }
+            else{
+                curr_angle +=Math.PI/2
+            }
+            let curr_dir = dir
+            curr_dir.x = Math.sin(curr_angle)
+            curr_dir.y = Math.cos(curr_angle)
+
+            for(let i = 1; i < 4; i++){
+                let basic_attack = this.basic_attack[i]
+                let prevX = this.projectileManager.startPosition.x
+                this.projectileManager.startPosition.x = 128*3
+                this.projectileManager.fireSpecificProjectile(this.owner, basic_attack, curr_dir, basic_attack.damage)
+                this.projectileManager.startPosition.x = prevX
+                curr_angle += spread
+                curr_dir.x = Math.sin(curr_angle)
+                curr_dir.y = Math.cos(curr_angle)
+            }
+            this.tripleAckTimer.start(1500)
         }
     }
 
@@ -198,13 +242,17 @@ export default class BossController extends StateMachineAI implements BattlerAI 
         
         if(this.health <= 0){
             this.owner.disablePhysics()
+            this.owner.aiActive = false
             this.owner.animation.play("Death", false, Game_Events.ENEMY_DIED);
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyDeath", loop: false, holdReference: true});
         }
         else
         {   
-            if(!(this.currentState instanceof Absorb)){
+            if(this.absorbDuration.isStopped()){
                 this.owner.animation.play("Damaged", false);
+            }
+            else{
+                this.numTripleAcks++;
             }
             this.emitter.fireEvent(Game_Events.BOSS_DAMAGED, {dmg: damage*this.damageFactor});
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyDamaged", loop: false, holdReference: true});
