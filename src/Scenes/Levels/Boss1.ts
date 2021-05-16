@@ -2,7 +2,10 @@ import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import Debug from "../../Wolfie2D/Debug/Debug";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
+import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
 import AudioManager, { AudioChannelType } from "../../Wolfie2D/Sound/AudioManager";
+import Color from "../../Wolfie2D/Utils/Color";
 import GameLevel from "./GameLevel";
 
 export default class Boss1 extends GameLevel{
@@ -18,6 +21,7 @@ export default class Boss1 extends GameLevel{
         this.load.image("tahoe_info", "assets/sprites/tahoe_info.png");
         this.load.image("reno_info", "assets/sprites/reno_info.png");
         this.load.image("flow_info", "assets/sprites/flow_info.png");
+        this.load.image("boss_info", "assets/sprites/bossInfo.png")
         this.load.image("ingame_menu", "assets/sprites/ingame_menu.png");
         this.load.tilemap("bosslevel1", "assets/tilemaps/bosslevel1.json");
         
@@ -100,9 +104,19 @@ export default class Boss1 extends GameLevel{
         this.initializeBoss("boss1", new Vec2(10.5,7.8), new Vec2(384,60), {basic_attack: "boss_basic", ability: ["slowDown"],
             health: 1000, damage: 20, player: this.currPlayer})
         this.boss.colliderOffset.set(0,70)
+        this.addBossUI()
         // Add enemies of various types
         // The coordinates are the positions in Tiled BUT ADD 0.5 TO X AND 0.5 TO Y
         //this.initializeEnemies("enemyData")
+    }
+
+    addBossUI()
+    {
+        let healthBar = this.add.sprite("boss_info", "UI");
+        healthBar.position.set(healthBar.size.x/2, healthBar.size.y/2);
+
+        this.bossHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "bossUI", {position: new Vec2(950,73), size: new Vec2(this.bossMaxHealth*0.45,15)});
+        this.bossHealthBar.color = Color.RED;
     }
 
     /**

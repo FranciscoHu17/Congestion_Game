@@ -45,7 +45,7 @@ export default class GameLevel extends Scene{
 
     //Labels for UI
     protected playerHealthBar: Rect;
-    protected bossHealth: number = 150;
+    protected bossMaxHealth: number = 150;
     protected bossHealthBar: Rect;
     protected tahoeIcons: Sprite;
     protected renoIcons: Sprite;
@@ -342,6 +342,11 @@ export default class GameLevel extends Scene{
                     {
                         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "playerDeath", loop: false, holdReference: true});
                     }
+                    break;
+                case Game_Events.BOSS_DAMAGED:
+                    {
+                        this.updateBossInfo(event.data.get("dmg"));
+                    }
             }
         }
         this.projectileManager.update(deltaT)
@@ -425,7 +430,7 @@ export default class GameLevel extends Scene{
         this.primaryLayer = this.addLayer("primary", 0);
 
         // Set layer visibility
-        this.bossUI.setHidden(true);
+        //this.bossUI.setHidden(true);
         this.controlsShadow.setHidden(true);
         this.helpShadow.setHidden(true);
         this.controls.setHidden(true);
@@ -465,9 +470,6 @@ export default class GameLevel extends Scene{
         this.playerHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(258,42), size: new Vec2(this.battleManager.getPlayer().health*2.5,18)});
         this.playerHealthBar.color = Color.GREEN;
         console.log(this.battleManager.getPlayer().health)
-
-        this.bossHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "bossUI", {position: new Vec2(950,50), size: new Vec2(this.bossHealth*3,15)});
-        this.bossHealthBar.color = Color.RED;
         
         this.ingame_menu = this.add.sprite("ingame_menu","UI");
         this.ingame_menu.position.set(this.ingame_menu.size.x/2,this.ingame_menu.size.y/2);
@@ -562,7 +564,8 @@ export default class GameLevel extends Scene{
             "level3",
             "level4",
             "level5",
-            Game_Events.GAME_RESUMED
+            Game_Events.GAME_RESUMED,
+            Game_Events.BOSS_DAMAGED
         ]);
     }
 
@@ -678,6 +681,7 @@ export default class GameLevel extends Scene{
         
         this.battleManager.setEnemies(this.enemies.map(enemy => <BattlerAI>enemy._ai))
         this.boss = boss
+        this.bossMaxHealth = (<BossController>this.boss._ai).maxHealth;
     }
 
     setPlayerSpawn(pos: Vec2, cp: AnimatedSprite): void{
@@ -736,6 +740,14 @@ export default class GameLevel extends Scene{
             }
         }
         
+    }
+
+    updateBossInfo(damage: number){
+        var currentHealth = (<BossController>this.boss._ai).health;
+        
+        var xposition = (this.bossHealthBar.position.x + (damage*0.45/2));
+        this.bossHealthBar.position = new Vec2((xposition), 73);
+        this.bossHealthBar.size = new Vec2(currentHealth * 0.45, 15);
     }
 
     /**
