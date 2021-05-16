@@ -191,6 +191,7 @@ export default class BossController extends StateMachineAI implements BattlerAI 
         else
         {
             this.owner.animation.play("Damaged", false);
+            this.emitter.fireEvent(Game_Events.BOSS_DAMAGED, {dmg: damage});
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "enemyDamaged", loop: false, holdReference: true});
             if(this.currentState instanceof Attack){
                 this.owner.animation.queue("Ability 1", true);
