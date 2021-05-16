@@ -28,6 +28,7 @@ export default class Absorb extends OnGround{
 
 		this.owner.move(this.parent.velocity.scaled(deltaT));
         if(this.parent.absorbDuration.isStopped()){
+            this.parent.damageFactor = 1
             this.owner.direction.x = (this.parent.player.position.x - this.owner.position.x) > 0 ? 1 : -1
             this.owner.direction.y = 0  
             if(this.parent.numTripleAcks > 0){
@@ -41,7 +42,6 @@ export default class Absorb extends OnGround{
                 }
             }
             else{
-                this.parent.damageFactor = 1
                 this.finished(BossStates.IDLE)
                 this.parent.absorbTimer.start()
             }
