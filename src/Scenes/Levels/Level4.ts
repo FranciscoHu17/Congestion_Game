@@ -38,7 +38,7 @@ export default class Level4 extends GameLevel{
 
         //TODO
         //add this later
-        //this.load.object("enemyData", "assets/spawns/level4_enemies.json");
+        this.load.object("enemyData", "assets/spawns/level4_enemies.json");
         //this.load.audio("level4", "assets/music/level4.mp3");
 
         this.load.audio("basicAttack", "assets/sounds/basicAttack.wav");
@@ -101,7 +101,7 @@ export default class Level4 extends GameLevel{
         super.startScene() 
 
         //this.addLevelEnd(new Vec2(112, 6), new Vec2(2, 2));
-        this.addLevelEnd(new Vec2(114, 25), new Vec2(2*256,2*256)) /** USE THIS FOR NOW */
+        this.addLevelEnd(new Vec2(23, 15), new Vec2(2*256,2*256)) /** USE THIS FOR NOW */
         //this.addLevelEnd(new Vec2(10, 29), new Vec2(2*256,2*256))
 
         // only one level for now
@@ -111,7 +111,7 @@ export default class Level4 extends GameLevel{
         // The coordinates are the positions in Tiled BUT ADD 0.5 TO X AND 0.5 TO Y
 
         //TODO: add this later
-        //this.initializeEnemies("enemyData")
+        this.initializeEnemies("enemyData")
     }
 
     /**
