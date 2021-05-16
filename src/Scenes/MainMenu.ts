@@ -51,7 +51,7 @@ export default class MainMenu extends Scene{
         this.receiver.subscribe("level1")
         this.receiver.subscribe("level2")
         this.receiver.subscribe("level3")
-        //this.receiver.subscribe("level4")
+        this.receiver.subscribe("level4")
         this.receiver.subscribe("level5")
         this.receiver.subscribe("invincible")
     }
@@ -63,18 +63,19 @@ export default class MainMenu extends Scene{
             if(event.type === "start"){
                 this.sceneManager.changeToScene(LevelSelect);
             }
-            else if(event.type === "level1" || event.type === "level2" || event.type === "level3"|| event.type === "tutorial" || event.type === "level5"){
+            else if(event.type === "level1" || event.type === "level2" || event.type === "level3"|| event.type === "tutorial" || event.type === "level4" || event.type === "level5"){
                 this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "menumusic"});
                 let level= this.levelManager.findLevel(event.type)
 
                 let sceneOptions = {
                     physics: {
-                        groupNames: ["ground", "player","enemy"],
+                        groupNames: ["ground", "player","enemy","projectile"],
                         collisions:
                         [
-                            [0, 1, 1],
-                            [1, 0, 0],
-                            [1, 0, 0]
+                            [0, 1, 1, 1],
+                            [1, 0, 0, 0],
+                            [1, 0, 0, 0],
+                            [1, 0, 0, 0]
                         ]
                     }
                 }
