@@ -120,9 +120,9 @@ export default class Level4 extends GameLevel{
      */
     updateScene(deltaT: number): void {
         super.updateScene(deltaT);
-        // // If player falls into a pit, kill them off and reset their position
-        // if(this.currPlayer.position.y > 32*128){
-        //     this.respawnPlayer();
-        // }
+        // If player falls into a pit, kill them off and reset their position
+        if(this.currPlayer.position.y > 128*128){
+            this.respawnPlayer();
+        }
     }
 }
