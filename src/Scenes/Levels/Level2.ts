@@ -75,7 +75,7 @@ export default class Level2 extends GameLevel{
 
     startScene(): void {
         this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "level2", loop: true, holdReference: true});
-        //AudioManager.setVolume(AudioChannelType.MUSIC, .30)
+        AudioManager.setVolume(AudioChannelType.MUSIC, .30)
         /** ^ TURN THIS BACK ON AFTER WE ARE DONE */
         this.currentLevelIndex = 2;
 
