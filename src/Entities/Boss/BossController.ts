@@ -156,7 +156,7 @@ export default class BossController extends StateMachineAI implements BattlerAI 
                 }
                 
                 let basic_attack = this.projectileManager.addPacket({owner: projectile, key: curr_key, speed: 128*7,
-                                    max_dist: 128*10, size: size, target:"player"})
+                                    max_dist: 128*10, size: size, target:"player", nogroup: true})
                 basic_attack.damage = damage
                 this.basic_attack.push(basic_attack)
             }

@@ -27,7 +27,8 @@ export default class Packet extends Projectile{
         
         this.owner.addPhysics(new AABB(Vec2.ZERO, this.size.scaled(.5,.5)))
         this.owner.isCollidable = false
-        this.owner.setGroup("projectile")
+        if(!options.nogroup)
+            this.owner.setGroup("projectile")
         this.owner.setTrigger(options.target, Game_Events.PROJECTILE_COLLISION, null)
     }
 
