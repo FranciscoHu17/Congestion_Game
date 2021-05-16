@@ -95,7 +95,7 @@ export default class Boss1 extends GameLevel{
         super.startScene() 
 
         //this.addLevelEnd(new Vec2(112, 6), new Vec2(2, 2));
-        this.addLevelEnd(new Vec2(63, 31), new Vec2(2*128,2*128)) /** USE THIS FOR NOW */
+        //this.addLevelEnd(new Vec2(63, 31), new Vec2(2*128,2*128)) /** USE THIS FOR NOW */
         //this.addLevelEnd(new Vec2(10, 29), new Vec2(2*256,2*256))
 
         // only one level for now
@@ -112,7 +112,7 @@ export default class Boss1 extends GameLevel{
 
     addBossUI()
     {
-        let healthBar = this.add.sprite("boss_info", "UI");
+        let healthBar = this.add.sprite("boss_info", "bossUI");
         healthBar.position.set(healthBar.size.x/2, healthBar.size.y/2);
 
         this.bossHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "bossUI", {position: new Vec2(950,73), size: new Vec2(this.bossMaxHealth*0.45,15)});

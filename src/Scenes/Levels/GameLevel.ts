@@ -197,6 +197,10 @@ export default class GameLevel extends Scene{
                         node.isCollidable = false;
                         node.visible = false;
                         node.disablePhysics();
+                        if(this.boss != null){
+                            this.bossUI.setHidden(true);
+                            this.emitter.fireEvent(Game_Events.PLAYER_ENTERED_LEVEL_END);
+                        }
                     }
                 break;
                 
