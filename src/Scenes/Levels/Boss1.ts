@@ -62,7 +62,7 @@ export default class Boss1 extends GameLevel{
      * Keep resources
      */
     unloadScene(){
-        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level3"});
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "boss_musicd"});
         this.load.keepSpritesheet("player1");
         this.load.keepSpritesheet("player2");
         this.load.keepSpritesheet("player3");
@@ -75,7 +75,7 @@ export default class Boss1 extends GameLevel{
      */
 
     startScene(): void {
-        //this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "boss_music", loop: true, holdReference: true});
+        this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "boss_music", loop: true, holdReference: true});
         //AudioManager.setVolume(AudioChannelType.MUSIC, .30)
         this.currentLevelIndex = 5;
 

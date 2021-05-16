@@ -36,7 +36,7 @@ export default class Level3 extends GameLevel{
 
         this.load.spritesheet("generator", "assets/spritesheets/objects/generator.json");
 
-        this.load.audio("level3", "assets/music/boss1.mp3");
+        this.load.audio("level3", "assets/music/level3.mp3");
         this.load.audio("basicAttack", "assets/sounds/basicAttack.wav");
         this.load.audio("enemyAttack", "assets/sounds/enemyAttack.wav");
         this.load.audio("enemyDamaged", "assets/sounds/enemyDamaged.wav");
@@ -74,7 +74,7 @@ export default class Level3 extends GameLevel{
      */
 
     startScene(): void {
-        //this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "level3", loop: true, holdReference: true});
+        this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key: "level3", loop: true, holdReference: true});
         //AudioManager.setVolume(AudioChannelType.MUSIC, .30)
         this.currentLevelIndex = 3;
 
