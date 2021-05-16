@@ -4,6 +4,7 @@ import SplashScreen from "./Scenes/SplashScreen";
 import Level1 from "./Scenes/Levels/Level1";
 import Level2 from "./Scenes/Levels/Level2";
 import Level3 from "./Scenes/Levels/Level3";
+import Level4 from "./Scenes/Levels/Level4";
 import Tutorial from "./Scenes/Levels/Tutorial";
 import Boss1 from "./Scenes/Levels/Boss1";
 
@@ -21,7 +22,7 @@ import Boss1 from "./Scenes/Levels/Boss1";
             {name: "level1", level: Level1, finished: false},     // Levels
             {name: "level2", level: Level2, finished: false},
             {name: "level3", level: Level3, finished: false},
-            {name: "level4", level: Level1, finished: false},
+            {name: "level4", level: Level4, finished: false},
             {name: "level5", level: Boss1, finished: false}
         ],
         inputs: [
