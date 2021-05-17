@@ -58,7 +58,7 @@ export default class Attack extends OnGround {
             this.parent.exitTimer.start();
             let basic_attack = this.parent.basic_attack
             
-            if(basic_attack && this.parent.basicAttackTimer.isStopped() && this.parent.endLagTimer.isStopped()){
+            if(basic_attack && this.parent.basicAttackTimer.isStopped()){
                 // Fire at the player
                 let pad = (this.parent.player.position.x - this.parent.owner.position.x) > 0  ? -3*128: 3*128
                 let pos = this.playerPos.clone()
@@ -69,10 +69,10 @@ export default class Attack extends OnGround {
                 this.parent.fireBasicAttacks(this.owner, dir, this.parent.key)
                 //this.owner.animation.queue("Idle", true)
             }
-            else if(this.parent.endLagTimer.isStopped() && this.parent.absorbTimer.isStopped()){
+            else if(this.parent.absorbTimer.isStopped()){
                 this.finished(BossStates.ABSORB)
             }
-            else if(this.parent.ability){
+            else if(this.parent.endLagTimer.isStopped()){
                 this.parent.useAbility(this.owner.direction)
             }
             
