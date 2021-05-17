@@ -152,6 +152,14 @@ export default class Tutorial extends GameLevel{
         text.size.set(128*2,128*2)
         text.fontSize= 22;
 
+        text = <Label>this.add.uiElement(UIElementType.LABEL, "Tutorial", {position: new Vec2(128*7.5, 128*56.05),
+            text: "You have 3 lives indicated in the bottom right"})
+        text.setHAlign("Left")
+        text.textColor = Color.WHITE
+        text.font = "Consola"
+        text.size.set(128*2,128*2)
+        text.fontSize= 22;
+
         text = <Label>this.add.uiElement(UIElementType.LABEL, "Tutorial", {position: new Vec2(128*8.30, 128*54.3),
             text: "W/Space - Jump"})
         text.setHAlign("Left")
