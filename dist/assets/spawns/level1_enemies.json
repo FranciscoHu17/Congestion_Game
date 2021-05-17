@@ -1,5 +1,5 @@
 {
-    "numEnemies": 12,
+    "numEnemies": 11,
     "enemies": [
         {
             "key": "camera",
@@ -67,13 +67,6 @@
         {
             "key": "router",
             "position": [65.5, 28.5],
-            "basic_attack": "enemy_basic",
-            "health": 100,
-            "damage": 10
-        },
-        {
-            "key": "router",
-            "position": [9.5, 28.5],
             "basic_attack": "enemy_basic",
             "health": 100,
             "damage": 10
