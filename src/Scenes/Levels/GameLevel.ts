@@ -39,6 +39,8 @@ export default class GameLevel extends Scene{
     protected playerSpawn: Vec2;
     protected playerMaxHealth: number = 100;//TODO: change this later?
     protected currentLevelIndex: number;
+    protected playerLives: number = 3;
+    protected liveList: Sprite[] = [];
     
     
     protected respawnTimer: Timer;
@@ -333,11 +335,11 @@ export default class GameLevel extends Scene{
                         this.goToLevel(event.type);
                     }
                     break;
-                /*case "level4":
+                case "level4":
                     {
                         this.goToLevel(event.type);
                     }
-                    break;*/
+                    break;
                 case "level5":
                     {
                         this.goToLevel(event.type);
@@ -475,6 +477,17 @@ export default class GameLevel extends Scene{
         this.playerHealthBar = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(258,42), size: new Vec2(this.battleManager.getPlayer().health*2.5,18)});
         this.playerHealthBar.color = Color.GREEN;
         console.log(this.battleManager.getPlayer().health)
+
+        var life_one = this.add.sprite("life1", "UI");
+        life_one.position.set(life_one.size.x/2,life_one.size.y/2);
+        var life_two = this.add.sprite("life2", "UI");
+        life_two.position.set(life_two.size.x/2,life_two.size.y/2);
+        var life_three = this.add.sprite("life3", "UI");
+        life_three.position.set(life_three.size.x/2,life_three.size.y/2);
+
+        this.liveList.push(life_one);
+        this.liveList.push(life_two);
+        this.liveList.push(life_three);
         
         this.ingame_menu = this.add.sprite("ingame_menu","UI");
         this.ingame_menu.position.set(this.ingame_menu.size.x/2,this.ingame_menu.size.y/2);
@@ -759,6 +772,17 @@ export default class GameLevel extends Scene{
      * Returns the player to spawn
      */
     protected respawnPlayer(): void {
+        
+        //minus one life
+        this.playerLives -= 1;
+        this.liveList[this.playerLives].visible =false;
+
+        if(this.playerLives <= 0){
+            // Go to level select
+            this.viewport.follow(null)
+            this.sceneManager.changeToScene(LevelSelect);
+        }
+
         if(this.checkpoint != undefined && this.checkpoint.visible === true){ // if there is a checkpoint
             this.checkpoint.visible = false;
         }
