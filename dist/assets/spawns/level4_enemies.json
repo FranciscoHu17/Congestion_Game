@@ -1,5 +1,5 @@
 {
-    "numEnemies": 33,
+    "numEnemies": 28,
     "enemies": [
         {
             "key": "circuit",
@@ -12,13 +12,6 @@
         {
             "key": "camera",
             "position": [12.5, 61.5],
-            "basic_attack": "enemy_basic",
-            "ability": "freeze",
-            "health": 50
-        },
-        {
-            "key": "camera",
-            "position": [11.5, 124.5],
             "basic_attack": "enemy_basic",
             "ability": "freeze",
             "health": 50
@@ -42,20 +35,6 @@
             "position": [25.5, 17.5],
             "basic_attack": "enemy_around",
             "health": 75,
-            "damage": 10
-        },
-        {
-            "key": "router",
-            "position": [14.5, 120.5],
-            "basic_attack": "enemy_basic",
-            "health": 100,
-            "damage": 10
-        },
-        {
-            "key": "router",
-            "position": [8.5, 115.5],
-            "basic_attack": "enemy_basic",
-            "health": 100,
             "damage": 10
         },
         {
@@ -203,20 +182,6 @@
             "position": [8.5, 28.5],
             "basic_attack": "enemy_around",
             "health": 75,
-            "damage": 10
-        },
-        {
-            "key": "camera",
-            "position": [4.5, 44.5],
-            "basic_attack": "enemy_basic",
-            "ability": "freeze",
-            "health": 50
-        },
-        {
-            "key": "router",
-            "position": [23.5, 37.5],
-            "basic_attack": "enemy_basic",
-            "health": 100,
             "damage": 10
         },
         {
