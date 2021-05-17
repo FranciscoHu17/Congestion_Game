@@ -65,7 +65,7 @@ export default class Boss1 extends GameLevel{
      * Keep resources
      */
     unloadScene(){
-        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "boss_musicd"});
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "boss_music"});
         this.load.keepSpritesheet("player1");
         this.load.keepSpritesheet("player2");
         this.load.keepSpritesheet("player3");

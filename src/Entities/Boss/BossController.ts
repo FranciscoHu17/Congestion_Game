@@ -229,8 +229,8 @@ export default class BossController extends StateMachineAI implements BattlerAI 
     }
 
     useAbility(direction: Vec2){
-        //this.endLagTimer.start()
-        //this.ability.use(this.owner, "enemy", direction)
+        this.endLagTimer.start()
+        this.ability.use(this.owner, "enemy", direction)
     }
 
     activate(options: Record<string, any>): void {
