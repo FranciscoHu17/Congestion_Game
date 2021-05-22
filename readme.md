@@ -4,7 +4,7 @@ The game can be played online at https://congestion.firebaseapp.com/
 
 ## About
 
-The game is based off congestion at the transport level in computer networking with some creative liberties. The backstory is as follows:
+The game is based off congestion at the transport layer in computer networking with some creative liberties. The backstory is as follows:
 
 In the year 2099, a new transportation layer protocol for the Internet had been designed called LFP. It’s a superior alternative to other protocols and rapidly became part of mainstream use in web applications. However, an evil organization was able to exploit a flaw and is slowing the flow of data by congesting core routers. Computer network researchers all around the world devised a set of three AI programs that would locate the core routers and destroy the cause of the congestion. The three AI programs are our playable characters, Tahoe, Reno, and Flow.
 
