@@ -1,6 +1,6 @@
 # Congestion_Game
 
-The game can be played online at https://congestion.firebaseapp.com/
+The game was deployed using Firebase and can be played at https://congestion.firebaseapp.com/
 
 ## About
 
