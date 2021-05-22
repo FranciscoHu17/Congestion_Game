@@ -12,16 +12,16 @@ The objecive of the game is to traverse throughout the levels and at the sixth l
 
 ## Controls
 
-W/SPACE - Jump 
-A - Left 
-D - Right 
-1 - Switch to Tahoe 
-2 - Switch to Reno 
-3 - Switch to Flow
-Q - Ability 1 
-E - Ability 2 
-LEFT CLICK - Basic Attack 
-ESC - Pause 
+W/SPACE - Jump     
+A - Left      
+D - Right       
+1 - Switch to Tahoe       
+2 - Switch to Reno          
+3 - Switch to Flow       
+Q - Ability 1      
+E - Ability 2       
+LEFT CLICK - Basic Attack      
+ESC - Pause       
 
 ## Abilities
 
