@@ -12,28 +12,28 @@ The objecive of the game is to traverse throughout the levels and at the sixth l
 
 ## Controls
 
-W/SPACE - Jump
-A - Left
-D - Right
-1 - Switch to Tahoe
-2 - Switch to Reno
+W/SPACE - Jump 
+A - Left 
+D - Right 
+1 - Switch to Tahoe 
+2 - Switch to Reno 
 3 - Switch to Flow
-Q - Ability 1
-E - Ability 2
-LEFT CLICK - Basic Attack
-ESC - Pause
+Q - Ability 1 
+E - Ability 2 
+LEFT CLICK - Basic Attack 
+ESC - Pause 
 
 ## Abilities
 
-Tahoe (Crowd Control):
+Tahoe (Crowd Control): 
 - Ability 1 - Pushes enemies
 - Ability 2 - Pulls enemies
 
-Reno (Damage Dealer):
+Reno (Damage Dealer): 
 - Ability 1 - Aerial attack that throws seven SYN packets towards the ground
 - Ability 2 - Teleport behind the closest enemy
 
-Flow (Utility):
+Flow (Utility): 
 - Ability 1 - Teleport through walls and travel faster
 - Ability 2 - Creates a checkpoint
 
