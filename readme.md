@@ -4,11 +4,11 @@ The game was deployed using Firebase and can be played at https://congestion.fir
 
 ## About
 
-The game is based off congestion at the transport layer in computer networking with some creative liberties. The backstory is as follows:
+The game is based on congestion at the transport layer in computer networking with some creative liberties. The backstory is as follows:
 
 In the year 2099, a new transportation layer protocol for the Internet had been designed called LFP. It’s a superior alternative to other protocols and rapidly became part of mainstream use in web applications. However, an evil organization was able to exploit a flaw and is slowing the flow of data by congesting core routers. Computer network researchers all around the world devised a set of three AI programs that would locate the core routers and destroy the cause of the congestion. The three AI programs are our playable characters, Tahoe, Reno, and Flow.
 
-The objecive of the game is to traverse throughout the levels and at the sixth level, you will fight the boss which is the cause of the congestion. Throughout the game you'll play as the three programs, whose names are Tahoe, Reno, and Flow who will have their own abilities/playstyles. You'll need to be careful during stages since the connection is unstable and you might fall through gaps. There will be three life crystals given at the beginning of each level so you’ll have three chances to reboot the AI programs if they are disconnected/destroyed along the way. Each enemy has their own set of abilities and you must dodge their attacks to land your own.
+The objective of the game is to traverse throughout the levels and at the sixth level, you will fight the boss which is the cause of the congestion. Throughout the game, you'll play as the three programs, whose names are Tahoe, Reno, and Flow who will have their own abilities/playstyles. You'll need to be careful during stages since the connection is unstable and you might fall through gaps. There will be three life crystals given at the beginning of each level so you’ll have three chances to reboot the AI programs if they are disconnected/destroyed along the way. Each enemy has their own set of abilities and you must dodge their attacks to land your own.
 
 ## Controls
 
